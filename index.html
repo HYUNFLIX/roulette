@@ -194,6 +194,48 @@
       document.querySelector('#donate').classList.add('hide');
     });
 
+    // Restart button - reset and start again
+    document.querySelector('#btnRestart').addEventListener('click', () => {
+      window.roulette.reset();
+      getReady();
+      if (!ready) return;
+      window.roulette.start();
+      document.querySelector('#settings').classList.add('hide');
+      document.querySelector('#gameComplete').classList.remove('show');
+    });
+
+    // Settings reset button
+    document.querySelector('#btnReset').addEventListener('click', () => {
+      // Reset to defaults
+      document.querySelector('#in_names').value = '';
+      document.querySelector('#sltMap').selectedIndex = 0;
+      document.querySelector('#chkAutoRecording').checked = true;
+      document.querySelector('#chkSkill').checked = true;
+      document.querySelector('#chkDarkMode').checked = true;
+
+      // Apply defaults
+      window.options.autoRecording = true;
+      window.options.useSkills = true;
+      window.roulette.setAutoRecording(true);
+      window.roulette.setMap(0);
+
+      // Clear localStorage
+      localStorage.removeItem('mbr_names');
+      localStorage.removeItem('theme');
+
+      // Reset winner type to first
+      winnerType = 'first';
+      setWinnerRank(1);
+
+      // Update participant count
+      updateParticipantCount();
+
+      // Apply dark mode
+      document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
+      window.roulette.setTheme('dark');
+    });
+
     document.querySelector('#chkAutoRecording').addEventListener('change', (e) => {
       window.options.autoRecording = e.target.matches(':checked');
       window.roulette.setAutoRecording(window.options.autoRecording);
@@ -442,17 +484,22 @@
     <!-- Left: Participant List -->
     <div class="settings-left">
       <div class="input-header">
-        <label data-trans>Participants</label>
+        <label>참가자 명단</label>
         <span class="count-badge" id="participantCount">0</span>
       </div>
       <textarea id="in_names" placeholder="Input names separated by commas or line feed here" data-trans="placeholder">짱구*5, 짱아*10, 봉미선*3</textarea>
       <div class="actions-grid">
-        <button id="btnShuffle" class="btn-icon-text">
-          <i class="icon shuffle"></i>
-        </button>
-        <button id="btnStart" class="btn-primary">
+        <button id="btnStart" class="btn-primary" title="추첨을 시작합니다">
           <i class="icon play"></i>
-          <span data-trans>Start</span>
+          <span>시작</span>
+        </button>
+        <button id="btnRestart" class="btn-secondary" title="마블을 재배치하고 다시 시작합니다">
+          <i class="icon shuffle"></i>
+          <span>다시 시작</span>
+        </button>
+        <button id="btnShuffle" class="btn-icon-text" title="참가자 순서를 무작위로 섞습니다">
+          <i class="icon shuffle"></i>
+          <span>랜덤</span>
         </button>
       </div>
     </div>
@@ -472,7 +519,7 @@
       <div class="option-item option-toggle">
         <div class="option-label">
           <i class="icon record"></i>
-          <span data-trans>Recording</span>
+          <span>화면 녹화</span>
         </div>
         <div class="toggle-switch">
           <input type="checkbox" id="chkAutoRecording" />
@@ -511,6 +558,9 @@
 
   <!-- Footer -->
   <div class="settings-footer">
+    <button id="btnReset" class="btn-reset" title="모든 설정을 초기화합니다">
+      <span>설정 초기화</span>
+    </button>
     <a href='recap_2025.html' class='recap-link'>
       <i class="icon-history"></i>
       <span>2025 Recap</span>
@@ -559,7 +609,7 @@
     <h3>2. 옵션 설정</h3>
     <ul>
       <li><strong>맵</strong>: 다양한 맵 테마 선택</li>
-      <li><strong>녹화</strong>: 결과를 자동으로 녹화</li>
+      <li><strong>화면 녹화</strong>: 결과를 자동으로 녹화</li>
       <li><strong>당첨 기준</strong>: 1등 또는 꼴등을 당첨자로 설정</li>
       <li><strong>스킬 활성화</strong>: 마블이 주변을 밀어내는 스킬 사용</li>
     </ul>
