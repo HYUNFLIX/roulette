@@ -184,9 +184,17 @@ export class Roulette extends EventTarget {
     this._goalDist = Math.abs(this._stage.zoomY - topY);
     this._timeScale = this._calcTimeScale();
 
+    const prevMarblesCount = this._marbles.length;
     this._marbles = this._marbles.filter(
       (marble) => marble.y <= this._stage!.goalY,
     );
+
+    // Dispatch 'finish' event when all marbles have crossed the goal
+    if (prevMarblesCount > 0 && this._marbles.length === 0 && this._winner) {
+      this.dispatchEvent(
+        new CustomEvent('finish', { detail: { winner: this._winner.name } }),
+      );
+    }
   }
 
   private _calcTimeScale(): number {
