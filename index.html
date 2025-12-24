@@ -340,9 +340,28 @@
       }
     };
 
+    // Settings panel slide toggle
+    const settingsTab = document.querySelector('#settingsTab');
+    const settingsPanel = document.querySelector('#settings');
+    let isSettingsOpen = true;
+
+    const toggleSettings = () => {
+      isSettingsOpen = !isSettingsOpen;
+      settingsPanel.classList.toggle('hide', !isSettingsOpen);
+      settingsTab.classList.toggle('open', isSettingsOpen);
+    };
+
+    settingsTab.addEventListener('click', toggleSettings);
+
     checkNotice();
   }
 </script>
+<!-- Settings Toggle Tab -->
+<button id="settingsTab" class="settings-tab">
+  <i class="icon-chevron"></i>
+  <span>설정</span>
+</button>
+
 <div id="settings" class="settings">
   <!-- Header -->
   <div class="settings-header">
@@ -355,8 +374,8 @@
         <i class="icon moon"></i>
         <input type="checkbox" id="chkDarkMode" checked />
       </div>
-      <button id="btnNotice" class="btn-icon" title="Notice">
-        <i class="icon megaphone"></i>
+      <button id="btnNotice" class="btn-help">
+        <span>이용방법</span>
       </button>
     </div>
   </div>
@@ -443,15 +462,31 @@
 </div>
 <div id="donate" style="display:none;"></div>
 <div id="notice">
-  <h1>Notice</h1>
+  <h1>이용방법</h1>
   <div class="notice-body">
-    <h2>마블 룰렛 2025년 결산 페이지 오픈!</h2>
-    <p>👇👇 마블 룰렛의 지난 2025년을 돌아보고 싶다면 클릭!</p>
-    <p><a href='recap_2025.html' class='recap-button holographic'><img src='assets/2025_recap/recap_large.gif' /></a>
-    </p>
+    <h2>마블 룰렛 사용법</h2>
+
+    <h3>1. 참가자 입력</h3>
+    <p>왼쪽 텍스트 영역에 참가자 이름을 입력합니다.</p>
+    <ul>
+      <li>쉼표(,) 또는 줄바꿈으로 구분</li>
+      <li><strong>이름*숫자</strong>: 같은 이름의 마블 여러 개 (예: 철수*3)</li>
+      <li><strong>이름/숫자</strong>: 마블 크기 조절 (예: 영희/2)</li>
+    </ul>
+
+    <h3>2. 옵션 설정</h3>
+    <ul>
+      <li><strong>맵</strong>: 다양한 맵 테마 선택</li>
+      <li><strong>녹화</strong>: 결과를 자동으로 녹화</li>
+      <li><strong>당첨 기준</strong>: 1등 또는 꼴등을 당첨자로 설정</li>
+      <li><strong>스킬 활성화</strong>: 마블이 주변을 밀어내는 스킬 사용</li>
+    </ul>
+
+    <h3>3. 시작하기</h3>
+    <p><strong>시작</strong> 버튼을 눌러 추첨을 시작합니다. 마블들이 떨어지며 당첨자가 결정됩니다!</p>
   </div>
   <div class="notice-action">
-    <button id="closeNotice" data-trans>Close</button>
+    <button id="closeNotice">확인</button>
   </div>
 </div>
 <div class="copyright">&copy; 2026 HYUNFLIX. All Rights Reserved.
