@@ -35,6 +35,8 @@ jobs:
           yarn
           npx update-browserslist-db@latest
           yarn build
+        env:
+          PARCEL_WORKERS: 0
       - name: deploy
         uses: peaceiris/actions-gh-pages@v4
         with:
