@@ -308,9 +308,13 @@
       setWinnerRank(1);
     });
 
+    // Winner determined (game still running until all marbles finish)
     window.roulette.addEventListener('goal', (e) => {
       ready = false;
-      // Show game completion overlay
+    });
+
+    // All marbles finished - show completion overlay
+    window.roulette.addEventListener('finish', (e) => {
       const winnerName = e.detail?.winner || '???';
       document.querySelector('#winnerName').textContent = winnerName;
       document.querySelector('#gameComplete').classList.add('show');
@@ -318,7 +322,7 @@
       setTimeout(() => {
         document.querySelector('#settings').classList.remove('hide');
         document.querySelector('#donate').classList.remove('hide');
-      }, 3000);
+      }, 1000);
     });
 
     // Close completion overlay
