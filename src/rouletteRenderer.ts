@@ -8,6 +8,7 @@ import { UIObject } from './UIObject';
 import { VectorLike } from './types/VectorLike';
 import { MapEntityState } from './types/MapEntity.type';
 import { ColorTheme } from './types/ColorTheme';
+import options from './options';
 
 export type RenderParameters = {
   camera: Camera;
@@ -214,6 +215,9 @@ export class RouletteRenderer {
 
   private renderWinner({ winner, theme }: RenderParameters) {
     if (!winner) return;
+    // Skip canvas rendering if using HTML overlay
+    if (!options.showCanvasWinner) return;
+
     this.ctx.save();
     this.ctx.fillStyle = theme.winnerBackground;
     this.ctx.fillRect(
