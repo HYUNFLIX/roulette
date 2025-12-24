@@ -150,10 +150,10 @@ export class Marble {
 
   private _renderMinimap(ctx: CanvasRenderingContext2D) {
     ctx.fillStyle = this.color;
-    this._drawMarbleBody(ctx, true);
+    this._drawMarbleBodySimple(ctx, true);
   }
 
-  private _drawMarbleBody(ctx: CanvasRenderingContext2D, isMinimap: boolean) {
+  private _drawMarbleBodySimple(ctx: CanvasRenderingContext2D, isMinimap: boolean) {
     ctx.beginPath();
     ctx.arc(
       this.x,
@@ -165,6 +165,63 @@ export class Marble {
     ctx.fill();
   }
 
+  private _drawMarbleBody3D(ctx: CanvasRenderingContext2D) {
+    const radius = this.size / 2;
+    const x = this.x;
+    const y = this.y;
+
+    // Calculate lightness based on impact
+    const baseLightness = this.theme.marbleLightness + 25 * Math.min(1, this.impact / 500);
+
+    // Main body gradient (3D sphere effect)
+    const mainGradient = ctx.createRadialGradient(
+      x - radius * 0.3, y - radius * 0.3, radius * 0.1,
+      x, y, radius
+    );
+
+    // Highlight (top-left, lighter)
+    mainGradient.addColorStop(0, `hsl(${this.hue}, 100%, ${Math.min(95, baseLightness + 35)}%)`);
+    // Mid-tone
+    mainGradient.addColorStop(0.4, `hsl(${this.hue}, 100%, ${baseLightness + 10}%)`);
+    // Base color
+    mainGradient.addColorStop(0.7, `hsl(${this.hue}, 100%, ${baseLightness}%)`);
+    // Shadow (bottom-right, darker)
+    mainGradient.addColorStop(1, `hsl(${this.hue}, 100%, ${Math.max(20, baseLightness - 25)}%)`);
+
+    ctx.fillStyle = mainGradient;
+    ctx.beginPath();
+    ctx.arc(x, y, radius, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Specular highlight (glossy reflection)
+    const highlightGradient = ctx.createRadialGradient(
+      x - radius * 0.35, y - radius * 0.35, 0,
+      x - radius * 0.35, y - radius * 0.35, radius * 0.5
+    );
+    highlightGradient.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
+    highlightGradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.2)');
+    highlightGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
+    ctx.fillStyle = highlightGradient;
+    ctx.beginPath();
+    ctx.arc(x, y, radius, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Subtle rim light (edge highlight)
+    const rimGradient = ctx.createRadialGradient(
+      x + radius * 0.5, y + radius * 0.5, radius * 0.7,
+      x, y, radius
+    );
+    rimGradient.addColorStop(0, 'rgba(255, 255, 255, 0)');
+    rimGradient.addColorStop(0.8, 'rgba(255, 255, 255, 0)');
+    rimGradient.addColorStop(1, 'rgba(255, 255, 255, 0.15)');
+
+    ctx.fillStyle = rimGradient;
+    ctx.beginPath();
+    ctx.arc(x, y, radius, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
   private _renderNormal(
     ctx: CanvasRenderingContext2D,
     zoom: number,
@@ -173,10 +230,6 @@ export class Marble {
   ) {
     const hs = this.size / 2;
 
-    ctx.fillStyle = `hsl(${this.hue} 100% ${this.theme.marbleLightness + 25 * Math.min(1, this.impact / 500)}%`;
-
-    // ctx.shadowColor = this.color;
-    // ctx.shadowBlur = zoom / 2;
     if (skin) {
       transformGuard(ctx, () => {
         ctx.translate(this.x, this.y);
@@ -184,11 +237,10 @@ export class Marble {
         ctx.drawImage(skin, -hs, -hs, hs * 2, hs * 2);
       });
     } else {
-      this._drawMarbleBody(ctx, false);
+      // Draw 3D sphere effect
+      this._drawMarbleBody3D(ctx);
     }
 
-    ctx.shadowColor = '';
-    ctx.shadowBlur = 0;
     this._drawName(ctx, zoom);
 
     if (outline) {
