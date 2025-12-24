@@ -8,5 +8,4 @@ export const data = {
   busiestDateDate: 24,
   marbleCount: 0,
   country: 1,
-  coffeeBuyer: 0,
 } as const;

@@ -382,47 +382,6 @@ const marbleCountPage = () => {
 
 };
 
-const coffeePage = () => {
-  const cPage = document.querySelector('section#coffee-page') as HTMLDivElement;
-  const img = cPage.querySelector('img') as HTMLDivElement;
-  const content = cPage.querySelector('div.content') as HTMLDivElement;
-  const coffeeCountValue = content.querySelector('[data-prop=coffeeBuyer]')!;
-
-  const numbersProgress = {
-    progress: 0,
-  };
-
-  const tl = gsap.timeline()
-    .fromTo(numbersProgress, { progress: 0 }, {
-      progress: 1,
-      duration: 200,
-      onUpdate: () => {
-        coffeeCountValue.innerHTML = String(Math.round(numbersProgress.progress * data.coffeeBuyer));
-      },
-    }, 0).to(numbersProgress, { progress: 1, duration: 800 });
-
-  tl.fromTo(img, {
-    y: '+=2rem',
-  }, {
-    y: '-=5rem',
-    ease: 'elastic.out',
-    duration: 100,
-  }, 0)
-    .fromTo(img, {
-      autoAlpha: 0,
-    }, {
-      autoAlpha: 1,
-      duration: 200,
-    }, '<')
-    .fromTo(cPage, {
-      autoAlpha: 1,
-    }, {
-      autoAlpha: 0,
-      duration: 100,
-    });
-  return tl;
-};
-
 const thanksPage = () => {
   return null;
 };
@@ -472,8 +431,6 @@ const init = () => {
         return dateTimePage();
       case 'marble-count-page':
         return marbleCountPage();
-      case 'coffee-page':
-        return coffeePage();
       case 'thanks-page':
         return thanksPage();
     }
