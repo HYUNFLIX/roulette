@@ -417,6 +417,26 @@ export class Roulette extends EventTarget {
     return this._marbles.length;
   }
 
+  public getRankings() {
+    return {
+      winners: this._winners.map((m, i) => ({
+        rank: i + 1,
+        name: m.name,
+        hue: m.hue,
+        isWinner: i === this._winnerRank,
+      })),
+      marbles: this._marbles.map((m, i) => ({
+        rank: i + 1 + this._winners.length,
+        name: m.name,
+        hue: m.hue,
+        isWinner: false,
+      })),
+      total: this._totalMarbleCount,
+      finished: this._winners.length,
+      winnerRank: this._winnerRank,
+    };
+  }
+
   public getMaps() {
     return stages.map((stage, index) => {
       return {

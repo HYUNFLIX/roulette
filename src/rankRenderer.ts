@@ -3,6 +3,7 @@ import { MouseEventArgs, UIObject } from './UIObject';
 import { bound } from './utils/bound.decorator';
 import { Rect } from './types/rect.type';
 import { Marble } from './marble';
+import options from './options';
 
 export class RankRenderer implements UIObject {
   private _currentY = 0;
@@ -60,6 +61,15 @@ export class RankRenderer implements UIObject {
     width: number,
     height: number,
   ) {
+    // Skip canvas rendering if using HTML overlay
+    if (!options.showCanvasRankList) {
+      this._currentWinner = winners.length;
+      this.winners = winners;
+      this.marbles = marbles;
+      this.winnerRank = winnerRank;
+      return;
+    }
+
     const startX = width - 5;
     const startY = Math.max(-this.fontHeight, this._currentY - height / 2);
     this.maxY = Math.max(

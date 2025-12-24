@@ -266,12 +266,22 @@
       setWinnerRank(1);
     });
 
-    window.roulette.addEventListener('goal', () => {
+    window.roulette.addEventListener('goal', (e) => {
       ready = false;
+      // Show game completion overlay
+      const winnerName = e.detail?.winner || '???';
+      document.querySelector('#winnerName').textContent = winnerName;
+      document.querySelector('#gameComplete').classList.add('show');
+
       setTimeout(() => {
         document.querySelector('#settings').classList.remove('hide');
         document.querySelector('#donate').classList.remove('hide');
       }, 3000);
+    });
+
+    // Close completion overlay
+    document.querySelector('#closeComplete').addEventListener('click', () => {
+      document.querySelector('#gameComplete').classList.remove('show');
     });
 
     window.roulette.addEventListener('message', (e) => {
@@ -339,6 +349,53 @@
         openNotice();
       }
     };
+
+    // Rank list overlay update
+    const rankOverlay = document.querySelector('#rankOverlay');
+    const rankList = document.querySelector('#rankList');
+    const rankCount = document.querySelector('#rankCount');
+    let isRankVisible = false;
+
+    const updateRankList = () => {
+      if (!window.roulette || !window.roulette.getRankings) return;
+      const data = window.roulette.getRankings();
+
+      // Update count
+      rankCount.textContent = `${data.finished} / ${data.total}`;
+
+      // Build rank list HTML
+      let html = '';
+
+      // Winners (finished marbles)
+      data.winners.forEach(m => {
+        const checkIcon = m.isWinner ? '★' : '✓';
+        const winnerClass = m.isWinner ? 'winner-item' : '';
+        html += `<div class="rank-item finished ${winnerClass}">
+          <span class="rank-num">#${m.rank}</span>
+          <span class="rank-name" style="color: hsl(${m.hue}, 100%, 65%)">${m.name}</span>
+          <span class="rank-check">${checkIcon}</span>
+        </div>`;
+      });
+
+      // Remaining marbles
+      data.marbles.forEach(m => {
+        html += `<div class="rank-item">
+          <span class="rank-num">#${m.rank}</span>
+          <span class="rank-name" style="color: hsl(${m.hue}, 100%, 65%)">${m.name}</span>
+        </div>`;
+      });
+
+      rankList.innerHTML = html;
+
+      // Show overlay when game is running
+      if (data.total > 0) {
+        rankOverlay.classList.add('show');
+        isRankVisible = true;
+      }
+    };
+
+    // Update rank list periodically
+    setInterval(updateRankList, 100);
 
     // Settings panel slide toggle
     const settingsTab = document.querySelector('#settingsTab');
@@ -461,6 +518,31 @@
   </div>
 </div>
 <div id="donate" style="display:none;"></div>
+
+<!-- Game Completion Overlay -->
+<div id="gameComplete" class="game-complete">
+  <div class="complete-content">
+    <div class="complete-badge">
+      <span class="trophy">🏆</span>
+    </div>
+    <div class="complete-title">추첨 완료!</div>
+    <div class="winner-display">
+      <span class="winner-label">당첨자</span>
+      <span class="winner-name" id="winnerName"></span>
+    </div>
+    <button id="closeComplete" class="complete-btn">확인</button>
+  </div>
+</div>
+
+<!-- Rank List Overlay -->
+<div id="rankOverlay" class="rank-overlay">
+  <div class="rank-header">
+    <span class="rank-title">순위</span>
+    <span class="rank-count" id="rankCount">0 / 0</span>
+  </div>
+  <div class="rank-list" id="rankList"></div>
+</div>
+
 <div id="notice">
   <h1>이용방법</h1>
   <div class="notice-body">
