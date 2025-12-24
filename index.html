@@ -71,11 +71,20 @@
     };
   }
 
+  function updateParticipantCount() {
+    const names = getNames();
+    const countEl = document.querySelector('#participantCount');
+    if (countEl) {
+      countEl.textContent = names.length;
+    }
+  }
+
   function getReady() {
     const names = getNames();
     window.roulette.setMarbles(names);
     ready = names.length > 0;
     localStorage.setItem('mbr_names', names.join(','));
+    updateParticipantCount();
     switch (winnerType) {
       case 'first':
         setWinnerRank(1);
@@ -335,18 +344,35 @@
   }
 </script>
 <div id="settings" class="settings">
-  <div class="settings-main">
-    <div class="left">
-      <h3 data-trans>Enter names below</h3>
+  <!-- Header -->
+  <div class="settings-header">
+    <div class="settings-title">
+      <div class="title-accent"></div>
+      <h1 data-trans>Roulette Settings</h1>
+    </div>
+    <div class="header-controls">
+      <div class="theme-toggle">
+        <i class="icon moon"></i>
+        <input type="checkbox" id="chkDarkMode" checked />
+      </div>
+      <button id="btnNotice" class="btn-icon" title="Notice">
+        <i class="icon megaphone"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Content Grid -->
+  <div class="settings-grid">
+    <!-- Left: Participant List -->
+    <div class="settings-left">
+      <div class="input-header">
+        <label data-trans>Participants</label>
+        <span class="count-badge" id="participantCount">0</span>
+      </div>
       <textarea id="in_names" placeholder="Input names separated by commas or line feed here" data-trans="placeholder">짱구*5, 짱아*10, 봉미선*3</textarea>
-      <div class="actions">
-        <button id="btnNotice" class="btn-icon" title="Notice">
-          <i class="icon megaphone"></i>
-        </button>
-        <div class="sep"></div>
-        <button id="btnShuffle" class="btn-secondary">
+      <div class="actions-grid">
+        <button id="btnShuffle" class="btn-icon-text">
           <i class="icon shuffle"></i>
-          <span data-trans>Shuffle</span>
         </button>
         <button id="btnStart" class="btn-primary">
           <i class="icon play"></i>
@@ -354,50 +380,64 @@
         </button>
       </div>
     </div>
-    <div class="right">
-      <div class="row">
-        <label for='sltMap'>
+
+    <!-- Right: Options -->
+    <div class="settings-right">
+      <!-- Map Selection -->
+      <div class="option-item">
+        <div class="option-label">
           <i class="icon map"></i>
           <span data-trans>Map</span>
-        </label>
+        </div>
         <select id="sltMap"></select>
       </div>
-      <div class="row">
-        <label for='chkAutoRecording'>
+
+      <!-- Recording Toggle -->
+      <div class="option-item option-toggle">
+        <div class="option-label">
           <i class="icon record"></i>
           <span data-trans>Recording</span>
-        </label>
-        <input type="checkbox" id="chkAutoRecording" />
+        </div>
+        <div class="toggle-switch">
+          <input type="checkbox" id="chkAutoRecording" />
+          <label for="chkAutoRecording"></label>
+        </div>
       </div>
-      <div class="row">
-        <label>
+
+      <!-- Winner Selection -->
+      <div class="option-item">
+        <div class="option-label">
           <i class="icon trophy"></i>
           <span data-trans>The winner is</span>
-        </label>
-        <div class="btn-group">
-          <button class="btn-winner btn-first-winner active" data-trans>First</button>
-          <button class="btn-winner btn-last-winner" data-trans>Last</button>
+        </div>
+        <div class="winner-controls">
+          <div class="btn-group">
+            <button class="btn-winner btn-first-winner active" data-trans>First</button>
+            <button class="btn-winner btn-last-winner" data-trans>Last</button>
+          </div>
           <input type="number" id="in_winningRank" value="1" min="1" />
         </div>
       </div>
-      <div class="row">
-        <label for='chkSkill'>
+
+      <!-- Skills Toggle -->
+      <div class="option-item option-toggle">
+        <div class="option-label">
           <i class="icon bomb"></i>
           <span data-trans>Using skills</span>
-        </label>
-        <input type="checkbox" id="chkSkill" checked />
-        <div class='theme'>
-          <i class='icon sun'></i>
-          <input type='checkbox' id='chkDarkMode' checked />
-          <i class='icon moon'></i>
+        </div>
+        <div class="toggle-switch">
+          <input type="checkbox" id="chkSkill" checked />
+          <label for="chkSkill"></label>
         </div>
       </div>
     </div>
   </div>
+
+  <!-- Footer -->
   <div class="settings-footer">
     <a href='recap_2025.html' class='recap-link'>
-      <span class="recap-badge">2025</span>
-      <span data-trans>View Recap</span>
+      <i class="icon-history"></i>
+      <span>2025 Recap</span>
     </a>
   </div>
 </div>
