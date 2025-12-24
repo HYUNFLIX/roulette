@@ -198,8 +198,48 @@
     document.querySelector('#chkDarkMode').addEventListener('change', (e) => {
       window.options.darkMode = e.target.matches(':checked');
       window.roulette.setTheme(window.options.darkMode ? 'dark' : 'light');
+
+      // 명시적으로 dark/light 클래스 설정 (시스템 자동 감지 비활성화)
+      document.documentElement.classList.toggle('dark', window.options.darkMode);
       document.documentElement.classList.toggle('light', !window.options.darkMode);
+
+      // 사용자 선호도 저장
+      localStorage.setItem('mbr_theme', window.options.darkMode ? 'dark' : 'light');
     });
+
+    // 시스템 테마 변경 감지
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    mediaQuery.addEventListener('change', (e) => {
+      // 사용자가 명시적으로 테마를 설정하지 않은 경우에만 시스템 테마 적용
+      const savedTheme = localStorage.getItem('mbr_theme');
+      if (!savedTheme) {
+        const isDark = e.matches;
+        window.options.darkMode = isDark;
+        window.roulette.setTheme(isDark ? 'dark' : 'light');
+        document.querySelector('#chkDarkMode').checked = isDark;
+      }
+    });
+
+    // 초기 테마 설정
+    const initTheme = () => {
+      const savedTheme = localStorage.getItem('mbr_theme');
+      if (savedTheme) {
+        // 저장된 사용자 선호도 적용
+        const isDark = savedTheme === 'dark';
+        window.options.darkMode = isDark;
+        document.documentElement.classList.toggle('dark', isDark);
+        document.documentElement.classList.toggle('light', !isDark);
+        document.querySelector('#chkDarkMode').checked = isDark;
+        window.roulette.setTheme(isDark ? 'dark' : 'light');
+      } else {
+        // 시스템 테마 자동 감지 (클래스 없음 - CSS가 처리)
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        window.options.darkMode = prefersDark;
+        document.querySelector('#chkDarkMode').checked = prefersDark;
+        window.roulette.setTheme(prefersDark ? 'dark' : 'light');
+      }
+    };
+    initTheme();
 
     document.querySelector('#in_winningRank').addEventListener('change', (e) => {
       const v = parseInt(e.target.value, 10);
