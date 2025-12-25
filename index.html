@@ -58,91 +58,60 @@ Charlie"></textarea>
       </div>
 
       
-      <div class="border-border-dark/50 border-t pt-4 space-y-4">
-        <h3 class="font-bold text-sm text-text-subtle tracking-wider uppercase">Configuration</h3>
-
+      <div class="border-border-dark/50 border-t pt-3 space-y-3">
         
-        <div class=space-y-2>
-          <span class="font-medium text-sm text-white">Map Selection</span>
-          <div class=relative>
-            <select id=sltMap class="appearance-none bg-surface-dark border border-border-dark cursor-pointer flex focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/50 h-11 px-4 rounded-lg text-sm text-white w-full">
+        <div class="flex items-center justify-between">
+          <span class="text-sm text-white">Map</span>
+          <div class="relative w-40">
+            <select id=sltMap class="appearance-none bg-surface-dark border border-border-dark cursor-pointer focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/50 h-9 px-3 rounded-lg text-sm text-white w-full">
             </select>
-            <div class="absolute flex inset-y-0 items-center pointer-events-none px-4 right-0 text-text-subtle">
-              <span class="material-symbols-outlined text-xl">expand_more</span>
+            <div class="absolute flex inset-y-0 items-center pointer-events-none px-2 right-0 text-text-subtle">
+              <span class="material-symbols-outlined text-lg">expand_more</span>
             </div>
           </div>
         </div>
 
         
-        <div class=space-y-3>
-          
-          <div class="flex items-center justify-between py-2">
-            <div class="flex flex-col">
-              <span class="font-medium text-sm text-white">Use Skills</span>
-              <span class="text-text-subtle text-xs">Marbles have unique abilities</span>
-            </div>
-            <div class="h-6 inline-block relative select-none w-10">
-              <input type=checkbox id=toggle-skills checked class="absolute appearance-none bg-white block border-4 border-surface-dark cursor-pointer duration-300 ease-in-out h-4 rounded-full toggle-checkbox top-1 transition-all translate-x-1 w-4">
-              <label class="bg-border-dark block cursor-pointer h-6 rounded-full toggle-label" for=toggle-skills></label>
-            </div>
+        <div class="flex items-center justify-between">
+          <span class="text-sm text-white">Skills</span>
+          <div class="h-6 inline-block relative select-none w-10">
+            <input type=checkbox id=toggle-skills checked class="absolute appearance-none bg-white block border-4 border-surface-dark cursor-pointer duration-300 ease-in-out h-4 rounded-full toggle-checkbox top-1 transition-all translate-x-1 w-4">
+            <label class="bg-border-dark block cursor-pointer h-6 rounded-full toggle-label" for=toggle-skills></label>
           </div>
+        </div>
 
-          
-          <div class="py-2 space-y-2">
-            <div class="flex flex-col">
-              <span class="font-medium text-sm text-white">Winner Selection</span>
-              <span class="text-text-subtle text-xs">Choose who wins the draw</span>
-            </div>
-            <div class="flex gap-2">
-              <button id=btn-first class="bg-primary flex-1 font-medium px-3 py-2 rounded-lg text-[#111c22] text-sm transition-colors">
-                First
-              </button>
-              <button id=btn-last class="bg-surface-dark border border-border-dark flex-1 font-medium hover:bg-border-dark px-3 py-2 rounded-lg text-sm text-white transition-colors">
-                Last
-              </button>
-              <div class="flex gap-1 items-center">
-                <input type=number id=in_winningRank value=1 min=1 class="bg-surface-dark border border-border-dark focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/50 h-9 px-2 rounded-lg text-center text-sm text-white w-16">
-                <span class="text-text-subtle text-xs">th</span>
-              </div>
-            </div>
-          </div>
-
-          
-          <div class="flex items-center justify-between py-2">
-            <div class="flex flex-col">
-              <span class="font-medium text-sm text-white">Auto-Record</span>
-              <span class="text-text-subtle text-xs">Save replay automatically</span>
-            </div>
-            <div class="h-6 inline-block relative select-none w-10">
-              <input type=checkbox id=toggle-record class="absolute appearance-none bg-white block border-4 border-surface-dark cursor-pointer duration-300 ease-in-out h-4 rounded-full toggle-checkbox top-1 transition-all translate-x-1 w-4">
-              <label class="bg-border-dark block cursor-pointer h-6 rounded-full toggle-label" for=toggle-record></label>
+        
+        <div class="flex items-center justify-between">
+          <span class="text-sm text-white">Winner</span>
+          <div class="flex gap-1.5">
+            <button id=btn-first class="bg-primary font-medium px-3 py-1.5 rounded-lg text-[#111c22] text-xs transition-colors">First</button>
+            <button id=btn-last class="bg-surface-dark border border-border-dark font-medium hover:bg-border-dark px-3 py-1.5 rounded-lg text-white text-xs transition-colors">Last</button>
+            <div class="flex gap-0.5 items-center">
+              <input type=number id=in_winningRank value=1 min=1 class="bg-surface-dark border border-border-dark focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/50 h-7 px-1 rounded-lg text-center text-white text-xs w-12">
+              <span class="text-text-subtle text-xs">th</span>
             </div>
           </div>
         </div>
-      </div>
 
-      
-      <div class="border-border-dark/50 border-t pt-4 space-y-4">
-        <h3 class="font-bold text-sm text-text-subtle tracking-wider uppercase">Audio</h3>
-        <div class=space-y-4>
-          <div class=space-y-2>
-            <div class="flex justify-between text-text-subtle text-xs">
-              <span>Master Volume</span>
-              <span id=masterVolumeValue>80%</span>
-            </div>
-            <input id=masterVolume type=range min=0 max=100 value=80 class="cursor-pointer h-2 rounded-lg w-full">
+        
+        <div class="flex items-center justify-between">
+          <span class="text-sm text-white">Auto-Record</span>
+          <div class="h-6 inline-block relative select-none w-10">
+            <input type=checkbox id=toggle-record class="absolute appearance-none bg-white block border-4 border-surface-dark cursor-pointer duration-300 ease-in-out h-4 rounded-full toggle-checkbox top-1 transition-all translate-x-1 w-4">
+            <label class="bg-border-dark block cursor-pointer h-6 rounded-full toggle-label" for=toggle-record></label>
           </div>
         </div>
-      </div>
 
-      
-      <div class="border-border-dark/50 border-t pt-4 space-y-4">
-        <h3 class="font-bold text-sm text-text-subtle tracking-wider uppercase">Display</h3>
-        <div class="flex items-center justify-between py-2">
-          <div class="flex flex-col">
-            <span class="font-medium text-sm text-white">Dark Mode</span>
-            <span class="text-text-subtle text-xs">Toggle dark/light theme</span>
-          </div>
+        
+        <div class="flex gap-3 items-center justify-between">
+          <span class="shrink-0 text-sm text-white">Volume</span>
+          <input id=masterVolume type=range min=0 max=100 value=80 class="cursor-pointer flex-1 h-2 rounded-lg">
+          <span id=masterVolumeValue class="text-right text-text-subtle text-xs w-8">80%</span>
+        </div>
+
+        
+        <div class="flex items-center justify-between">
+          <span class="text-sm text-white">Dark Mode</span>
           <div class="h-6 inline-block relative select-none w-10">
             <input type=checkbox id=toggle-darkmode checked class="absolute appearance-none bg-white block border-4 border-surface-dark cursor-pointer duration-300 ease-in-out h-4 rounded-full toggle-checkbox top-1 transition-all translate-x-1 w-4">
             <label class="bg-border-dark block cursor-pointer h-6 rounded-full toggle-label" for=toggle-darkmode></label>
