@@ -418,6 +418,7 @@ div.copyright a {
     gap: var(--space-3);
   }
 
+  .sound-toggle,
   .theme-toggle {
     display: flex;
     align-items: center;
@@ -427,6 +428,49 @@ div.copyright a {
       width: 16px;
       height: 16px;
       color: var(--color-text-muted);
+    }
+  }
+
+  .icon.sound {
+    mask-image: url('images/sound.svg');
+    -webkit-mask-image: url('images/sound.svg');
+    mask-size: contain;
+    -webkit-mask-size: contain;
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+    background: currentColor;
+  }
+
+  // Sound toggle checkbox (same style as theme toggle)
+  .sound-toggle input[type=checkbox] {
+    width: 40px;
+    height: 20px;
+    position: relative;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    background: var(--color-surface-active);
+    border-radius: var(--radius-full);
+    transition: background var(--transition-fast);
+
+    &:checked {
+      background: var(--color-primary);
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 16px;
+      height: 16px;
+      background: white;
+      border-radius: var(--radius-full);
+      transition: transform var(--transition-fast);
+    }
+
+    &:checked::before {
+      transform: translateX(20px);
     }
   }
 
