@@ -13,6 +13,10 @@ export class Box2dPhysics implements IPhysics {
 
   private deleteCandidates: Box2D.b2Body[] = [];
 
+  private collisionCallback: ((impulse: number) => void) | null = null;
+  private lastCollisionTime: number = 0;
+  private collisionThrottleMs: number = 50; // Minimum time between collision sounds
+
   async init(): Promise<void> {
     this.Box2D = await Box2DFactory();
     this.gravity = new this.Box2D.b2Vec2(0, 10);
@@ -199,6 +203,33 @@ export class Box2dPhysics implements IPhysics {
 
     this.world.Step(deltaSeconds, 6, 2);
 
+    // Check for marble collisions with walls/obstacles
+    const now = Date.now();
+    if (this.collisionCallback && now - this.lastCollisionTime > this.collisionThrottleMs) {
+      let maxImpulse = 0;
+
+      for (const id in this.marbleMap) {
+        const marble = this.marbleMap[id];
+        const contactEdge = marble.GetContactList();
+
+        if (contactEdge.contact && contactEdge.contact.IsTouching()) {
+          // Get velocity to estimate impact strength
+          const velocity = marble.GetLinearVelocity();
+          const speed = Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
+
+          if (speed > maxImpulse) {
+            maxImpulse = speed;
+          }
+        }
+      }
+
+      // Only trigger sound for significant impacts
+      if (maxImpulse > 1.5) {
+        this.collisionCallback(maxImpulse);
+        this.lastCollisionTime = now;
+      }
+    }
+
     for (let i = this.entities.length - 1; i >= 0; i--) {
       const entity = this.entities[i];
       if (entity.life > 0) {
@@ -209,5 +240,9 @@ export class Box2dPhysics implements IPhysics {
         }
       }
     }
+  }
+
+  setCollisionCallback(callback: (impulse: number) => void): void {
+    this.collisionCallback = callback;
   }
 }

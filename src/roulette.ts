@@ -454,6 +454,10 @@ export class Roulette extends EventTarget {
     });
   }
 
+  public setCollisionCallback(callback: (impulse: number) => void) {
+    this.physics.setCollisionCallback(callback);
+  }
+
   public setMap(index: number) {
     if (index < 0 || index > stages.length - 1) {
       throw new Error('Incorrect map number');

@@ -48,8 +48,10 @@ class SoundManagerClass {
 
   /**
    * Play a synthesized sound effect
+   * @param type - The type of sound to play
+   * @param intensity - Optional intensity for collision sounds (0-1)
    */
-  play(type: SoundType): void {
+  play(type: SoundType, intensity?: number): void {
     if (!this._enabled) return;
     this.init();
     if (!this.audioContext || !this.masterGain) return;
@@ -64,7 +66,7 @@ class SoundManagerClass {
         this.playStart();
         break;
       case 'collision':
-        this.playCollision();
+        this.playCollision(intensity);
         break;
       case 'goal':
         this.playGoal();
@@ -107,19 +109,24 @@ class SoundManagerClass {
   }
 
   /**
-   * Collision sound - short impact
+   * Collision sound - short impact with variable intensity
+   * @param intensity - Impact strength (0-1), affects volume and pitch
    */
-  private playCollision(): void {
+  private playCollision(intensity: number = 0.5): void {
     const ctx = this.audioContext!;
     const now = ctx.currentTime;
 
+    // Clamp intensity between 0.2 and 1
+    const clampedIntensity = Math.max(0.2, Math.min(1, intensity));
+
     // Create noise burst
-    const bufferSize = ctx.sampleRate * 0.05;
+    const duration = 0.03 + clampedIntensity * 0.04; // 30-70ms
+    const bufferSize = Math.floor(ctx.sampleRate * duration);
     const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
     const data = buffer.getChannelData(0);
 
     for (let i = 0; i < bufferSize; i++) {
-      data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.1));
+      data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.15));
     }
 
     const noise = ctx.createBufferSource();
@@ -127,18 +134,21 @@ class SoundManagerClass {
 
     const filter = ctx.createBiquadFilter();
     filter.type = 'lowpass';
-    filter.frequency.value = 800;
+    // Higher intensity = higher cutoff frequency for brighter sound
+    filter.frequency.value = 400 + clampedIntensity * 600;
 
     const gain = ctx.createGain();
-    gain.gain.setValueAtTime(0.2, now);
-    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+    // Volume based on intensity
+    const volume = 0.08 + clampedIntensity * 0.15;
+    gain.gain.setValueAtTime(volume, now);
+    gain.gain.exponentialRampToValueAtTime(0.01, now + duration);
 
     noise.connect(filter);
     filter.connect(gain);
     gain.connect(this.masterGain!);
 
     noise.start(now);
-    noise.stop(now + 0.05);
+    noise.stop(now + duration);
   }
 
   /**

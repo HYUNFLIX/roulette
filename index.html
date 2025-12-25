@@ -353,6 +353,15 @@
       }, 1000);
     });
 
+    // Collision sound effects
+    window.roulette.setCollisionCallback((impulse) => {
+      if (window.SoundManager) {
+        // Normalize impulse to 0-1 range (impulse typically ranges from 1.5 to 10)
+        const intensity = Math.min(1, (impulse - 1.5) / 8);
+        window.SoundManager.play('collision', intensity);
+      }
+    });
+
     // Close completion overlay
     document.querySelector('#closeComplete').addEventListener('click', () => {
       if (window.VictoryAnimation) window.VictoryAnimation.hide();
