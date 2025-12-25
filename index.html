@@ -322,11 +322,50 @@
       window.roulette.setAutoRecording(e.target.checked);
     });
 
-    document.querySelector('#toggle-winner').addEventListener('change', (e) => {
-      if (e.target.checked) {
-        winnerType = 'first';
-        setWinnerRank(1);
+    // Winner selection buttons
+    const updateWinnerButtons = () => {
+      const btnFirst = document.querySelector('#btn-first');
+      const btnLast = document.querySelector('#btn-last');
+      const rankInput = document.querySelector('#in_winningRank');
+
+      // Reset all buttons
+      btnFirst.className = 'flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-colors bg-surface-dark border border-border-dark text-white hover:bg-border-dark';
+      btnLast.className = 'flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-colors bg-surface-dark border border-border-dark text-white hover:bg-border-dark';
+      rankInput.className = 'w-16 h-9 px-2 rounded-lg text-sm text-white bg-surface-dark border border-border-dark focus:outline-0 focus:ring-2 focus:ring-primary/50 focus:border-primary text-center';
+
+      // Highlight active selection
+      if (winnerType === 'first') {
+        btnFirst.className = 'flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-colors bg-primary text-[#111c22]';
+      } else if (winnerType === 'last') {
+        btnLast.className = 'flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-colors bg-primary text-[#111c22]';
+      } else {
+        rankInput.className = 'w-16 h-9 px-2 rounded-lg text-sm text-white bg-primary/20 border-2 border-primary focus:outline-0 focus:ring-2 focus:ring-primary/50 text-center';
       }
+    };
+
+    document.querySelector('#btn-first').addEventListener('click', () => {
+      winnerType = 'first';
+      setWinnerRank(1);
+      updateWinnerButtons();
+    });
+
+    document.querySelector('#btn-last').addEventListener('click', () => {
+      winnerType = 'last';
+      const total = window.roulette.getCount();
+      setWinnerRank(total > 0 ? total : 1);
+      updateWinnerButtons();
+    });
+
+    document.querySelector('#in_winningRank').addEventListener('change', (e) => {
+      const v = parseInt(e.target.value, 10);
+      winnerType = 'custom';
+      setWinnerRank(isNaN(v) || v < 1 ? 1 : v);
+      updateWinnerButtons();
+    });
+
+    document.querySelector('#in_winningRank').addEventListener('focus', () => {
+      winnerType = 'custom';
+      updateWinnerButtons();
     });
 
     // Volume sliders
@@ -602,15 +641,23 @@ Charlie"></textarea>
             </div>
           </div>
 
-          <!-- Winner Takes All -->
-          <div class="flex items-center justify-between py-2">
+          <!-- Winner Selection -->
+          <div class="space-y-2 py-2">
             <div class="flex flex-col">
-              <span class="text-white text-sm font-medium">Winner Takes All</span>
-              <span class="text-xs text-text-subtle">Only 1st place wins</span>
+              <span class="text-white text-sm font-medium">Winner Selection</span>
+              <span class="text-xs text-text-subtle">Choose who wins the draw</span>
             </div>
-            <div class="relative inline-block w-10 h-6 select-none">
-              <input type="checkbox" id="toggle-winner" checked class="toggle-checkbox absolute block w-4 h-4 rounded-full bg-white border-4 border-surface-dark appearance-none cursor-pointer translate-x-1 top-1 transition-all duration-300 ease-in-out">
-              <label class="toggle-label block h-6 rounded-full bg-border-dark cursor-pointer" for="toggle-winner"></label>
+            <div class="flex gap-2">
+              <button id="btn-first" class="flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-colors bg-primary text-[#111c22]">
+                First
+              </button>
+              <button id="btn-last" class="flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-colors bg-surface-dark border border-border-dark text-white hover:bg-border-dark">
+                Last
+              </button>
+              <div class="flex items-center gap-1">
+                <input type="number" id="in_winningRank" value="1" min="1" class="w-16 h-9 px-2 rounded-lg text-sm text-white bg-surface-dark border border-border-dark focus:outline-0 focus:ring-2 focus:ring-primary/50 focus:border-primary text-center">
+                <span class="text-xs text-text-subtle">th</span>
+              </div>
             </div>
           </div>
 
@@ -626,9 +673,6 @@ Charlie"></textarea>
             </div>
           </div>
         </div>
-
-        <!-- Winner Rank (hidden input for functionality) -->
-        <input type="hidden" id="in_winningRank" value="1">
       </div>
 
       <!-- Audio Settings -->
