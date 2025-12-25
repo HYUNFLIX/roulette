@@ -158,10 +158,6 @@
       width: 100vw !important;
     }
 
-    /* Hide empty state when canvas exists */
-    #emptyState {
-      display: none;
-    }
   </style>
 </head>
 <body class="bg-background-dark text-white font-display h-screen flex flex-col overflow-hidden selection:bg-primary/30">
@@ -668,14 +664,14 @@ Charlie"></textarea>
   </aside>
 
   <!-- Main Content Area -->
-  <main class="flex-1 relative flex flex-col bg-black overflow-hidden" style="z-index: 10;">
+  <main class="flex-1 relative flex flex-col overflow-hidden pointer-events-none" style="z-index: 10; background: transparent;">
     <!-- Expand Sidebar Button (visible when collapsed) -->
-    <button id="sidebar-expand" class="absolute top-4 left-4 z-50 opacity-0 pointer-events-none transition-opacity bg-surface-dark/90 backdrop-blur border border-border-dark p-2 rounded-lg hover:bg-border-dark">
+    <button id="sidebar-expand" class="absolute top-4 left-4 z-50 opacity-0 pointer-events-auto transition-opacity bg-surface-dark/90 backdrop-blur border border-border-dark p-2 rounded-lg hover:bg-border-dark">
       <span class="material-symbols-outlined text-white">menu</span>
     </button>
 
     <!-- Game HUD -->
-    <div class="absolute top-0 left-0 right-0 z-40 p-6 flex justify-between items-start pointer-events-none">
+    <div class="absolute top-0 left-0 right-0 z-40 p-6 flex justify-between items-start">
       <!-- Status Badge -->
       <div class="bg-surface-dark/90 backdrop-blur-sm border border-border-dark px-4 py-2 rounded-full flex items-center gap-2 shadow-lg pointer-events-auto">
         <span class="relative flex h-2.5 w-2.5">
@@ -693,7 +689,7 @@ Charlie"></textarea>
     </div>
 
     <!-- Rank List Overlay -->
-    <div id="rankOverlay" class="absolute top-20 right-6 z-40 w-56 bg-surface-dark/90 backdrop-blur-sm border border-border-dark rounded-lg shadow-lg overflow-hidden">
+    <div id="rankOverlay" class="absolute top-20 right-6 z-40 w-56 bg-surface-dark/90 backdrop-blur-sm border border-border-dark rounded-lg shadow-lg overflow-hidden pointer-events-auto">
       <div class="flex items-center justify-between px-3 py-2 border-b border-border-dark bg-surface-dark">
         <span class="text-sm font-bold text-white">Rankings</span>
         <span id="rankCount" class="text-xs text-text-subtle">0 / 0</span>
@@ -701,18 +697,6 @@ Charlie"></textarea>
       <div id="rankList" class="max-h-64 overflow-y-auto custom-scrollbar"></div>
     </div>
 
-    <!-- Empty State / Canvas Background -->
-    <div class="w-full h-full relative flex items-center justify-center bg-[#0b1216]">
-      <div id="emptyState" class="relative z-10 text-center space-y-4 max-w-md p-6">
-        <div class="w-20 h-20 bg-surface-dark/50 rounded-full flex items-center justify-center mx-auto border border-border-dark backdrop-blur-md">
-          <span class="material-symbols-outlined text-4xl text-primary animate-pulse">sports_esports</span>
-        </div>
-        <div>
-          <h1 class="text-3xl font-bold text-white tracking-tight">Marble Roulette</h1>
-          <p class="text-text-subtle mt-2">Add participants in the settings panel and click Start Game to begin the race.</p>
-        </div>
-      </div>
-    </div>
   </main>
 </div>
 
