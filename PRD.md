@@ -77,45 +77,59 @@ Marble Roulette은 물리 엔진 기반의 웹 추첨 애플리케이션입니�
 
 ## 3. 사용자 인터페이스 (User Interface)
 
-### 3.1 설정 패널
+### 3.1 사이드바 설정 패널
 
-위치: 화면 왼쪽, 접기/펼치기 가능
+위치: 화면 왼쪽 사이드바 (320px 너비), 접기/펼치기 가능
 
 | 섹션 | 구성 요소 |
 |------|-----------|
-| 헤더 | 사운드 토글, 테마 토글, 이용방법 버튼 |
-| 참가자 입력 | 텍스트 영역, 참가자 수 배지 |
-| 액션 버튼 | 시작, 다시 시작, 랜덤 셔플 |
-| 옵션 | 맵 선택, 승자 모드, 스킬 토글, 자동 녹화 |
-| 푸터 | 설정 초기화, Recap 링크 |
+| 헤더 | "Settings" 타이틀, 접기 버튼 |
+| 액션 버튼 | Start Game (primary), Restart, Shuffle |
+| 참가자 입력 | 텍스트 영역, 참가자 수 표시, Clear All 버튼 |
+| Configuration | 맵 선택, Use Skills 토글, Winner Takes All 토글, Auto-Record 토글 |
+| Audio | Master Volume 슬라이더, SFX 슬라이더 |
+| 푸터 | 버전 정보, Help 버튼 |
 
-### 3.2 게임 오버레이
+### 3.2 게임 HUD
+
+| 요소 | 위치 | 설명 |
+|------|------|------|
+| Status Badge | 좌상단 | "Ready to Race" / "Racing..." / "Winner!" 상태 표시 |
+| Player Counter | 우상단 | 참가자 수 표시 (Material Icon + 숫자) |
+| Rankings Panel | 우측 | 실시간 순위 목록, 완료/전체 수 표시 |
+| Expand Button | 좌상단 | 사이드바 숨김 시 표시되는 확장 버튼 |
+
+### 3.3 오버레이
 
 | 오버레이 | 설명 |
 |----------|------|
-| 순위 목록 | 우측 상단, 완료된 마블 순위 실시간 표시 |
-| 게임 완료 | 중앙, 승자 발표 + 컨페티 효과 |
-| 승자 표시 | 캔버스 우측 하단, 승자 결정 시 즉시 표시 |
+| 게임 완료 | 트로피 이모지 + "추첨 완료!" + 당첨자 이름 + 확인 버튼 |
+| 도움말 | 이용방법 모달 (참가자 입력, 옵션 설정, 키보드 단축키 안내) |
 
-### 3.3 디자인 시스템
+### 3.4 디자인 시스템
 
-**색상 팔레트**
+**색상 팔레트 (Tailwind 기반)**
 
-| 용도 | 다크 테마 | 라이트 테마 |
-|------|-----------|-------------|
-| 배경 | Slate 900 | White |
-| 표면 | Slate 800 | Gray 50 |
-| 텍스트 | Slate 100 | Slate 800 |
-| 강조 | Sky 500 | Sky 600 |
-| 경고 | Amber 500 | Orange 500 |
+| 변수명 | 색상값 | 용도 |
+|--------|--------|------|
+| `primary` | #2badee | 강조 색상, 버튼, 링크 |
+| `primary-hover` | #45b8f0 | 호버 상태 |
+| `background-dark` | #101c22 | 페이지 배경 |
+| `surface-dark` | #192b33 | 카드, 패널 배경 |
+| `border-dark` | #233c48 | 테두리, 구분선 |
+| `text-subtle` | #92b7c9 | 보조 텍스트 |
 
 **타이포그래피**
-- 기본 폰트: system-ui, sans-serif
+- 기본 폰트: Noto Sans KR, sans-serif
+- 아이콘: Material Symbols Outlined
 - 제목: 20px / 16px / 14px
-- 본문: 13px / 12px
+- 본문: 14px / 13px / 12px
 
-**스페이싱**
-- 4px / 8px / 12px / 16px / 20px / 24px
+**UI 컴포넌트**
+- 토글 스위치: 커스텀 CSS (40px × 24px)
+- 레인지 슬라이더: 커스텀 CSS (트랙 4px, 썸 16px)
+- 버튼: rounded-lg, 호버 트랜지션
+- 입력 필드: focus:ring-2 focus:ring-primary/50
 
 ---
 

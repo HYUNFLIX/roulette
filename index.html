@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="dark" lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-5899C1DJM0"></script>
-
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Marble Roulette</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Favicons -->
   <link rel="apple-touch-icon" sizes="57x57" href="assets/apple-icon-57x57.png">
   <link rel="apple-touch-icon" sizes="60x60" href="assets/apple-icon-60x60.png">
   <link rel="apple-touch-icon" sizes="72x72" href="assets/apple-icon-72x72.png">
@@ -21,15 +20,14 @@
   <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96x96.png">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
   <link rel="manifest" href="assets/manifest.json">
-
-  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileColor" content="#101c22">
   <meta name="msapplication-TileImage" content="assets/ms-icon-144x144.png">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#101c22">
 
-  <!-- Pretendard 웹폰트 -->
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <!-- Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-5899C1DJM0"></script>
 
+  <!-- Meta -->
   <meta name="description" content="A lucky draw by dropping marbles, made by lazygyu">
   <meta property="og:url" content="https://hyunflix.github.io/roulette/">
   <meta property="og:title" content="Marble Roulette">
@@ -37,17 +35,117 @@
   <meta property="og:site_name" content="hyunflix.github.io">
   <meta property="og:type" content="website">
 
-  <link rel='stylesheet' href='assets/style.scss' />
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Material Symbols -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#2badee",
+            "primary-hover": "#45b8f0",
+            "background-dark": "#101c22",
+            "surface-dark": "#192b33",
+            "border-dark": "#233c48",
+            "text-subtle": "#92b7c9"
+          },
+          fontFamily: {
+            "display": ["Noto Sans KR", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom scrollbar */
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background-color: rgba(146, 183, 201, 0.2); border-radius: 20px; }
+
+    /* Range slider */
+    input[type=range] { -webkit-appearance: none; background: transparent; }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 16px; width: 16px;
+      border-radius: 50%;
+      background: #2badee;
+      cursor: pointer;
+      margin-top: -6px;
+    }
+    input[type=range]::-webkit-slider-runnable-track {
+      width: 100%; height: 4px;
+      cursor: pointer;
+      background: #233c48;
+      border-radius: 2px;
+    }
+
+    /* Toggle Switch */
+    .toggle-checkbox:checked { right: 0; border-color: #2badee; }
+    .toggle-checkbox:checked + .toggle-label { background-color: #2badee; }
+
+    /* Sidebar collapse */
+    #settings-sidebar.collapsed { width: 0; padding: 0; overflow: hidden; opacity: 0; }
+    #settings-sidebar.collapsed + main #sidebar-expand { opacity: 1; pointer-events: auto; }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #192b33;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      border: 1px solid #233c48;
+      z-index: 100;
+      animation: slideUp 0.3s ease;
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+      to { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+
+    /* Game Complete Overlay */
+    #gameComplete {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(8px);
+    }
+    #gameComplete.show { display: flex; }
+
+    /* Notice Modal */
+    #notice {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(8px);
+    }
+  </style>
 </head>
-<body>
+<body class="bg-background-dark text-white font-display h-screen flex flex-col overflow-hidden selection:bg-primary/30">
 <script type="module" src="./src/index.ts"></script>
 <script type="text/javascript">
   window.dataLayer = window.dataLayer || [];
-
-  function gtag() {
-    dataLayer.push(arguments);
-  }
-
+  function gtag() { dataLayer.push(arguments); }
   gtag('js', new Date());
   gtag('config', 'G-5899C1DJM0');
 
@@ -64,19 +162,20 @@
     const name = /^\s*([^\/*]+)?/.exec(nameStr)[1];
     const weight = hasWeight ? parseInt(weightRegex.exec(nameStr)[1].replace('/', '')) : 1;
     const count = hasCount ? parseInt(countRegex.exec(nameStr)[1].replace('*', '')) : 1;
-    return {
-      name,
-      weight,
-      count,
-    };
+    return { name, weight, count };
   }
 
   function updateParticipantCount() {
     const names = getNames();
+    let totalCount = 0;
+    names.forEach(nameStr => {
+      const parsed = parseName(nameStr);
+      totalCount += parsed.count;
+    });
     const countEl = document.querySelector('#participantCount');
-    if (countEl) {
-      countEl.textContent = names.length;
-    }
+    const hudCountEl = document.querySelector('#hudPlayerCount');
+    if (countEl) countEl.textContent = totalCount;
+    if (hudCountEl) hudCountEl.textContent = `${totalCount} Players`;
   }
 
   function getReady() {
@@ -100,22 +199,7 @@
     document.querySelector('#in_winningRank').value = rank;
     window.options.winningRank = rank - 1;
     window.roulette.setWinningRank(window.options.winningRank);
-
-    if (winnerType === 'first') {
-      document.querySelector('.btn-first-winner').classList.toggle('active', true);
-      document.querySelector('.btn-last-winner').classList.toggle('active', false);
-      document.querySelector('#in_winningRank').classList.toggle('active', false);
-    } else if (winnerType === 'last') {
-      document.querySelector('.btn-first-winner').classList.toggle('active', false);
-      document.querySelector('.btn-last-winner').classList.toggle('active', true);
-      document.querySelector('#in_winningRank').classList.toggle('active', false);
-    } else if (winnerType === 'custom') {
-      document.querySelector('.btn-first-winner').classList.toggle('active', false);
-      document.querySelector('.btn-last-winner').classList.toggle('active', false);
-      document.querySelector('#in_winningRank').classList.toggle('active', true);
-    }
   }
-
 
   let ready = false;
   let winnerType = 'first';
@@ -126,11 +210,9 @@
 
   function initialize() {
     if (!window.roulette || !window.roulette.isReady) {
-      console.log('does not loaded yet');
       setTimeout(initialize, 100);
       return;
     }
-    console.log('initializing start');
 
     const urlParams = new URLSearchParams(window.location.search);
     const namesFromUrl = urlParams.get('names');
@@ -143,6 +225,7 @@
         document.querySelector('#in_names').value = savedNames;
       }
     }
+
     document.querySelector('#in_names').addEventListener('input', () => {
       getReady();
     });
@@ -168,21 +251,21 @@
           result.push(key);
         }
       });
-
       const oldValue = document.querySelector('#in_names').value;
-      const newValue = result.join(',');
-
+      const newValue = result.join('\n');
       if (oldValue !== newValue) {
         document.querySelector('#in_names').value = newValue;
         getReady();
       }
     });
 
+    // Shuffle button
     document.querySelector('#btnShuffle').addEventListener('click', () => {
       getReady();
       if (window.SoundManager) window.SoundManager.play('click');
     });
 
+    // Start button
     document.querySelector('#btnStart').addEventListener('click', () => {
       if (!ready) return;
       if (window.SoundManager) window.SoundManager.play('start');
@@ -192,171 +275,101 @@
         'value': window.roulette.getCount(),
       });
       window.roulette.start();
-      document.querySelector('#settings').classList.add('hide');
-      document.querySelector('#donate').classList.add('hide');
+      document.querySelector('#settings-sidebar').classList.add('collapsed');
+      document.querySelector('#hudStatus').textContent = 'Racing...';
     });
 
-    // Restart button - reset and start again
+    // Restart button
     document.querySelector('#btnRestart').addEventListener('click', () => {
       window.roulette.reset();
       getReady();
-      if (!ready) return;
-      window.roulette.start();
-      document.querySelector('#settings').classList.add('hide');
       document.querySelector('#gameComplete').classList.remove('show');
+      document.querySelector('#hudStatus').textContent = 'Ready to Race';
     });
 
-    // Settings reset button
-    document.querySelector('#btnReset').addEventListener('click', () => {
-      // Reset to defaults
+    // Clear all button
+    document.querySelector('#btnClearAll').addEventListener('click', () => {
       document.querySelector('#in_names').value = '';
-      document.querySelector('#sltMap').selectedIndex = 0;
-      document.querySelector('#chkAutoRecording').checked = true;
-      document.querySelector('#chkSkill').checked = true;
-      document.querySelector('#chkDarkMode').checked = true;
-
-      // Apply defaults
-      window.options.autoRecording = true;
-      window.options.useSkills = true;
-      window.roulette.setAutoRecording(true);
-      window.roulette.setMap(0);
-
-      // Clear localStorage
-      localStorage.removeItem('mbr_names');
-      localStorage.removeItem('theme');
-
-      // Reset winner type to first
-      winnerType = 'first';
-      setWinnerRank(1);
-
-      // Update participant count
-      updateParticipantCount();
-
-      // Apply dark mode
-      document.documentElement.classList.add('dark');
-      document.documentElement.classList.remove('light');
-      window.roulette.setTheme('dark');
+      getReady();
     });
 
-    document.querySelector('#chkAutoRecording').addEventListener('change', (e) => {
-      window.options.autoRecording = e.target.matches(':checked');
-      window.roulette.setAutoRecording(window.options.autoRecording);
+    // Toggle switches
+    document.querySelector('#toggle-skills').addEventListener('change', (e) => {
+      window.options.useSkills = e.target.checked;
     });
 
-    document.querySelector('#chkSkill').addEventListener('change', (e) => {
-      window.options.useSkills = e.target.matches(':checked');
-      window.roulette.setWinningRank(window.options.winningRank);
+    document.querySelector('#toggle-record').addEventListener('change', (e) => {
+      window.options.autoRecording = e.target.checked;
+      window.roulette.setAutoRecording(e.target.checked);
     });
 
-    // Sound toggle
-    document.querySelector('#chkSound').addEventListener('change', (e) => {
-      const enabled = e.target.matches(':checked');
-      if (window.SoundManager) {
-        window.SoundManager.enabled = enabled;
-        if (enabled) window.SoundManager.play('click');
+    document.querySelector('#toggle-winner').addEventListener('change', (e) => {
+      if (e.target.checked) {
+        winnerType = 'first';
+        setWinnerRank(1);
       }
-      localStorage.setItem('mbr_sound', enabled ? 'on' : 'off');
     });
 
-    // Initialize sound setting
+    // Volume sliders
+    document.querySelector('#masterVolume').addEventListener('input', (e) => {
+      const val = e.target.value;
+      document.querySelector('#masterVolumeValue').textContent = `${val}%`;
+      if (window.SoundManager) {
+        window.SoundManager.volume = val / 100;
+      }
+    });
+
+    document.querySelector('#sfxVolume').addEventListener('input', (e) => {
+      const val = e.target.value;
+      document.querySelector('#sfxVolumeValue').textContent = `${val}%`;
+    });
+
+    // Initialize sound from localStorage
     const savedSound = localStorage.getItem('mbr_sound');
-    if (savedSound === 'off') {
-      document.querySelector('#chkSound').checked = false;
-      if (window.SoundManager) window.SoundManager.enabled = false;
+    if (savedSound === 'off' && window.SoundManager) {
+      window.SoundManager.enabled = false;
+      document.querySelector('#masterVolume').value = 0;
+      document.querySelector('#masterVolumeValue').textContent = '0%';
     }
 
-    document.querySelector('#chkDarkMode').addEventListener('change', (e) => {
-      window.options.darkMode = e.target.matches(':checked');
-      window.roulette.setTheme(window.options.darkMode ? 'dark' : 'light');
-
-      // 명시적으로 dark/light 클래스 설정 (시스템 자동 감지 비활성화)
-      document.documentElement.classList.toggle('dark', window.options.darkMode);
-      document.documentElement.classList.toggle('light', !window.options.darkMode);
-
-      // 사용자 선호도 저장
-      localStorage.setItem('mbr_theme', window.options.darkMode ? 'dark' : 'light');
-    });
-
-    // 시스템 테마 변경 감지
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    mediaQuery.addEventListener('change', (e) => {
-      // 사용자가 명시적으로 테마를 설정하지 않은 경우에만 시스템 테마 적용
-      const savedTheme = localStorage.getItem('mbr_theme');
-      if (!savedTheme) {
-        const isDark = e.matches;
-        window.options.darkMode = isDark;
-        window.roulette.setTheme(isDark ? 'dark' : 'light');
-        document.querySelector('#chkDarkMode').checked = isDark;
-      }
-    });
-
-    // 초기 테마 설정
+    // Theme handling
     const initTheme = () => {
       const savedTheme = localStorage.getItem('mbr_theme');
       if (savedTheme) {
-        // 저장된 사용자 선호도 적용
         const isDark = savedTheme === 'dark';
-        window.options.darkMode = isDark;
         document.documentElement.classList.toggle('dark', isDark);
-        document.documentElement.classList.toggle('light', !isDark);
-        document.querySelector('#chkDarkMode').checked = isDark;
         window.roulette.setTheme(isDark ? 'dark' : 'light');
       } else {
-        // 시스템 테마 자동 감지 (클래스 없음 - CSS가 처리)
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        window.options.darkMode = prefersDark;
-        document.querySelector('#chkDarkMode').checked = prefersDark;
         window.roulette.setTheme(prefersDark ? 'dark' : 'light');
       }
     };
     initTheme();
 
-    document.querySelector('#in_winningRank').addEventListener('change', (e) => {
-      const v = parseInt(e.target.value, 10);
-      winnerType = 'custom';
-      setWinnerRank(isNaN(v) ? 0 : v);
-    });
-
-    document.querySelector('.btn-last-winner').addEventListener('click', () => {
-      const total = window.roulette.getCount();
-      winnerType = 'last';
-      setWinnerRank(total);
-    });
-    document.querySelector('.btn-first-winner').addEventListener('click', () => {
-      winnerType = 'first';
-      setWinnerRank(1);
-    });
-
-    // Winner determined (game still running until all marbles finish)
+    // Winner determination events
     window.roulette.addEventListener('goal', (e) => {
       ready = false;
       if (window.SoundManager) window.SoundManager.play('goal');
+      document.querySelector('#hudStatus').textContent = 'Winner!';
     });
 
-    // All marbles finished - show completion overlay with GSAP animation
     window.roulette.addEventListener('finish', (e) => {
       const winnerName = e.detail?.winner || '???';
       document.querySelector('#winnerName').textContent = winnerName;
       document.querySelector('#gameComplete').classList.add('show');
-
-      // Play GSAP victory animation
       if (window.VictoryAnimation) {
         window.VictoryAnimation.play();
         window.VictoryAnimation.confetti();
       }
-
       if (window.SoundManager) window.SoundManager.play('finish');
-
       setTimeout(() => {
-        document.querySelector('#settings').classList.remove('hide');
-        document.querySelector('#donate').classList.remove('hide');
+        document.querySelector('#settings-sidebar').classList.remove('collapsed');
       }, 1000);
     });
 
-    // Collision sound effects
+    // Collision sounds
     window.roulette.setCollisionCallback((impulse) => {
       if (window.SoundManager) {
-        // Normalize impulse to 0-1 range (impulse typically ranges from 1.5 to 10)
         const intensity = Math.min(1, (impulse - 1.5) / 8);
         window.SoundManager.play('collision', intensity);
       }
@@ -370,173 +383,91 @@
       }, 200);
     });
 
+    // Message toast
     window.roulette.addEventListener('message', (e) => {
       simpleToast(e.detail);
     });
 
+    // Initialize
     document.querySelector('#btnShuffle').click();
 
+    // Map selector
     const maps = window.roulette.getMaps();
     const mapSelector = document.querySelector('#sltMap');
     maps.forEach((map) => {
       const option = document.createElement('option');
       option.value = map.index;
       option.innerHTML = map.title;
-      option.setAttribute('data-trans', '');
-      window.translateElement(option);
       mapSelector.append(option);
     });
     mapSelector.addEventListener('change', (e) => {
-      const index = e.target.value;
-      window.roulette.setMap(index);
+      window.roulette.setMap(e.target.value);
     });
 
-    const currentNotice = 3;
-    const noticeKey = 'lastViewedNotification';
-
-    const closeNotice = () => {
-      document.querySelector('#notice').style.display = 'none';
-      localStorage.setItem(noticeKey, currentNotice.toString());
-    };
-
-    const openNotice = () => {
-      console.log('openNotice');
-      document.querySelector('#notice').style.display = 'flex';
-    };
-
-    document.querySelector('#closeNotice').addEventListener('click', () => {
-      closeNotice();
-    });
-
-    document.querySelector('#btnNotice').addEventListener('click', () => {
-      openNotice();
-    });
-
-    function simpleToast(msg) {
-      const toast = document.createElement('div');
-      toast.classList.add('toast');
-      toast.innerHTML = msg;
-
-      if (window.translateElement) {
-        console.log('try to translate');
-        window.translateElement(toast);
-      }
-
-      document.body.appendChild(toast);
-      setTimeout(() => {
-        document.body.removeChild(toast);
-      }, 1200);
-    }
-
-    const checkNotice = () => {
-      const lastViewed = localStorage.getItem(noticeKey);
-      console.log('lastViewed', lastViewed);
-      if (lastViewed === null || Number(lastViewed) < currentNotice) {
-        openNotice();
-      }
-    };
-
-    // Rank list overlay update
-    const rankOverlay = document.querySelector('#rankOverlay');
+    // Rank list update
     const rankList = document.querySelector('#rankList');
     const rankCount = document.querySelector('#rankCount');
-    let isRankVisible = false;
 
     const updateRankList = () => {
       if (!window.roulette || !window.roulette.getRankings) return;
       const data = window.roulette.getRankings();
-
-      // Update count
       rankCount.textContent = `${data.finished} / ${data.total}`;
 
-      // Build rank list HTML
       let html = '';
-
-      // Winners (finished marbles)
       data.winners.forEach(m => {
-        const checkIcon = m.isWinner ? '★' : '✓';
-        const winnerClass = m.isWinner ? 'winner-item' : '';
-        html += `<div class="rank-item finished ${winnerClass}">
-          <span class="rank-num">#${m.rank}</span>
-          <span class="rank-name" style="color: hsl(${m.hue}, 100%, 65%)">${m.name}</span>
-          <span class="rank-check">${checkIcon}</span>
+        const icon = m.isWinner ? 'emoji_events' : 'check_circle';
+        const winnerClass = m.isWinner ? 'text-yellow-400' : 'text-green-400';
+        html += `<div class="flex items-center gap-2 py-1.5 px-2 ${m.isWinner ? 'bg-yellow-500/10 rounded' : ''}">
+          <span class="text-xs text-text-subtle w-6">#${m.rank}</span>
+          <span class="flex-1 text-sm truncate" style="color: hsl(${m.hue}, 80%, 65%)">${m.name}</span>
+          <span class="material-symbols-outlined text-sm ${winnerClass}">${icon}</span>
         </div>`;
       });
-
-      // Remaining marbles
       data.marbles.forEach(m => {
-        html += `<div class="rank-item">
-          <span class="rank-num">#${m.rank}</span>
-          <span class="rank-name" style="color: hsl(${m.hue}, 100%, 65%)">${m.name}</span>
+        html += `<div class="flex items-center gap-2 py-1.5 px-2 opacity-50">
+          <span class="text-xs text-text-subtle w-6">#${m.rank}</span>
+          <span class="flex-1 text-sm truncate" style="color: hsl(${m.hue}, 80%, 65%)">${m.name}</span>
         </div>`;
       });
-
       rankList.innerHTML = html;
-
-      // Show overlay when game is running
-      if (data.total > 0) {
-        rankOverlay.classList.add('show');
-        isRankVisible = true;
-      }
     };
-
-    // Update rank list periodically
     setInterval(updateRankList, 100);
 
-    // Settings panel slide toggle
-    const settingsTab = document.querySelector('#settingsTab');
-    const settingsPanel = document.querySelector('#settings');
-    let isSettingsOpen = true;
+    // Sidebar toggle
+    document.querySelector('#btnCollapse').addEventListener('click', () => {
+      document.querySelector('#settings-sidebar').classList.add('collapsed');
+    });
+    document.querySelector('#sidebar-expand').addEventListener('click', () => {
+      document.querySelector('#settings-sidebar').classList.remove('collapsed');
+    });
 
-    const toggleSettings = () => {
-      isSettingsOpen = !isSettingsOpen;
-      settingsPanel.classList.toggle('hide', !isSettingsOpen);
-      settingsTab.classList.toggle('open', isSettingsOpen);
-    };
-
-    settingsTab.addEventListener('click', toggleSettings);
-
-    // ========== Keyboard Shortcuts ==========
+    // Keyboard shortcuts
     document.addEventListener('keydown', (e) => {
-      // Don't trigger shortcuts when typing in textarea
-      if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') {
-        return;
-      }
+      if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
 
       switch (e.key) {
         case 'Enter':
         case ' ':
-          // Start game
           e.preventDefault();
-          if (ready) {
-            document.querySelector('#btnStart').click();
-          }
+          if (ready) document.querySelector('#btnStart').click();
           break;
-
         case 'r':
         case 'R':
-          // Shuffle (random)
           if (!e.ctrlKey && !e.metaKey) {
             e.preventDefault();
             document.querySelector('#btnShuffle').click();
           }
           break;
-
         case 'Escape':
-          // Close modals / toggle settings
           e.preventDefault();
           if (document.querySelector('#gameComplete').classList.contains('show')) {
             document.querySelector('#closeComplete').click();
-          } else if (document.querySelector('#notice').style.display === 'flex') {
-            document.querySelector('#closeNotice').click();
           } else {
-            toggleSettings();
+            document.querySelector('#settings-sidebar').classList.toggle('collapsed');
           }
           break;
-
         case 'f':
         case 'F':
-          // Fullscreen toggle
           if (!e.ctrlKey && !e.metaKey) {
             e.preventDefault();
             if (document.fullscreenElement) {
@@ -546,191 +477,279 @@
             }
           }
           break;
-
         case 's':
         case 'S':
-          // Toggle settings panel
           if (!e.ctrlKey && !e.metaKey) {
             e.preventDefault();
-            toggleSettings();
+            document.querySelector('#settings-sidebar').classList.toggle('collapsed');
           }
           break;
       }
     });
 
-    checkNotice();
+    // Notice modal
+    document.querySelector('#btnHelp').addEventListener('click', () => {
+      document.querySelector('#notice').style.display = 'flex';
+    });
+    document.querySelector('#closeNotice').addEventListener('click', () => {
+      document.querySelector('#notice').style.display = 'none';
+    });
+
+    function simpleToast(msg) {
+      const toast = document.createElement('div');
+      toast.classList.add('toast');
+      toast.innerHTML = msg;
+      document.body.appendChild(toast);
+      setTimeout(() => document.body.removeChild(toast), 1200);
+    }
   }
 </script>
-<!-- Settings Toggle Tab -->
-<button id="settingsTab" class="settings-tab">
-  <i class="icon-chevron"></i>
-  <span>설정</span>
-</button>
 
-<div id="settings" class="settings">
-  <!-- Header -->
-  <div class="settings-header">
-    <div class="settings-title">
-      <div class="title-accent"></div>
-      <h1 data-trans>Roulette Settings</h1>
-    </div>
-    <div class="header-controls">
-      <div class="sound-toggle" title="사운드 켜기/끄기 (효과음)">
-        <i class="icon sound"></i>
-        <input type="checkbox" id="chkSound" checked />
-      </div>
-      <div class="theme-toggle" title="다크모드 켜기/끄기">
-        <i class="icon moon"></i>
-        <input type="checkbox" id="chkDarkMode" checked />
-      </div>
-      <button id="btnNotice" class="btn-help">
-        <span>이용방법</span>
+<!-- Main Layout -->
+<div class="flex h-full w-full">
+  <!-- Sidebar -->
+  <aside id="settings-sidebar" class="w-80 h-full flex flex-col border-r border-border-dark bg-[#111c22] z-20 transition-all duration-300 ease-in-out relative flex-shrink-0">
+    <!-- Sidebar Header -->
+    <div class="h-16 flex items-center justify-between px-6 border-b border-border-dark shrink-0">
+      <h2 class="text-xl font-bold text-white">Settings</h2>
+      <button id="btnCollapse" class="text-text-subtle hover:text-white transition-colors" aria-label="Collapse sidebar">
+        <span class="material-symbols-outlined">menu_open</span>
       </button>
     </div>
-  </div>
 
-  <!-- Main Content Grid -->
-  <div class="settings-grid">
-    <!-- Left: Participant List -->
-    <div class="settings-left">
-      <div class="input-header">
-        <label>참가자 명단</label>
-        <span class="count-badge" id="participantCount">0</span>
-      </div>
-      <textarea id="in_names" placeholder="Input names separated by commas or line feed here" data-trans="placeholder">짱구*5, 짱아*10, 봉미선*3</textarea>
-      <div class="actions-grid">
-        <button id="btnStart" class="btn-primary btn-full" title="추첨을 시작합니다">
-          <i class="icon play"></i>
-          <span>시작</span>
+    <!-- Scrollable Content -->
+    <div class="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-6">
+      <!-- Action Buttons -->
+      <div class="space-y-3">
+        <button id="btnStart" class="flex w-full cursor-pointer items-center justify-center rounded-lg h-12 px-5 bg-primary hover:bg-primary-hover transition-colors text-[#111c22] text-base font-bold shadow-lg shadow-primary/20">
+          <span class="material-symbols-outlined mr-2">play_arrow</span>
+          <span>Start Game</span>
         </button>
-        <button id="btnRestart" class="btn-secondary" title="마블을 재배치하고 다시 시작합니다">
-          <span>다시 시작</span>
-        </button>
-        <button id="btnShuffle" class="btn-icon-text" title="참가자 순서를 무작위로 섞습니다">
-          <i class="icon shuffle"></i>
-          <span>랜덤</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- Right: Options -->
-    <div class="settings-right">
-      <!-- Map Selection -->
-      <div class="option-item">
-        <div class="option-label">
-          <i class="icon map"></i>
-          <span data-trans>Map</span>
-        </div>
-        <select id="sltMap"></select>
-      </div>
-
-      <!-- Recording Toggle -->
-      <div class="option-item option-toggle">
-        <div class="option-label">
-          <i class="icon record"></i>
-          <span>화면 녹화</span>
-        </div>
-        <div class="toggle-switch">
-          <input type="checkbox" id="chkAutoRecording" />
-          <label for="chkAutoRecording"></label>
+        <div class="flex gap-3">
+          <button id="btnRestart" class="flex flex-1 cursor-pointer items-center justify-center rounded-lg h-10 px-3 bg-surface-dark border border-border-dark hover:bg-border-dark transition-colors text-white text-sm font-bold">
+            <span class="material-symbols-outlined text-lg mr-1.5">refresh</span>
+            <span>Restart</span>
+          </button>
+          <button id="btnShuffle" class="flex flex-1 cursor-pointer items-center justify-center rounded-lg h-10 px-3 bg-surface-dark border border-border-dark hover:bg-border-dark transition-colors text-white text-sm font-bold">
+            <span class="material-symbols-outlined text-lg mr-1.5">shuffle</span>
+            <span>Shuffle</span>
+          </button>
         </div>
       </div>
 
-      <!-- Winner Selection -->
-      <div class="option-item">
-        <div class="option-label">
-          <i class="icon trophy"></i>
-          <span data-trans>The winner is</span>
+      <!-- Participants Input -->
+      <div class="space-y-2">
+        <label class="block text-white text-base font-medium">
+          Participants
+          <span class="text-xs font-normal text-text-subtle ml-1">(One per line)</span>
+        </label>
+        <textarea id="in_names" class="flex w-full resize-none rounded-lg text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-border-dark bg-surface-dark focus:border-primary min-h-[140px] placeholder:text-text-subtle p-4 text-sm leading-relaxed custom-scrollbar" placeholder="Enter names...
+Alice
+Bob
+Charlie"></textarea>
+        <div class="flex justify-between items-center text-xs text-text-subtle">
+          <span>Total: <span id="participantCount">0</span></span>
+          <button id="btnClearAll" class="hover:text-primary transition-colors">Clear All</button>
         </div>
-        <div class="winner-controls">
-          <div class="btn-group">
-            <button class="btn-winner btn-first-winner active" data-trans>First</button>
-            <button class="btn-winner btn-last-winner" data-trans>Last</button>
+      </div>
+
+      <!-- Configuration -->
+      <div class="space-y-4 pt-4 border-t border-border-dark/50">
+        <h3 class="text-sm font-bold uppercase tracking-wider text-text-subtle">Configuration</h3>
+
+        <!-- Map Selection -->
+        <div class="space-y-2">
+          <span class="text-white text-sm font-medium">Map Selection</span>
+          <div class="relative">
+            <select id="sltMap" class="appearance-none flex w-full rounded-lg text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-border-dark bg-surface-dark focus:border-primary h-11 px-4 text-sm cursor-pointer">
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-text-subtle">
+              <span class="material-symbols-outlined text-xl">expand_more</span>
+            </div>
           </div>
-          <input type="number" id="in_winningRank" value="1" min="1" />
         </div>
+
+        <!-- Toggles -->
+        <div class="space-y-3">
+          <!-- Skills -->
+          <div class="flex items-center justify-between py-2">
+            <div class="flex flex-col">
+              <span class="text-white text-sm font-medium">Use Skills</span>
+              <span class="text-xs text-text-subtle">Marbles have unique abilities</span>
+            </div>
+            <div class="relative inline-block w-10 h-6 select-none">
+              <input type="checkbox" id="toggle-skills" checked class="toggle-checkbox absolute block w-4 h-4 rounded-full bg-white border-4 border-surface-dark appearance-none cursor-pointer translate-x-1 top-1 transition-all duration-300 ease-in-out">
+              <label class="toggle-label block h-6 rounded-full bg-border-dark cursor-pointer" for="toggle-skills"></label>
+            </div>
+          </div>
+
+          <!-- Winner Takes All -->
+          <div class="flex items-center justify-between py-2">
+            <div class="flex flex-col">
+              <span class="text-white text-sm font-medium">Winner Takes All</span>
+              <span class="text-xs text-text-subtle">Only 1st place wins</span>
+            </div>
+            <div class="relative inline-block w-10 h-6 select-none">
+              <input type="checkbox" id="toggle-winner" checked class="toggle-checkbox absolute block w-4 h-4 rounded-full bg-white border-4 border-surface-dark appearance-none cursor-pointer translate-x-1 top-1 transition-all duration-300 ease-in-out">
+              <label class="toggle-label block h-6 rounded-full bg-border-dark cursor-pointer" for="toggle-winner"></label>
+            </div>
+          </div>
+
+          <!-- Auto Record -->
+          <div class="flex items-center justify-between py-2">
+            <div class="flex flex-col">
+              <span class="text-white text-sm font-medium">Auto-Record</span>
+              <span class="text-xs text-text-subtle">Save replay automatically</span>
+            </div>
+            <div class="relative inline-block w-10 h-6 select-none">
+              <input type="checkbox" id="toggle-record" class="toggle-checkbox absolute block w-4 h-4 rounded-full bg-white border-4 border-surface-dark appearance-none cursor-pointer translate-x-1 top-1 transition-all duration-300 ease-in-out">
+              <label class="toggle-label block h-6 rounded-full bg-border-dark cursor-pointer" for="toggle-record"></label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Winner Rank (hidden input for functionality) -->
+        <input type="hidden" id="in_winningRank" value="1">
       </div>
 
-      <!-- Skills Toggle -->
-      <div class="option-item option-toggle">
-        <div class="option-label">
-          <i class="icon bomb"></i>
-          <span data-trans>Using skills</span>
-        </div>
-        <div class="toggle-switch">
-          <input type="checkbox" id="chkSkill" checked />
-          <label for="chkSkill"></label>
+      <!-- Audio Settings -->
+      <div class="space-y-4 pt-4 border-t border-border-dark/50">
+        <h3 class="text-sm font-bold uppercase tracking-wider text-text-subtle">Audio</h3>
+        <div class="space-y-4">
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs text-text-subtle">
+              <span>Master Volume</span>
+              <span id="masterVolumeValue">80%</span>
+            </div>
+            <input id="masterVolume" type="range" min="0" max="100" value="80" class="w-full h-2 rounded-lg cursor-pointer">
+          </div>
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs text-text-subtle">
+              <span>SFX</span>
+              <span id="sfxVolumeValue">100%</span>
+            </div>
+            <input id="sfxVolume" type="range" min="0" max="100" value="100" class="w-full h-2 rounded-lg cursor-pointer">
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Footer -->
-  <div class="settings-footer">
-    <button id="btnReset" class="btn-reset" title="모든 설정을 초기화합니다">
-      <span>설정 초기화</span>
+    <!-- Footer -->
+    <div class="p-4 border-t border-border-dark flex items-center justify-between text-xs text-text-subtle bg-surface-dark/50">
+      <span>v1.0.4</span>
+      <button id="btnHelp" class="hover:text-primary transition-colors flex items-center gap-1">
+        <span class="material-symbols-outlined text-sm">help</span>
+        <span>Help</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="flex-1 relative flex flex-col bg-black overflow-hidden">
+    <!-- Expand Sidebar Button (visible when collapsed) -->
+    <button id="sidebar-expand" class="absolute top-4 left-4 z-30 opacity-0 pointer-events-none transition-opacity bg-surface-dark/90 backdrop-blur border border-border-dark p-2 rounded-lg hover:bg-border-dark">
+      <span class="material-symbols-outlined text-white">menu</span>
     </button>
-    <a href='recap_2025.html' class='recap-link'>
-      <i class="icon-history"></i>
-      <span>2025 Recap</span>
-    </a>
-  </div>
-</div>
-<div id="donate" style="display:none;"></div>
 
-<!-- Game Completion Overlay -->
-<div id="gameComplete" class="game-complete">
-  <div class="complete-content">
-    <div class="complete-badge">
-      <span class="trophy">🏆</span>
+    <!-- Game HUD -->
+    <div class="absolute top-0 left-0 right-0 z-10 p-6 flex justify-between items-start pointer-events-none">
+      <!-- Status Badge -->
+      <div class="bg-surface-dark/90 backdrop-blur-sm border border-border-dark px-4 py-2 rounded-full flex items-center gap-2 shadow-lg pointer-events-auto">
+        <span class="relative flex h-2.5 w-2.5">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary"></span>
+        </span>
+        <span id="hudStatus" class="text-sm font-bold text-white tracking-wide uppercase">Ready to Race</span>
+      </div>
+
+      <!-- Player Counter -->
+      <div class="bg-surface-dark/90 backdrop-blur-sm border border-border-dark px-4 py-2 rounded-full flex items-center gap-2 shadow-lg pointer-events-auto">
+        <span class="material-symbols-outlined text-primary text-sm">groups</span>
+        <span id="hudPlayerCount" class="text-sm font-bold text-white">0 Players</span>
+      </div>
     </div>
-    <div class="complete-title">추첨 완료!</div>
-    <div class="winner-display">
-      <span class="winner-label">당첨자</span>
-      <span class="winner-name" id="winnerName"></span>
+
+    <!-- Rank List Overlay -->
+    <div id="rankOverlay" class="absolute top-20 right-6 z-10 w-56 bg-surface-dark/90 backdrop-blur-sm border border-border-dark rounded-lg shadow-lg overflow-hidden">
+      <div class="flex items-center justify-between px-3 py-2 border-b border-border-dark bg-surface-dark">
+        <span class="text-sm font-bold text-white">Rankings</span>
+        <span id="rankCount" class="text-xs text-text-subtle">0 / 0</span>
+      </div>
+      <div id="rankList" class="max-h-64 overflow-y-auto custom-scrollbar"></div>
     </div>
-    <button id="closeComplete" class="complete-btn">확인</button>
+
+    <!-- Empty State / Canvas Background -->
+    <div class="w-full h-full relative flex items-center justify-center bg-[#0b1216]">
+      <div id="emptyState" class="relative z-10 text-center space-y-4 max-w-md p-6">
+        <div class="w-20 h-20 bg-surface-dark/50 rounded-full flex items-center justify-center mx-auto border border-border-dark backdrop-blur-md">
+          <span class="material-symbols-outlined text-4xl text-primary animate-pulse">sports_esports</span>
+        </div>
+        <div>
+          <h1 class="text-3xl font-bold text-white tracking-tight">Marble Roulette</h1>
+          <p class="text-text-subtle mt-2">Add participants in the settings panel and click Start Game to begin the race.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Game Complete Overlay -->
+<div id="gameComplete">
+  <div class="text-center space-y-6 bg-surface-dark/95 backdrop-blur border border-border-dark rounded-2xl p-8 shadow-2xl max-w-sm mx-4">
+    <div class="text-6xl">🏆</div>
+    <div>
+      <h2 class="text-2xl font-bold text-white mb-2">추첨 완료!</h2>
+      <p class="text-text-subtle text-sm">당첨자</p>
+    </div>
+    <div class="bg-gradient-to-r from-primary/20 to-purple-500/20 border border-primary/30 rounded-xl py-4 px-6">
+      <span id="winnerName" class="text-2xl font-bold text-white"></span>
+    </div>
+    <button id="closeComplete" class="w-full bg-primary hover:bg-primary-hover text-[#111c22] font-bold py-3 px-6 rounded-lg transition-colors">
+      확인
+    </button>
   </div>
 </div>
 
-<!-- Rank List Overlay -->
-<div id="rankOverlay" class="rank-overlay">
-  <div class="rank-header">
-    <span class="rank-title">순위</span>
-    <span class="rank-count" id="rankCount">0 / 0</span>
-  </div>
-  <div class="rank-list" id="rankList"></div>
-</div>
-
+<!-- Help Modal -->
 <div id="notice">
-  <h1>이용방법</h1>
-  <div class="notice-body">
-    <h2>마블 룰렛 사용법</h2>
-
-    <h3>1. 참가자 입력</h3>
-    <p>왼쪽 텍스트 영역에 참가자 이름을 입력합니다.</p>
-    <ul>
-      <li>쉼표(,) 또는 줄바꿈으로 구분</li>
-      <li><strong>이름*숫자</strong>: 같은 이름의 마블 여러 개 (예: 철수*3)</li>
-      <li><strong>이름/숫자</strong>: 마블 크기 조절 (예: 영희/2)</li>
-    </ul>
-
-    <h3>2. 옵션 설정</h3>
-    <ul>
-      <li><strong>맵</strong>: 다양한 맵 테마 선택</li>
-      <li><strong>화면 녹화</strong>: 결과를 자동으로 녹화</li>
-      <li><strong>당첨 기준</strong>: 1등 또는 꼴등을 당첨자로 설정</li>
-      <li><strong>스킬 활성화</strong>: 마블이 주변을 밀어내는 스킬 사용</li>
-    </ul>
-
-    <h3>3. 시작하기</h3>
-    <p><strong>시작</strong> 버튼을 눌러 추첨을 시작합니다. 마블들이 떨어지며 당첨자가 결정됩니다!</p>
-  </div>
-  <div class="notice-action">
-    <button id="closeNotice">확인</button>
+  <div class="bg-surface-dark border border-border-dark rounded-2xl p-6 max-w-lg mx-4 shadow-2xl">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-xl font-bold text-white">이용방법</h2>
+      <button id="closeNotice" class="text-text-subtle hover:text-white transition-colors">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div class="space-y-4 text-sm text-text-subtle max-h-96 overflow-y-auto custom-scrollbar pr-2">
+      <div>
+        <h3 class="font-bold text-white mb-2">1. 참가자 입력</h3>
+        <p>설정 패널의 텍스트 영역에 참가자 이름을 입력합니다.</p>
+        <ul class="list-disc list-inside mt-1 space-y-1">
+          <li>쉼표(,) 또는 줄바꿈으로 구분</li>
+          <li><code class="bg-border-dark px-1 rounded">이름*숫자</code>: 같은 이름의 마블 여러 개</li>
+          <li><code class="bg-border-dark px-1 rounded">이름/숫자</code>: 마블 크기 조절</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-bold text-white mb-2">2. 옵션 설정</h3>
+        <ul class="list-disc list-inside space-y-1">
+          <li><strong>맵</strong>: 다양한 맵 테마 선택</li>
+          <li><strong>스킬</strong>: 마블이 주변을 밀어내는 능력</li>
+          <li><strong>녹화</strong>: 결과를 자동으로 녹화</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-bold text-white mb-2">3. 키보드 단축키</h3>
+        <ul class="list-disc list-inside space-y-1">
+          <li><code class="bg-border-dark px-1 rounded">Space/Enter</code>: 게임 시작</li>
+          <li><code class="bg-border-dark px-1 rounded">R</code>: 순서 셔플</li>
+          <li><code class="bg-border-dark px-1 rounded">S</code>: 설정 패널 토글</li>
+          <li><code class="bg-border-dark px-1 rounded">F</code>: 전체화면</li>
+          <li><code class="bg-border-dark px-1 rounded">Esc</code>: 닫기</li>
+        </ul>
+      </div>
+    </div>
   </div>
 </div>
-<div class="copyright">&copy; 2026 HYUNFLIX. All Rights Reserved.
-</div>
+
 </body>
 </html>
