@@ -1,183 +1,259 @@
-<!DOCTYPE html><html lang=en><script type=importmap>{"imports":{"2rDQN":"/roulette/Box2D.simd.dd31b167.wasm","8BShk":"/roulette/Box2D.simd.2fa02903.js","9DwmV":"/roulette/kkwak.673a610d.png","9YLvj":"/roulette/waldokun.7e88dd59.png","cdgIR":"/roulette/chamru.d6926a56.png","fkRhi":"/roulette/junyoop.d27f0cbf.png","h7cmx":"/roulette/Box2D.b9b16b27.wasm","ilUZb":"/roulette/Box2D.a11658c7.js","juMvj":"/roulette/ff.7fdc9e82.svg","lfSvD":"/roulette/kubin.f3647b70.png"}}</script><script type=module src=/roulette/roulette.9410c209.js></script><meta charset=UTF-8><meta http-equiv=X-UA-Compatible content="ie=edge"><script async src="https://www.googletagmanager.com/gtag/js?id=G-5899C1DJM0"></script><title>Marble Roulette</title><meta name=viewport content="width=device-width, initial-scale=1.0"><link rel=apple-touch-icon sizes=57x57 href=/roulette/apple-icon-57x57.5ecd1650.png><link rel=apple-touch-icon sizes=60x60 href=/roulette/apple-icon-60x60.b46a75af.png><link rel=apple-touch-icon sizes=72x72 href=/roulette/apple-icon-72x72.4726ed35.png><link rel=apple-touch-icon sizes=76x76 href=/roulette/apple-icon-76x76.72dbc1e1.png><link rel=apple-touch-icon sizes=114x114 href=/roulette/apple-icon-114x114.6cefcd75.png><link rel=apple-touch-icon sizes=120x120 href=/roulette/apple-icon-120x120.462d8e84.png><link rel=apple-touch-icon sizes=144x144 href=/roulette/apple-icon-144x144.36ef70f8.png><link rel=apple-touch-icon sizes=152x152 href=/roulette/apple-icon-152x152.1f1d2b56.png><link rel=apple-touch-icon sizes=180x180 href=/roulette/apple-icon-180x180.33666671.png><link rel=icon type=image/png sizes=192x192 href=/roulette/android-icon-192x192.6c0734fc.png><link rel=icon type=image/png sizes=32x32 href=/roulette/favicon-32x32.b3414860.png><link rel=icon type=image/png sizes=96x96 href=/roulette/favicon-96x96.b086bd80.png><link rel=icon type=image/png sizes=16x16 href=/roulette/favicon-16x16.b88a3ef4.png><link rel=manifest href=/roulette/assets/manifest.webmanifest><meta name=msapplication-TileColor content=#ffffff><meta name=msapplication-TileImage content=/roulette/ms-icon-144x144.e402ee4a.png><meta name=theme-color content=#ffffff><link rel=preconnect href=https://cdn.jsdelivr.net crossorigin><link rel=stylesheet href=https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css><meta name=description content="A lucky draw by dropping marbles, made by lazygyu"><meta property=og:url content=https://hyunflix.github.io/roulette/><meta property=og:title content="Marble Roulette"><meta property=og:description content="A lucky draw by dropping marbles, made by lazygyu"><meta property=og:site_name content=hyunflix.github.io><meta property=og:type content=website><link rel=stylesheet href=/roulette/roulette.0a0d0f10.css><body>
-<script type=module src=/roulette/roulette.5c1c5acb.js></script>
-<script>function gtag(){dataLayer.push(arguments)}function getNames(){return document.querySelector("#in_names").value.trim().split(/[,\r\n]/g).map(e=>e.trim()).filter(e=>!!e)}function parseName(e){let t=/(\/\d+)/,n=/(\*\d+)/,o=t.test(e),a=n.test(e),r=/^\s*([^\/*]+)?/.exec(e)[1];return{name:r,weight:o?parseInt(t.exec(e)[1].replace("/","")):1,count:a?parseInt(n.exec(e)[1].replace("*","")):1}}function updateParticipantCount(){let e=getNames(),t=document.querySelector("#participantCount");t&&(t.textContent=e.length)}function getReady(){let e=getNames();switch(window.roulette.setMarbles(e),ready=e.length>0,localStorage.setItem("mbr_names",e.join(",")),updateParticipantCount(),winnerType){case"first":setWinnerRank(1);break;case"last":setWinnerRank(window.roulette.getCount())}}function setWinnerRank(e){document.querySelector("#in_winningRank").value=e,window.options.winningRank=e-1,window.roulette.setWinningRank(window.options.winningRank),"first"===winnerType?(document.querySelector(".btn-first-winner").classList.toggle("active",!0),document.querySelector(".btn-last-winner").classList.toggle("active",!1),document.querySelector("#in_winningRank").classList.toggle("active",!1)):"last"===winnerType?(document.querySelector(".btn-first-winner").classList.toggle("active",!1),document.querySelector(".btn-last-winner").classList.toggle("active",!0),document.querySelector("#in_winningRank").classList.toggle("active",!1)):"custom"===winnerType&&(document.querySelector(".btn-first-winner").classList.toggle("active",!1),document.querySelector(".btn-last-winner").classList.toggle("active",!1),document.querySelector("#in_winningRank").classList.toggle("active",!0))}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-5899C1DJM0");let ready=!1,winnerType="first";function initialize(){if(!window.roulette||!window.roulette.isReady){console.log("does not loaded yet"),setTimeout(initialize,100);return}console.log("initializing start");let e=new URLSearchParams(window.location.search).get("names");if(e)document.querySelector("#in_names").value=e.replace(/,/g,"\n");else{let e=localStorage.getItem("mbr_names");e&&(document.querySelector("#in_names").value=e)}document.querySelector("#in_names").addEventListener("input",()=>{getReady()}),document.querySelector("#in_names").addEventListener("blur",()=>{let e=getNames(),t=new Set,n={};e.forEach(e=>{let o=parseName(e),a=o.weight>1?`${o.name}/${o.weight}`:o.name;t.has(a)||(t.add(a),n[a]=0),n[a]+=o.count});let o=[];Object.keys(n).forEach(e=>{n[e]>1?o.push(`${e}*${n[e]}`):o.push(e)});let a=document.querySelector("#in_names").value,r=o.join(",");a!==r&&(document.querySelector("#in_names").value=r,getReady())}),document.querySelector("#btnShuffle").addEventListener("click",()=>{getReady(),window.SoundManager&&window.SoundManager.play("click")}),document.querySelector("#btnStart").addEventListener("click",()=>{ready&&(window.SoundManager&&window.SoundManager.play("start"),gtag&&gtag("event","start",{event_category:"roulette",event_label:"start",value:window.roulette.getCount()}),window.roulette.start(),document.querySelector("#settings").classList.add("hide"),document.querySelector("#donate").classList.add("hide"))}),document.querySelector("#btnRestart").addEventListener("click",()=>{window.roulette.reset(),getReady(),ready&&(window.roulette.start(),document.querySelector("#settings").classList.add("hide"),document.querySelector("#gameComplete").classList.remove("show"))}),document.querySelector("#btnReset").addEventListener("click",()=>{document.querySelector("#in_names").value="",document.querySelector("#sltMap").selectedIndex=0,document.querySelector("#chkAutoRecording").checked=!0,document.querySelector("#chkSkill").checked=!0,document.querySelector("#chkDarkMode").checked=!0,window.options.autoRecording=!0,window.options.useSkills=!0,window.roulette.setAutoRecording(!0),window.roulette.setMap(0),localStorage.removeItem("mbr_names"),localStorage.removeItem("theme"),winnerType="first",setWinnerRank(1),updateParticipantCount(),document.documentElement.classList.add("dark"),document.documentElement.classList.remove("light"),window.roulette.setTheme("dark")}),document.querySelector("#chkAutoRecording").addEventListener("change",e=>{window.options.autoRecording=e.target.matches(":checked"),window.roulette.setAutoRecording(window.options.autoRecording)}),document.querySelector("#chkSkill").addEventListener("change",e=>{window.options.useSkills=e.target.matches(":checked"),window.roulette.setWinningRank(window.options.winningRank)}),document.querySelector("#chkSound").addEventListener("change",e=>{let t=e.target.matches(":checked");window.SoundManager&&(window.SoundManager.enabled=t,t&&window.SoundManager.play("click")),localStorage.setItem("mbr_sound",t?"on":"off")}),"off"===localStorage.getItem("mbr_sound")&&(document.querySelector("#chkSound").checked=!1,window.SoundManager&&(window.SoundManager.enabled=!1)),document.querySelector("#chkDarkMode").addEventListener("change",e=>{window.options.darkMode=e.target.matches(":checked"),window.roulette.setTheme(window.options.darkMode?"dark":"light"),document.documentElement.classList.toggle("dark",window.options.darkMode),document.documentElement.classList.toggle("light",!window.options.darkMode),localStorage.setItem("mbr_theme",window.options.darkMode?"dark":"light")}),window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",e=>{if(!localStorage.getItem("mbr_theme")){let t=e.matches;window.options.darkMode=t,window.roulette.setTheme(t?"dark":"light"),document.querySelector("#chkDarkMode").checked=t}});let t=localStorage.getItem("mbr_theme");if(t){let e="dark"===t;window.options.darkMode=e,document.documentElement.classList.toggle("dark",e),document.documentElement.classList.toggle("light",!e),document.querySelector("#chkDarkMode").checked=e,window.roulette.setTheme(e?"dark":"light")}else{let e=window.matchMedia("(prefers-color-scheme: dark)").matches;window.options.darkMode=e,document.querySelector("#chkDarkMode").checked=e,window.roulette.setTheme(e?"dark":"light")}document.querySelector("#in_winningRank").addEventListener("change",e=>{let t=parseInt(e.target.value,10);winnerType="custom",setWinnerRank(isNaN(t)?0:t)}),document.querySelector(".btn-last-winner").addEventListener("click",()=>{let e=window.roulette.getCount();winnerType="last",setWinnerRank(e)}),document.querySelector(".btn-first-winner").addEventListener("click",()=>{winnerType="first",setWinnerRank(1)}),window.roulette.addEventListener("goal",e=>{ready=!1,window.SoundManager&&window.SoundManager.play("goal")}),window.roulette.addEventListener("finish",e=>{let t=e.detail?.winner||"???";document.querySelector("#winnerName").textContent=t,document.querySelector("#gameComplete").classList.add("show"),window.VictoryAnimation&&(window.VictoryAnimation.play(),window.VictoryAnimation.confetti()),window.SoundManager&&window.SoundManager.play("finish"),setTimeout(()=>{document.querySelector("#settings").classList.remove("hide"),document.querySelector("#donate").classList.remove("hide")},1e3)}),window.roulette.setCollisionCallback(e=>{if(window.SoundManager){let t=Math.min(1,(e-1.5)/8);window.SoundManager.play("collision",t)}}),document.querySelector("#closeComplete").addEventListener("click",()=>{window.VictoryAnimation&&window.VictoryAnimation.hide(),setTimeout(()=>{document.querySelector("#gameComplete").classList.remove("show")},200)}),window.roulette.addEventListener("message",e=>{var t=e.detail;let n=document.createElement("div");n.classList.add("toast"),n.innerHTML=t,window.translateElement&&(console.log("try to translate"),window.translateElement(n)),document.body.appendChild(n),setTimeout(()=>{document.body.removeChild(n)},1200)}),document.querySelector("#btnShuffle").click();let n=window.roulette.getMaps(),o=document.querySelector("#sltMap");n.forEach(e=>{let t=document.createElement("option");t.value=e.index,t.innerHTML=e.title,t.setAttribute("data-trans",""),window.translateElement(t),o.append(t)}),o.addEventListener("change",e=>{let t=e.target.value;window.roulette.setMap(t)});let a="lastViewedNotification",r=()=>{console.log("openNotice"),document.querySelector("#notice").style.display="flex"};document.querySelector("#closeNotice").addEventListener("click",()=>{document.querySelector("#notice").style.display="none",localStorage.setItem(a,"3")}),document.querySelector("#btnNotice").addEventListener("click",()=>{r()});let i=document.querySelector("#rankOverlay"),c=document.querySelector("#rankList"),l=document.querySelector("#rankCount");setInterval(()=>{if(!window.roulette||!window.roulette.getRankings)return;let e=window.roulette.getRankings();l.textContent=`${e.finished} / ${e.total}`;let t="";e.winners.forEach(e=>{let n=e.isWinner?"★":"✓",o=e.isWinner?"winner-item":"";t+=`<div class="rank-item finished ${o}">
-          <span class="rank-num">#${e.rank}</span>
-          <span class="rank-name" style="color: hsl(${e.hue}, 100%, 65%)">${e.name}</span>
-          <span class="rank-check">${n}</span>
-        </div>`}),e.marbles.forEach(e=>{t+=`<div class="rank-item">
-          <span class="rank-num">#${e.rank}</span>
-          <span class="rank-name" style="color: hsl(${e.hue}, 100%, 65%)">${e.name}</span>
-        </div>`}),c.innerHTML=t,e.total>0&&i.classList.add("show")},100);let d=document.querySelector("#settingsTab"),s=document.querySelector("#settings"),u=!0,m=()=>{u=!u,s.classList.toggle("hide",!u),d.classList.toggle("open",u)};d.addEventListener("click",m),document.addEventListener("keydown",e=>{if("TEXTAREA"!==e.target.tagName&&"INPUT"!==e.target.tagName)switch(e.key){case"Enter":case" ":e.preventDefault(),ready&&document.querySelector("#btnStart").click();break;case"r":case"R":e.ctrlKey||e.metaKey||(e.preventDefault(),document.querySelector("#btnShuffle").click());break;case"Escape":e.preventDefault(),document.querySelector("#gameComplete").classList.contains("show")?document.querySelector("#closeComplete").click():"flex"===document.querySelector("#notice").style.display?document.querySelector("#closeNotice").click():m();break;case"f":case"F":e.ctrlKey||e.metaKey||(e.preventDefault(),document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen());break;case"s":case"S":e.ctrlKey||e.metaKey||(e.preventDefault(),m())}});let w=localStorage.getItem(a);console.log("lastViewed",w),(null===w||3>Number(w))&&r()}document.addEventListener("DOMContentLoaded",()=>{initialize()});</script>
+<!DOCTYPE html><html class=dark lang=ko><script type=importmap>{"imports":{"2rDQN":"/roulette/Box2D.simd.dd31b167.wasm","8BShk":"/roulette/Box2D.simd.2fa02903.js","9DwmV":"/roulette/kkwak.673a610d.png","9YLvj":"/roulette/waldokun.7e88dd59.png","cdgIR":"/roulette/chamru.d6926a56.png","fkRhi":"/roulette/junyoop.d27f0cbf.png","h7cmx":"/roulette/Box2D.b9b16b27.wasm","ilUZb":"/roulette/Box2D.a11658c7.js","juMvj":"/roulette/ff.7fdc9e82.svg","lfSvD":"/roulette/kubin.f3647b70.png"}}</script><meta charset=utf-8><meta content="width=device-width, initial-scale=1.0" name=viewport><title>Marble Roulette</title><link rel=apple-touch-icon sizes=57x57 href=/roulette/apple-icon-57x57.5ecd1650.png><link rel=apple-touch-icon sizes=60x60 href=/roulette/apple-icon-60x60.b46a75af.png><link rel=apple-touch-icon sizes=72x72 href=/roulette/apple-icon-72x72.4726ed35.png><link rel=apple-touch-icon sizes=76x76 href=/roulette/apple-icon-76x76.72dbc1e1.png><link rel=apple-touch-icon sizes=114x114 href=/roulette/apple-icon-114x114.6cefcd75.png><link rel=apple-touch-icon sizes=120x120 href=/roulette/apple-icon-120x120.462d8e84.png><link rel=apple-touch-icon sizes=144x144 href=/roulette/apple-icon-144x144.36ef70f8.png><link rel=apple-touch-icon sizes=152x152 href=/roulette/apple-icon-152x152.1f1d2b56.png><link rel=apple-touch-icon sizes=180x180 href=/roulette/apple-icon-180x180.33666671.png><link rel=icon type=image/png sizes=192x192 href=/roulette/android-icon-192x192.6c0734fc.png><link rel=icon type=image/png sizes=32x32 href=/roulette/favicon-32x32.b3414860.png><link rel=icon type=image/png sizes=96x96 href=/roulette/favicon-96x96.b086bd80.png><link rel=icon type=image/png sizes=16x16 href=/roulette/favicon-16x16.b88a3ef4.png><link rel=manifest href=/roulette/assets/manifest.webmanifest><meta name=msapplication-TileColor content=#101c22><meta name=msapplication-TileImage content=/roulette/ms-icon-144x144.e402ee4a.png><meta name=theme-color content=#101c22><script async src="https://www.googletagmanager.com/gtag/js?id=G-5899C1DJM0"></script><meta name=description content="A lucky draw by dropping marbles, made by lazygyu"><meta property=og:url content=https://hyunflix.github.io/roulette/><meta property=og:title content="Marble Roulette"><meta property=og:description content="A lucky draw by dropping marbles, made by lazygyu"><meta property=og:site_name content=hyunflix.github.io><meta property=og:type content=website><link href=https://fonts.googleapis.com rel=preconnect><link crossorigin href=https://fonts.gstatic.com rel=preconnect><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&amp;display=swap" rel=stylesheet><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel=stylesheet><script src="https://cdn.tailwindcss.com?plugins=forms"></script><script>tailwind.config={darkMode:"class",theme:{extend:{colors:{primary:"#2badee","primary-hover":"#45b8f0","background-dark":"#101c22","surface-dark":"#192b33","border-dark":"#233c48","text-subtle":"#92b7c9"},fontFamily:{display:["Noto Sans KR","sans-serif"]}}}};</script><style>.custom-scrollbar::-webkit-scrollbar{width:6px}.custom-scrollbar::-webkit-scrollbar-track{background:#0000001a}.custom-scrollbar::-webkit-scrollbar-thumb{background-color:#92b7c933;border-radius:20px}input[type=range]{-webkit-appearance:none;background:0 0}input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;cursor:pointer;background:#2badee;border-radius:50%;width:16px;height:16px;margin-top:-6px}input[type=range]::-webkit-slider-runnable-track{cursor:pointer;background:#233c48;border-radius:2px;width:100%;height:4px}.toggle-checkbox:checked{border-color:#2badee;right:0}.toggle-checkbox:checked+.toggle-label{background-color:#2badee}#settings-sidebar.collapsed{opacity:0;width:0;padding:0;overflow:hidden}#settings-sidebar.collapsed+main #sidebar-expand{opacity:1;pointer-events:auto}.toast{color:#fff;z-index:100;background:#192b33;border:1px solid #233c48;border-radius:8px;padding:12px 24px;animation:.3s slideUp;position:fixed;bottom:24px;left:50%;transform:translate(-50%)}@keyframes slideUp{0%{opacity:0;transform:translate(-50%)translateY(20px)}to{opacity:1;transform:translate(-50%)translateY(0)}}#gameComplete{z-index:50;backdrop-filter:blur(8px);background:#000000b3;justify-content:center;align-items:center;display:none;position:fixed;inset:0}#gameComplete.show{display:flex}#notice{z-index:60;backdrop-filter:blur(8px);background:#000000b3;justify-content:center;align-items:center;display:none;position:fixed;inset:0}</style><body class="bg-background-dark flex flex-col font-display h-screen overflow-hidden selection:bg-primary/30 text-white">
+<script type=module src=/roulette/roulette.1bd9ad48.js></script>
+<script>function gtag(){dataLayer.push(arguments)}function getNames(){return document.querySelector("#in_names").value.trim().split(/[,\r\n]/g).map(e=>e.trim()).filter(e=>!!e)}function parseName(e){let t=/(\/\d+)/,n=/(\*\d+)/,o=t.test(e),a=n.test(e),r=/^\s*([^\/*]+)?/.exec(e)[1];return{name:r,weight:o?parseInt(t.exec(e)[1].replace("/","")):1,count:a?parseInt(n.exec(e)[1].replace("*","")):1}}function updateParticipantCount(){let e=getNames(),t=0;e.forEach(e=>{let n=parseName(e);t+=n.count});let n=document.querySelector("#participantCount"),o=document.querySelector("#hudPlayerCount");n&&(n.textContent=t),o&&(o.textContent=`${t} Players`)}function getReady(){let e=getNames();switch(window.roulette.setMarbles(e),ready=e.length>0,localStorage.setItem("mbr_names",e.join(",")),updateParticipantCount(),winnerType){case"first":setWinnerRank(1);break;case"last":setWinnerRank(window.roulette.getCount())}}function setWinnerRank(e){document.querySelector("#in_winningRank").value=e,window.options.winningRank=e-1,window.roulette.setWinningRank(window.options.winningRank)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-5899C1DJM0");let ready=!1,winnerType="first";function initialize(){if(!window.roulette||!window.roulette.isReady)return void setTimeout(initialize,100);let e=new URLSearchParams(window.location.search).get("names");if(e)document.querySelector("#in_names").value=e.replace(/,/g,"\n");else{let e=localStorage.getItem("mbr_names");e&&(document.querySelector("#in_names").value=e)}document.querySelector("#in_names").addEventListener("input",()=>{getReady()}),document.querySelector("#in_names").addEventListener("blur",()=>{let e=getNames(),t=new Set,n={};e.forEach(e=>{let o=parseName(e),a=o.weight>1?`${o.name}/${o.weight}`:o.name;t.has(a)||(t.add(a),n[a]=0),n[a]+=o.count});let o=[];Object.keys(n).forEach(e=>{n[e]>1?o.push(`${e}*${n[e]}`):o.push(e)});let a=document.querySelector("#in_names").value,r=o.join("\n");a!==r&&(document.querySelector("#in_names").value=r,getReady())}),document.querySelector("#btnShuffle").addEventListener("click",()=>{getReady(),window.SoundManager&&window.SoundManager.play("click")}),document.querySelector("#btnStart").addEventListener("click",()=>{ready&&(window.SoundManager&&window.SoundManager.play("start"),gtag&&gtag("event","start",{event_category:"roulette",event_label:"start",value:window.roulette.getCount()}),window.roulette.start(),document.querySelector("#settings-sidebar").classList.add("collapsed"),document.querySelector("#hudStatus").textContent="Racing...")}),document.querySelector("#btnRestart").addEventListener("click",()=>{window.roulette.reset(),getReady(),document.querySelector("#gameComplete").classList.remove("show"),document.querySelector("#hudStatus").textContent="Ready to Race"}),document.querySelector("#btnClearAll").addEventListener("click",()=>{document.querySelector("#in_names").value="",getReady()}),document.querySelector("#toggle-skills").addEventListener("change",e=>{window.options.useSkills=e.target.checked}),document.querySelector("#toggle-record").addEventListener("change",e=>{window.options.autoRecording=e.target.checked,window.roulette.setAutoRecording(e.target.checked)}),document.querySelector("#toggle-winner").addEventListener("change",e=>{e.target.checked&&(winnerType="first",setWinnerRank(1))}),document.querySelector("#masterVolume").addEventListener("input",e=>{let t=e.target.value;document.querySelector("#masterVolumeValue").textContent=`${t}%`,window.SoundManager&&(window.SoundManager.volume=t/100)}),document.querySelector("#sfxVolume").addEventListener("input",e=>{let t=e.target.value;document.querySelector("#sfxVolumeValue").textContent=`${t}%`}),"off"===localStorage.getItem("mbr_sound")&&window.SoundManager&&(window.SoundManager.enabled=!1,document.querySelector("#masterVolume").value=0,document.querySelector("#masterVolumeValue").textContent="0%");let t=localStorage.getItem("mbr_theme");if(t){let e="dark"===t;document.documentElement.classList.toggle("dark",e),window.roulette.setTheme(e?"dark":"light")}else{let e=window.matchMedia("(prefers-color-scheme: dark)").matches;window.roulette.setTheme(e?"dark":"light")}window.roulette.addEventListener("goal",e=>{ready=!1,window.SoundManager&&window.SoundManager.play("goal"),document.querySelector("#hudStatus").textContent="Winner!"}),window.roulette.addEventListener("finish",e=>{let t=e.detail?.winner||"???";document.querySelector("#winnerName").textContent=t,document.querySelector("#gameComplete").classList.add("show"),window.VictoryAnimation&&(window.VictoryAnimation.play(),window.VictoryAnimation.confetti()),window.SoundManager&&window.SoundManager.play("finish"),setTimeout(()=>{document.querySelector("#settings-sidebar").classList.remove("collapsed")},1e3)}),window.roulette.setCollisionCallback(e=>{if(window.SoundManager){let t=Math.min(1,(e-1.5)/8);window.SoundManager.play("collision",t)}}),document.querySelector("#closeComplete").addEventListener("click",()=>{window.VictoryAnimation&&window.VictoryAnimation.hide(),setTimeout(()=>{document.querySelector("#gameComplete").classList.remove("show")},200)}),window.roulette.addEventListener("message",e=>{var t=e.detail;let n=document.createElement("div");n.classList.add("toast"),n.innerHTML=t,document.body.appendChild(n),setTimeout(()=>document.body.removeChild(n),1200)}),document.querySelector("#btnShuffle").click();let n=window.roulette.getMaps(),o=document.querySelector("#sltMap");n.forEach(e=>{let t=document.createElement("option");t.value=e.index,t.innerHTML=e.title,o.append(t)}),o.addEventListener("change",e=>{window.roulette.setMap(e.target.value)});let a=document.querySelector("#rankList"),r=document.querySelector("#rankCount");setInterval(()=>{if(!window.roulette||!window.roulette.getRankings)return;let e=window.roulette.getRankings();r.textContent=`${e.finished} / ${e.total}`;let t="";e.winners.forEach(e=>{let n=e.isWinner?"emoji_events":"check_circle",o=e.isWinner?"text-yellow-400":"text-green-400";t+=`<div class="flex items-center gap-2 py-1.5 px-2 ${e.isWinner?"bg-yellow-500/10 rounded":""}">
+          <span class="text-xs text-text-subtle w-6">#${e.rank}</span>
+          <span class="flex-1 text-sm truncate" style="color: hsl(${e.hue}, 80%, 65%)">${e.name}</span>
+          <span class="material-symbols-outlined text-sm ${o}">${n}</span>
+        </div>`}),e.marbles.forEach(e=>{t+=`<div class="flex items-center gap-2 py-1.5 px-2 opacity-50">
+          <span class="text-xs text-text-subtle w-6">#${e.rank}</span>
+          <span class="flex-1 text-sm truncate" style="color: hsl(${e.hue}, 80%, 65%)">${e.name}</span>
+        </div>`}),a.innerHTML=t},100),document.querySelector("#btnCollapse").addEventListener("click",()=>{document.querySelector("#settings-sidebar").classList.add("collapsed")}),document.querySelector("#sidebar-expand").addEventListener("click",()=>{document.querySelector("#settings-sidebar").classList.remove("collapsed")}),document.addEventListener("keydown",e=>{if("TEXTAREA"!==e.target.tagName&&"INPUT"!==e.target.tagName)switch(e.key){case"Enter":case" ":e.preventDefault(),ready&&document.querySelector("#btnStart").click();break;case"r":case"R":e.ctrlKey||e.metaKey||(e.preventDefault(),document.querySelector("#btnShuffle").click());break;case"Escape":e.preventDefault(),document.querySelector("#gameComplete").classList.contains("show")?document.querySelector("#closeComplete").click():document.querySelector("#settings-sidebar").classList.toggle("collapsed");break;case"f":case"F":e.ctrlKey||e.metaKey||(e.preventDefault(),document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen());break;case"s":case"S":e.ctrlKey||e.metaKey||(e.preventDefault(),document.querySelector("#settings-sidebar").classList.toggle("collapsed"))}}),document.querySelector("#btnHelp").addEventListener("click",()=>{document.querySelector("#notice").style.display="flex"}),document.querySelector("#closeNotice").addEventListener("click",()=>{document.querySelector("#notice").style.display="none"})}document.addEventListener("DOMContentLoaded",()=>{initialize()});</script>
 
-<button id=settingsTab class=settings-tab>
-  <i class=icon-chevron></i>
-  <span>설정</span>
-</button>
 
-<div id=settings class=settings>
+<div class="flex h-full w-full">
   
-  <div class=settings-header>
-    <div class=settings-title>
-      <div class=title-accent></div>
-      <h1 data-trans>Roulette Settings</h1>
-    </div>
-    <div class=header-controls>
-      <div class=sound-toggle title="사운드 켜기/끄기 (효과음)">
-        <i class="icon sound"></i>
-        <input type=checkbox id=chkSound checked>
-      </div>
-      <div class=theme-toggle title="다크모드 켜기/끄기">
-        <i class="icon moon"></i>
-        <input type=checkbox id=chkDarkMode checked>
-      </div>
-      <button id=btnNotice class=btn-help>
-        <span>이용방법</span>
+  <aside id=settings-sidebar class="bg-[#111c22] border-border-dark border-r duration-300 ease-in-out flex flex-col flex-shrink-0 h-full relative transition-all w-80 z-20">
+    
+    <div class="border-b border-border-dark flex h-16 items-center justify-between px-6 shrink-0">
+      <h2 class="font-bold text-white text-xl">Settings</h2>
+      <button id=btnCollapse class="hover:text-white text-text-subtle transition-colors" aria-label="Collapse sidebar">
+        <span class=material-symbols-outlined>menu_open</span>
       </button>
     </div>
-  </div>
-
-  
-  <div class=settings-grid>
-    
-    <div class=settings-left>
-      <div class=input-header>
-        <label>참가자 명단</label>
-        <span class=count-badge id=participantCount>0</span>
-      </div>
-      <textarea id=in_names placeholder="Input names separated by commas or line feed here" data-trans=placeholder>짱구*5, 짱아*10, 봉미선*3</textarea>
-      <div class=actions-grid>
-        <button id=btnStart class="btn-full btn-primary" title="추첨을 시작합니다">
-          <i class="icon play"></i>
-          <span>시작</span>
-        </button>
-        <button id=btnRestart class=btn-secondary title="마블을 재배치하고 다시 시작합니다">
-          <span>다시 시작</span>
-        </button>
-        <button id=btnShuffle class=btn-icon-text title="참가자 순서를 무작위로 섞습니다">
-          <i class="icon shuffle"></i>
-          <span>랜덤</span>
-        </button>
-      </div>
-    </div>
 
     
-    <div class=settings-right>
+    <div class="custom-scrollbar flex-1 overflow-y-auto p-6 space-y-6">
       
-      <div class=option-item>
-        <div class=option-label>
-          <i class="icon map"></i>
-          <span data-trans>Map</span>
+      <div class=space-y-3>
+        <button id=btnStart class="bg-primary cursor-pointer flex font-bold h-12 hover:bg-primary-hover items-center justify-center px-5 rounded-lg shadow-lg shadow-primary/20 text-[#111c22] text-base transition-colors w-full">
+          <span class="material-symbols-outlined mr-2">play_arrow</span>
+          <span>Start Game</span>
+        </button>
+        <div class="flex gap-3">
+          <button id=btnRestart class="bg-surface-dark border border-border-dark cursor-pointer flex flex-1 font-bold h-10 hover:bg-border-dark items-center justify-center px-3 rounded-lg text-sm text-white transition-colors">
+            <span class="material-symbols-outlined mr-1.5 text-lg">refresh</span>
+            <span>Restart</span>
+          </button>
+          <button id=btnShuffle class="bg-surface-dark border border-border-dark cursor-pointer flex flex-1 font-bold h-10 hover:bg-border-dark items-center justify-center px-3 rounded-lg text-sm text-white transition-colors">
+            <span class="material-symbols-outlined mr-1.5 text-lg">shuffle</span>
+            <span>Shuffle</span>
+          </button>
         </div>
-        <select id=sltMap></select>
       </div>
 
       
-      <div class="option-item option-toggle">
-        <div class=option-label>
-          <i class="icon record"></i>
-          <span>화면 녹화</span>
-        </div>
-        <div class=toggle-switch>
-          <input type=checkbox id=chkAutoRecording>
-          <label for=chkAutoRecording></label>
+      <div class=space-y-2>
+        <label class="block font-medium text-base text-white">
+          Participants
+          <span class="font-normal ml-1 text-text-subtle text-xs">(One per line)</span>
+        </label>
+        <textarea id=in_names class="bg-surface-dark border border-border-dark custom-scrollbar flex focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/50 leading-relaxed min-h-[140px] p-4 placeholder:text-text-subtle resize-none rounded-lg text-sm text-white w-full" placeholder="Enter names...
+Alice
+Bob
+Charlie"></textarea>
+        <div class="flex items-center justify-between text-text-subtle text-xs">
+          <span>Total: <span id=participantCount>0</span></span>
+          <button id=btnClearAll class="hover:text-primary transition-colors">Clear All</button>
         </div>
       </div>
 
       
-      <div class=option-item>
-        <div class=option-label>
-          <i class="icon trophy"></i>
-          <span data-trans>The winner is</span>
-        </div>
-        <div class=winner-controls>
-          <div class=btn-group>
-            <button class="active btn-first-winner btn-winner" data-trans>First</button>
-            <button class="btn-last-winner btn-winner" data-trans>Last</button>
+      <div class="border-border-dark/50 border-t pt-4 space-y-4">
+        <h3 class="font-bold text-sm text-text-subtle tracking-wider uppercase">Configuration</h3>
+
+        
+        <div class=space-y-2>
+          <span class="font-medium text-sm text-white">Map Selection</span>
+          <div class=relative>
+            <select id=sltMap class="appearance-none bg-surface-dark border border-border-dark cursor-pointer flex focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/50 h-11 px-4 rounded-lg text-sm text-white w-full">
+            </select>
+            <div class="absolute flex inset-y-0 items-center pointer-events-none px-4 right-0 text-text-subtle">
+              <span class="material-symbols-outlined text-xl">expand_more</span>
+            </div>
           </div>
-          <input type=number id=in_winningRank value=1 min=1>
         </div>
+
+        
+        <div class=space-y-3>
+          
+          <div class="flex items-center justify-between py-2">
+            <div class="flex flex-col">
+              <span class="font-medium text-sm text-white">Use Skills</span>
+              <span class="text-text-subtle text-xs">Marbles have unique abilities</span>
+            </div>
+            <div class="h-6 inline-block relative select-none w-10">
+              <input type=checkbox id=toggle-skills checked class="absolute appearance-none bg-white block border-4 border-surface-dark cursor-pointer duration-300 ease-in-out h-4 rounded-full toggle-checkbox top-1 transition-all translate-x-1 w-4">
+              <label class="bg-border-dark block cursor-pointer h-6 rounded-full toggle-label" for=toggle-skills></label>
+            </div>
+          </div>
+
+          
+          <div class="flex items-center justify-between py-2">
+            <div class="flex flex-col">
+              <span class="font-medium text-sm text-white">Winner Takes All</span>
+              <span class="text-text-subtle text-xs">Only 1st place wins</span>
+            </div>
+            <div class="h-6 inline-block relative select-none w-10">
+              <input type=checkbox id=toggle-winner checked class="absolute appearance-none bg-white block border-4 border-surface-dark cursor-pointer duration-300 ease-in-out h-4 rounded-full toggle-checkbox top-1 transition-all translate-x-1 w-4">
+              <label class="bg-border-dark block cursor-pointer h-6 rounded-full toggle-label" for=toggle-winner></label>
+            </div>
+          </div>
+
+          
+          <div class="flex items-center justify-between py-2">
+            <div class="flex flex-col">
+              <span class="font-medium text-sm text-white">Auto-Record</span>
+              <span class="text-text-subtle text-xs">Save replay automatically</span>
+            </div>
+            <div class="h-6 inline-block relative select-none w-10">
+              <input type=checkbox id=toggle-record class="absolute appearance-none bg-white block border-4 border-surface-dark cursor-pointer duration-300 ease-in-out h-4 rounded-full toggle-checkbox top-1 transition-all translate-x-1 w-4">
+              <label class="bg-border-dark block cursor-pointer h-6 rounded-full toggle-label" for=toggle-record></label>
+            </div>
+          </div>
+        </div>
+
+        
+        <input type=hidden id=in_winningRank value=1>
       </div>
 
       
-      <div class="option-item option-toggle">
-        <div class=option-label>
-          <i class="bomb icon"></i>
-          <span data-trans>Using skills</span>
-        </div>
-        <div class=toggle-switch>
-          <input type=checkbox id=chkSkill checked>
-          <label for=chkSkill></label>
+      <div class="border-border-dark/50 border-t pt-4 space-y-4">
+        <h3 class="font-bold text-sm text-text-subtle tracking-wider uppercase">Audio</h3>
+        <div class=space-y-4>
+          <div class=space-y-2>
+            <div class="flex justify-between text-text-subtle text-xs">
+              <span>Master Volume</span>
+              <span id=masterVolumeValue>80%</span>
+            </div>
+            <input id=masterVolume type=range min=0 max=100 value=80 class="cursor-pointer h-2 rounded-lg w-full">
+          </div>
+          <div class=space-y-2>
+            <div class="flex justify-between text-text-subtle text-xs">
+              <span>SFX</span>
+              <span id=sfxVolumeValue>100%</span>
+            </div>
+            <input id=sfxVolume type=range min=0 max=100 value=100 class="cursor-pointer h-2 rounded-lg w-full">
+          </div>
         </div>
       </div>
     </div>
-  </div>
+
+    
+    <div class="bg-surface-dark/50 border-border-dark border-t flex items-center justify-between p-4 text-text-subtle text-xs">
+      <span>v1.0.4</span>
+      <button id=btnHelp class="flex gap-1 hover:text-primary items-center transition-colors">
+        <span class="material-symbols-outlined text-sm">help</span>
+        <span>Help</span>
+      </button>
+    </div>
+  </aside>
 
   
-  <div class=settings-footer>
-    <button id=btnReset class=btn-reset title="모든 설정을 초기화합니다">
-      <span>설정 초기화</span>
+  <main class="bg-black flex flex-1 flex-col overflow-hidden relative">
+    
+    <button id=sidebar-expand class="absolute backdrop-blur bg-surface-dark/90 border border-border-dark hover:bg-border-dark left-4 opacity-0 p-2 pointer-events-none rounded-lg top-4 transition-opacity z-30">
+      <span class="material-symbols-outlined text-white">menu</span>
     </button>
-    <a href=/roulette/recap_2025.html class=recap-link>
-      <i class=icon-history></i>
-      <span>2025 Recap</span>
-    </a>
-  </div>
-</div>
-<div id=donate style=display:none></div>
 
+    
+    <div class="absolute flex items-start justify-between left-0 p-6 pointer-events-none right-0 top-0 z-10">
+      
+      <div class="backdrop-blur-sm bg-surface-dark/90 border border-border-dark flex gap-2 items-center pointer-events-auto px-4 py-2 rounded-full shadow-lg">
+        <span class="flex h-2.5 relative w-2.5">
+          <span class="absolute animate-ping bg-primary h-full inline-flex opacity-75 rounded-full w-full"></span>
+          <span class="bg-primary h-2.5 inline-flex relative rounded-full w-2.5"></span>
+        </span>
+        <span id=hudStatus class="font-bold text-sm text-white tracking-wide uppercase">Ready to Race</span>
+      </div>
 
-<div id=gameComplete class=game-complete>
-  <div class=complete-content>
-    <div class=complete-badge>
-      <span class=trophy>🏆</span>
+      
+      <div class="backdrop-blur-sm bg-surface-dark/90 border border-border-dark flex gap-2 items-center pointer-events-auto px-4 py-2 rounded-full shadow-lg">
+        <span class="material-symbols-outlined text-primary text-sm">groups</span>
+        <span id=hudPlayerCount class="font-bold text-sm text-white">0 Players</span>
+      </div>
     </div>
-    <div class=complete-title>추첨 완료!</div>
-    <div class=winner-display>
-      <span class=winner-label>당첨자</span>
-      <span class=winner-name id=winnerName></span>
+
+    
+    <div id=rankOverlay class="absolute backdrop-blur-sm bg-surface-dark/90 border border-border-dark overflow-hidden right-6 rounded-lg shadow-lg top-20 w-56 z-10">
+      <div class="bg-surface-dark border-b border-border-dark flex items-center justify-between px-3 py-2">
+        <span class="font-bold text-sm text-white">Rankings</span>
+        <span id=rankCount class="text-text-subtle text-xs">0 / 0</span>
+      </div>
+      <div id=rankList class="custom-scrollbar max-h-64 overflow-y-auto"></div>
     </div>
-    <button id=closeComplete class=complete-btn>확인</button>
-  </div>
+
+    
+    <div class="bg-[#0b1216] flex h-full items-center justify-center relative w-full">
+      <div id=emptyState class="max-w-md p-6 relative space-y-4 text-center z-10">
+        <div class="backdrop-blur-md bg-surface-dark/50 border border-border-dark flex h-20 items-center justify-center mx-auto rounded-full w-20">
+          <span class="animate-pulse material-symbols-outlined text-4xl text-primary">sports_esports</span>
+        </div>
+        <div>
+          <h1 class="font-bold text-3xl text-white tracking-tight">Marble Roulette</h1>
+          <p class="mt-2 text-text-subtle">Add participants in the settings panel and click Start Game to begin the race.</p>
+        </div>
+      </div>
+    </div>
+  </main>
 </div>
 
 
-<div id=rankOverlay class=rank-overlay>
-  <div class=rank-header>
-    <span class=rank-title>순위</span>
-    <span class=rank-count id=rankCount>0 / 0</span>
+<div id=gameComplete>
+  <div class="backdrop-blur bg-surface-dark/95 border border-border-dark max-w-sm mx-4 p-8 rounded-2xl shadow-2xl space-y-6 text-center">
+    <div class=text-6xl>🏆</div>
+    <div>
+      <h2 class="font-bold mb-2 text-2xl text-white">추첨 완료!</h2>
+      <p class="text-sm text-text-subtle">당첨자</p>
+    </div>
+    <div class="bg-gradient-to-r border border-primary/30 from-primary/20 px-6 py-4 rounded-xl to-purple-500/20">
+      <span id=winnerName class="font-bold text-2xl text-white"></span>
+    </div>
+    <button id=closeComplete class="bg-primary font-bold hover:bg-primary-hover px-6 py-3 rounded-lg text-[#111c22] transition-colors w-full">
+      확인
+    </button>
   </div>
-  <div class=rank-list id=rankList></div>
 </div>
+
 
 <div id=notice>
-  <h1>이용방법</h1>
-  <div class=notice-body>
-    <h2>마블 룰렛 사용법</h2>
-
-    <h3>1. 참가자 입력</h3>
-    <p>왼쪽 텍스트 영역에 참가자 이름을 입력합니다.</p>
-    <ul>
-      <li>쉼표(,) 또는 줄바꿈으로 구분</li>
-      <li><strong>이름*숫자</strong>: 같은 이름의 마블 여러 개 (예: 철수*3)</li>
-      <li><strong>이름/숫자</strong>: 마블 크기 조절 (예: 영희/2)</li>
-    </ul>
-
-    <h3>2. 옵션 설정</h3>
-    <ul>
-      <li><strong>맵</strong>: 다양한 맵 테마 선택</li>
-      <li><strong>화면 녹화</strong>: 결과를 자동으로 녹화</li>
-      <li><strong>당첨 기준</strong>: 1등 또는 꼴등을 당첨자로 설정</li>
-      <li><strong>스킬 활성화</strong>: 마블이 주변을 밀어내는 스킬 사용</li>
-    </ul>
-
-    <h3>3. 시작하기</h3>
-    <p><strong>시작</strong> 버튼을 눌러 추첨을 시작합니다. 마블들이 떨어지며 당첨자가 결정됩니다!</p>
-  </div>
-  <div class=notice-action>
-    <button id=closeNotice>확인</button>
+  <div class="bg-surface-dark border border-border-dark max-w-lg mx-4 p-6 rounded-2xl shadow-2xl">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="font-bold text-white text-xl">이용방법</h2>
+      <button id=closeNotice class="hover:text-white text-text-subtle transition-colors">
+        <span class=material-symbols-outlined>close</span>
+      </button>
+    </div>
+    <div class="custom-scrollbar max-h-96 overflow-y-auto pr-2 space-y-4 text-sm text-text-subtle">
+      <div>
+        <h3 class="font-bold mb-2 text-white">1. 참가자 입력</h3>
+        <p>설정 패널의 텍스트 영역에 참가자 이름을 입력합니다.</p>
+        <ul class="list-disc list-inside mt-1 space-y-1">
+          <li>쉼표(,) 또는 줄바꿈으로 구분</li>
+          <li><code class="bg-border-dark px-1 rounded">이름*숫자</code>: 같은 이름의 마블 여러 개</li>
+          <li><code class="bg-border-dark px-1 rounded">이름/숫자</code>: 마블 크기 조절</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-bold mb-2 text-white">2. 옵션 설정</h3>
+        <ul class="list-disc list-inside space-y-1">
+          <li><strong>맵</strong>: 다양한 맵 테마 선택</li>
+          <li><strong>스킬</strong>: 마블이 주변을 밀어내는 능력</li>
+          <li><strong>녹화</strong>: 결과를 자동으로 녹화</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-bold mb-2 text-white">3. 키보드 단축키</h3>
+        <ul class="list-disc list-inside space-y-1">
+          <li><code class="bg-border-dark px-1 rounded">Space/Enter</code>: 게임 시작</li>
+          <li><code class="bg-border-dark px-1 rounded">R</code>: 순서 셔플</li>
+          <li><code class="bg-border-dark px-1 rounded">S</code>: 설정 패널 토글</li>
+          <li><code class="bg-border-dark px-1 rounded">F</code>: 전체화면</li>
+          <li><code class="bg-border-dark px-1 rounded">Esc</code>: 닫기</li>
+        </ul>
+      </div>
+    </div>
   </div>
 </div>
-<div class=copyright>© 2026 HYUNFLIX. All Rights Reserved.
-</div>
+
 
 
