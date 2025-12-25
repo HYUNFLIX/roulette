@@ -139,6 +139,28 @@
       background: rgba(0,0,0,0.7);
       backdrop-filter: blur(8px);
     }
+
+    /* Canvas positioning */
+    body > canvas {
+      position: fixed !important;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 320px;
+      width: calc(100% - 320px) !important;
+      height: 100% !important;
+      z-index: 1;
+      transition: left 0.3s ease, width 0.3s ease;
+    }
+    body:has(#settings-sidebar.collapsed) > canvas {
+      left: 0;
+      width: 100% !important;
+    }
+
+    /* Hide empty state when canvas exists */
+    body:has(canvas) #emptyState {
+      display: none;
+    }
   </style>
 </head>
 <body class="bg-background-dark text-white font-display h-screen flex flex-col overflow-hidden selection:bg-primary/30">
@@ -645,14 +667,14 @@ Charlie"></textarea>
   </aside>
 
   <!-- Main Content Area -->
-  <main class="flex-1 relative flex flex-col bg-black overflow-hidden">
+  <main class="flex-1 relative flex flex-col bg-black overflow-hidden" style="z-index: 2;">
     <!-- Expand Sidebar Button (visible when collapsed) -->
     <button id="sidebar-expand" class="absolute top-4 left-4 z-30 opacity-0 pointer-events-none transition-opacity bg-surface-dark/90 backdrop-blur border border-border-dark p-2 rounded-lg hover:bg-border-dark">
       <span class="material-symbols-outlined text-white">menu</span>
     </button>
 
     <!-- Game HUD -->
-    <div class="absolute top-0 left-0 right-0 z-10 p-6 flex justify-between items-start pointer-events-none">
+    <div class="absolute top-0 left-0 right-0 z-20 p-6 flex justify-between items-start pointer-events-none">
       <!-- Status Badge -->
       <div class="bg-surface-dark/90 backdrop-blur-sm border border-border-dark px-4 py-2 rounded-full flex items-center gap-2 shadow-lg pointer-events-auto">
         <span class="relative flex h-2.5 w-2.5">
@@ -670,7 +692,7 @@ Charlie"></textarea>
     </div>
 
     <!-- Rank List Overlay -->
-    <div id="rankOverlay" class="absolute top-20 right-6 z-10 w-56 bg-surface-dark/90 backdrop-blur-sm border border-border-dark rounded-lg shadow-lg overflow-hidden">
+    <div id="rankOverlay" class="absolute top-20 right-6 z-20 w-56 bg-surface-dark/90 backdrop-blur-sm border border-border-dark rounded-lg shadow-lg overflow-hidden">
       <div class="flex items-center justify-between px-3 py-2 border-b border-border-dark bg-surface-dark">
         <span class="text-sm font-bold text-white">Rankings</span>
         <span id="rankCount" class="text-xs text-text-subtle">0 / 0</span>
