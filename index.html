@@ -180,10 +180,12 @@
 
     document.querySelector('#btnShuffle').addEventListener('click', () => {
       getReady();
+      if (window.SoundManager) window.SoundManager.play('click');
     });
 
     document.querySelector('#btnStart').addEventListener('click', () => {
       if (!ready) return;
+      if (window.SoundManager) window.SoundManager.play('start');
       gtag && gtag('event', 'start', {
         'event_category': 'roulette',
         'event_label': 'start',
@@ -245,6 +247,23 @@
       window.options.useSkills = e.target.matches(':checked');
       window.roulette.setWinningRank(window.options.winningRank);
     });
+
+    // Sound toggle
+    document.querySelector('#chkSound').addEventListener('change', (e) => {
+      const enabled = e.target.matches(':checked');
+      if (window.SoundManager) {
+        window.SoundManager.enabled = enabled;
+        if (enabled) window.SoundManager.play('click');
+      }
+      localStorage.setItem('mbr_sound', enabled ? 'on' : 'off');
+    });
+
+    // Initialize sound setting
+    const savedSound = localStorage.getItem('mbr_sound');
+    if (savedSound === 'off') {
+      document.querySelector('#chkSound').checked = false;
+      if (window.SoundManager) window.SoundManager.enabled = false;
+    }
 
     document.querySelector('#chkDarkMode').addEventListener('change', (e) => {
       window.options.darkMode = e.target.matches(':checked');
@@ -311,13 +330,22 @@
     // Winner determined (game still running until all marbles finish)
     window.roulette.addEventListener('goal', (e) => {
       ready = false;
+      if (window.SoundManager) window.SoundManager.play('goal');
     });
 
-    // All marbles finished - show completion overlay
+    // All marbles finished - show completion overlay with GSAP animation
     window.roulette.addEventListener('finish', (e) => {
       const winnerName = e.detail?.winner || '???';
       document.querySelector('#winnerName').textContent = winnerName;
       document.querySelector('#gameComplete').classList.add('show');
+
+      // Play GSAP victory animation
+      if (window.VictoryAnimation) {
+        window.VictoryAnimation.play();
+        window.VictoryAnimation.confetti();
+      }
+
+      if (window.SoundManager) window.SoundManager.play('finish');
 
       setTimeout(() => {
         document.querySelector('#settings').classList.remove('hide');
@@ -327,7 +355,10 @@
 
     // Close completion overlay
     document.querySelector('#closeComplete').addEventListener('click', () => {
-      document.querySelector('#gameComplete').classList.remove('show');
+      if (window.VictoryAnimation) window.VictoryAnimation.hide();
+      setTimeout(() => {
+        document.querySelector('#gameComplete').classList.remove('show');
+      }, 200);
     });
 
     window.roulette.addEventListener('message', (e) => {
@@ -456,6 +487,68 @@
 
     settingsTab.addEventListener('click', toggleSettings);
 
+    // ========== Keyboard Shortcuts ==========
+    document.addEventListener('keydown', (e) => {
+      // Don't trigger shortcuts when typing in textarea
+      if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') {
+        return;
+      }
+
+      switch (e.key) {
+        case 'Enter':
+        case ' ':
+          // Start game
+          e.preventDefault();
+          if (ready) {
+            document.querySelector('#btnStart').click();
+          }
+          break;
+
+        case 'r':
+        case 'R':
+          // Shuffle (random)
+          if (!e.ctrlKey && !e.metaKey) {
+            e.preventDefault();
+            document.querySelector('#btnShuffle').click();
+          }
+          break;
+
+        case 'Escape':
+          // Close modals / toggle settings
+          e.preventDefault();
+          if (document.querySelector('#gameComplete').classList.contains('show')) {
+            document.querySelector('#closeComplete').click();
+          } else if (document.querySelector('#notice').style.display === 'flex') {
+            document.querySelector('#closeNotice').click();
+          } else {
+            toggleSettings();
+          }
+          break;
+
+        case 'f':
+        case 'F':
+          // Fullscreen toggle
+          if (!e.ctrlKey && !e.metaKey) {
+            e.preventDefault();
+            if (document.fullscreenElement) {
+              document.exitFullscreen();
+            } else {
+              document.documentElement.requestFullscreen();
+            }
+          }
+          break;
+
+        case 's':
+        case 'S':
+          // Toggle settings panel
+          if (!e.ctrlKey && !e.metaKey) {
+            e.preventDefault();
+            toggleSettings();
+          }
+          break;
+      }
+    });
+
     checkNotice();
   }
 </script>
@@ -473,7 +566,11 @@
       <h1 data-trans>Roulette Settings</h1>
     </div>
     <div class="header-controls">
-      <div class="theme-toggle">
+      <div class="sound-toggle" title="사운드 켜기/끄기 (효과음)">
+        <i class="icon sound"></i>
+        <input type="checkbox" id="chkSound" checked />
+      </div>
+      <div class="theme-toggle" title="다크모드 켜기/끄기">
         <i class="icon moon"></i>
         <input type="checkbox" id="chkDarkMode" checked />
       </div>
