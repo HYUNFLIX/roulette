@@ -109,46 +109,94 @@ class SoundManagerClass {
   }
 
   /**
-   * Collision sound - short impact with variable intensity
+   * Collision sound - natural marble impact with variety
    * @param intensity - Impact strength (0-1), affects volume and pitch
    */
   private playCollision(intensity: number = 0.5): void {
     const ctx = this.audioContext!;
     const now = ctx.currentTime;
 
-    // Clamp intensity between 0.2 and 1
-    const clampedIntensity = Math.max(0.2, Math.min(1, intensity));
+    // Clamp intensity between 0.1 and 1
+    const clampedIntensity = Math.max(0.1, Math.min(1, intensity));
 
-    // Create noise burst
-    const duration = 0.03 + clampedIntensity * 0.04; // 30-70ms
-    const bufferSize = Math.floor(ctx.sampleRate * duration);
+    // Random pitch variation for natural feel
+    const pitchVariation = 0.9 + Math.random() * 0.2;
+
+    // Base frequency varies with intensity (higher impact = lower thud + higher click)
+    const baseFreq = (300 + clampedIntensity * 400) * pitchVariation;
+
+    // Duration based on intensity
+    const duration = 0.04 + clampedIntensity * 0.06;
+
+    // Layer 1: Sharp attack "click" sound
+    const clickOsc = ctx.createOscillator();
+    const clickGain = ctx.createGain();
+    const clickFilter = ctx.createBiquadFilter();
+
+    clickOsc.type = 'triangle';
+    clickOsc.frequency.setValueAtTime(baseFreq * 2, now);
+    clickOsc.frequency.exponentialRampToValueAtTime(baseFreq * 0.5, now + duration);
+
+    clickFilter.type = 'bandpass';
+    clickFilter.frequency.value = baseFreq * 1.5;
+    clickFilter.Q.value = 2;
+
+    const clickVol = 0.15 * clampedIntensity;
+    clickGain.gain.setValueAtTime(clickVol, now);
+    clickGain.gain.exponentialRampToValueAtTime(0.001, now + duration * 0.8);
+
+    clickOsc.connect(clickFilter);
+    clickFilter.connect(clickGain);
+    clickGain.connect(this.masterGain!);
+
+    clickOsc.start(now);
+    clickOsc.stop(now + duration);
+
+    // Layer 2: Body resonance (lower frequency)
+    const bodyOsc = ctx.createOscillator();
+    const bodyGain = ctx.createGain();
+
+    bodyOsc.type = 'sine';
+    bodyOsc.frequency.setValueAtTime(baseFreq * 0.5, now);
+    bodyOsc.frequency.exponentialRampToValueAtTime(baseFreq * 0.3, now + duration);
+
+    const bodyVol = 0.1 * clampedIntensity;
+    bodyGain.gain.setValueAtTime(bodyVol, now);
+    bodyGain.gain.exponentialRampToValueAtTime(0.001, now + duration * 1.2);
+
+    bodyOsc.connect(bodyGain);
+    bodyGain.connect(this.masterGain!);
+
+    bodyOsc.start(now);
+    bodyOsc.stop(now + duration * 1.5);
+
+    // Layer 3: Short noise burst for texture (soft)
+    const noiseLength = 0.015;
+    const bufferSize = Math.floor(ctx.sampleRate * noiseLength);
     const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
     const data = buffer.getChannelData(0);
 
     for (let i = 0; i < bufferSize; i++) {
-      data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.15));
+      data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.1));
     }
 
     const noise = ctx.createBufferSource();
     noise.buffer = buffer;
 
-    const filter = ctx.createBiquadFilter();
-    filter.type = 'lowpass';
-    // Higher intensity = higher cutoff frequency for brighter sound
-    filter.frequency.value = 400 + clampedIntensity * 600;
+    const noiseFilter = ctx.createBiquadFilter();
+    noiseFilter.type = 'highpass';
+    noiseFilter.frequency.value = 2000;
 
-    const gain = ctx.createGain();
-    // Volume based on intensity
-    const volume = 0.08 + clampedIntensity * 0.15;
-    gain.gain.setValueAtTime(volume, now);
-    gain.gain.exponentialRampToValueAtTime(0.01, now + duration);
+    const noiseGain = ctx.createGain();
+    noiseGain.gain.setValueAtTime(0.03 * clampedIntensity, now);
+    noiseGain.gain.exponentialRampToValueAtTime(0.001, now + noiseLength);
 
-    noise.connect(filter);
-    filter.connect(gain);
-    gain.connect(this.masterGain!);
+    noise.connect(noiseFilter);
+    noiseFilter.connect(noiseGain);
+    noiseGain.connect(this.masterGain!);
 
     noise.start(now);
-    noise.stop(now + duration);
+    noise.stop(now + noiseLength);
   }
 
   /**
