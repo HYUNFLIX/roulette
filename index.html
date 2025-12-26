@@ -90,32 +90,23 @@
       border-radius: 2px;
     }
 
-    /* Toggle Switch - Improved visibility */
+    /* Toggle Switch - iOS Style */
     .toggle-checkbox {
-      right: 20px;
+      left: 4px;
+      right: auto;
+      border: none;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      transition: transform 0.2s ease, left 0.2s ease;
     }
     .toggle-checkbox:checked {
-      right: 0;
-      border-color: #2badee;
-      background-color: #2badee;
-    }
-    .toggle-checkbox:checked::after {
-      content: '✓';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 10px;
-      color: #101c22;
-      font-weight: bold;
+      left: calc(100% - 24px);
     }
     .toggle-label {
-      background-color: #1a2830;
-      border: 1px solid #2a3f4a;
+      background-color: #3a4a52;
+      transition: background-color 0.2s ease;
     }
     .toggle-checkbox:checked + .toggle-label {
-      background-color: #2badee;
-      border-color: #2badee;
+      background-color: #4ade80;
     }
 
     /* Sidebar collapse */
@@ -833,9 +824,9 @@ Charlie"></textarea>
         <!-- Skills -->
         <div class="flex items-center justify-between">
           <span class="text-white text-sm">Skills</span>
-          <div class="relative inline-block w-10 h-6 select-none">
-            <input type="checkbox" id="toggle-skills" checked class="toggle-checkbox absolute block w-4 h-4 rounded-full bg-white border-4 border-surface-dark appearance-none cursor-pointer translate-x-1 top-1 transition-all duration-300 ease-in-out">
-            <label class="toggle-label block h-6 rounded-full bg-border-dark cursor-pointer" for="toggle-skills"></label>
+          <div class="relative inline-block w-12 h-7 select-none">
+            <input type="checkbox" id="toggle-skills" checked class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white appearance-none cursor-pointer top-1 z-10">
+            <label class="toggle-label block h-7 rounded-full cursor-pointer transition-colors duration-200" for="toggle-skills"></label>
           </div>
         </div>
 
@@ -855,9 +846,9 @@ Charlie"></textarea>
         <!-- Auto Record -->
         <div class="flex items-center justify-between">
           <span class="text-white text-sm">Auto-Record</span>
-          <div class="relative inline-block w-10 h-6 select-none">
-            <input type="checkbox" id="toggle-record" class="toggle-checkbox absolute block w-4 h-4 rounded-full bg-white border-4 border-surface-dark appearance-none cursor-pointer translate-x-1 top-1 transition-all duration-300 ease-in-out">
-            <label class="toggle-label block h-6 rounded-full bg-border-dark cursor-pointer" for="toggle-record"></label>
+          <div class="relative inline-block w-12 h-7 select-none">
+            <input type="checkbox" id="toggle-record" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white appearance-none cursor-pointer top-1 z-10">
+            <label class="toggle-label block h-7 rounded-full cursor-pointer transition-colors duration-200" for="toggle-record"></label>
           </div>
         </div>
 
@@ -878,9 +869,9 @@ Charlie"></textarea>
         <!-- Dark Mode -->
         <div class="flex items-center justify-between">
           <span class="text-white text-sm">Dark Mode</span>
-          <div class="relative inline-block w-10 h-6 select-none">
-            <input type="checkbox" id="toggle-darkmode" checked class="toggle-checkbox absolute block w-4 h-4 rounded-full bg-white border-4 border-surface-dark appearance-none cursor-pointer translate-x-1 top-1 transition-all duration-300 ease-in-out">
-            <label class="toggle-label block h-6 rounded-full bg-border-dark cursor-pointer" for="toggle-darkmode"></label>
+          <div class="relative inline-block w-12 h-7 select-none">
+            <input type="checkbox" id="toggle-darkmode" checked class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white appearance-none cursor-pointer top-1 z-10">
+            <label class="toggle-label block h-7 rounded-full cursor-pointer transition-colors duration-200" for="toggle-darkmode"></label>
           </div>
         </div>
       </div>
