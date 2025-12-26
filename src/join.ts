@@ -1,19 +1,25 @@
 /**
- * Join page script - Participant registration
+ * Join page script - Participant registration with confirmation step
  */
 import { roomService } from './services/firebase';
 
 document.addEventListener('DOMContentLoaded', () => {
   const roomCodeInput = document.getElementById('roomCode') as HTMLInputElement;
   const nameInput = document.getElementById('participantName') as HTMLInputElement;
+  const nextBtn = document.getElementById('btnNext') as HTMLButtonElement;
+  const backBtn = document.getElementById('btnBack') as HTMLButtonElement;
   const joinBtn = document.getElementById('btnJoin') as HTMLButtonElement;
   const btnText = document.getElementById('btnJoinText') as HTMLSpanElement;
   const btnSpinner = document.getElementById('btnJoinSpinner') as HTMLSpanElement;
   const errorMsg = document.getElementById('errorMsg') as HTMLDivElement;
+  const confirmErrorMsg = document.getElementById('confirmErrorMsg') as HTMLDivElement;
   const joinForm = document.getElementById('joinForm') as HTMLDivElement;
   const successState = document.getElementById('successState') as HTMLDivElement;
   const registeredName = document.getElementById('registeredName') as HTMLParagraphElement;
   const roomCodeSection = document.getElementById('roomCodeSection') as HTMLDivElement;
+  const inputStep = document.getElementById('inputStep') as HTMLDivElement;
+  const confirmStep = document.getElementById('confirmStep') as HTMLDivElement;
+  const confirmName = document.getElementById('confirmName') as HTMLParagraphElement;
 
   // Get room code from URL if provided
   const urlParams = new URLSearchParams(window.location.search);
@@ -30,15 +36,26 @@ document.addEventListener('DOMContentLoaded', () => {
     target.value = target.value.toUpperCase();
   });
 
-  // Show error
+  // Show error on input step
   function showError(message: string) {
     errorMsg.textContent = message;
     errorMsg.classList.remove('hidden');
   }
 
-  // Hide error
+  // Hide error on input step
   function hideError() {
     errorMsg.classList.add('hidden');
+  }
+
+  // Show error on confirm step
+  function showConfirmError(message: string) {
+    confirmErrorMsg.textContent = message;
+    confirmErrorMsg.classList.remove('hidden');
+  }
+
+  // Hide error on confirm step
+  function hideConfirmError() {
+    confirmErrorMsg.classList.add('hidden');
   }
 
   // Set loading state
@@ -55,8 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
     registeredName.textContent = name;
   }
 
-  // Handle join
-  async function handleJoin() {
+  // Go to confirm step
+  function goToConfirmStep() {
     hideError();
 
     const roomCode = roomCodeInput.value.trim().toUpperCase();
@@ -81,6 +98,27 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
+    // Show confirm step
+    confirmName.textContent = name;
+    inputStep.classList.add('hidden');
+    confirmStep.classList.remove('hidden');
+  }
+
+  // Go back to input step
+  function goToInputStep() {
+    hideConfirmError();
+    confirmStep.classList.add('hidden');
+    inputStep.classList.remove('hidden');
+    nameInput.focus();
+  }
+
+  // Handle join
+  async function handleJoin() {
+    hideConfirmError();
+
+    const roomCode = roomCodeInput.value.trim().toUpperCase();
+    const name = nameInput.value.trim();
+
     setLoading(true);
 
     try {
@@ -89,23 +127,25 @@ document.addEventListener('DOMContentLoaded', () => {
       if (result.success) {
         showSuccess(name);
       } else {
-        showError(result.error || '참가에 실패했습니다.');
+        showConfirmError(result.error || '참가에 실패했습니다.');
       }
     } catch (error) {
       console.error('Join error:', error);
-      showError('서버 연결에 실패했습니다. 다시 시도해주세요.');
+      showConfirmError('서버 연결에 실패했습니다. 다시 시도해주세요.');
     } finally {
       setLoading(false);
     }
   }
 
   // Event listeners
+  nextBtn.addEventListener('click', goToConfirmStep);
+  backBtn.addEventListener('click', goToInputStep);
   joinBtn.addEventListener('click', handleJoin);
 
   // Enter key support
   nameInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
-      handleJoin();
+      goToConfirmStep();
     }
   });
 

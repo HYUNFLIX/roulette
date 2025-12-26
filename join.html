@@ -85,41 +85,74 @@
 
     <!-- Join Form -->
     <div id="joinForm" class="bg-surface-dark border border-border-dark rounded-2xl p-6 shadow-xl">
-      <!-- Room Code -->
-      <div id="roomCodeSection" class="mb-6">
-        <label class="block text-sm font-medium text-text-subtle mb-2">방 코드</label>
-        <input
-          type="text"
-          id="roomCode"
-          placeholder="6자리 코드 입력"
-          maxlength="6"
-          class="w-full h-14 px-4 rounded-xl text-xl text-center font-bold tracking-widest uppercase bg-background-dark border border-border-dark focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-white placeholder:text-text-subtle/50"
+      <!-- Step 1: Input -->
+      <div id="inputStep">
+        <!-- Room Code -->
+        <div id="roomCodeSection" class="mb-6">
+          <label class="block text-sm font-medium text-text-subtle mb-2">방 코드</label>
+          <input
+            type="text"
+            id="roomCode"
+            placeholder="6자리 코드 입력"
+            maxlength="6"
+            class="w-full h-14 px-4 rounded-xl text-xl text-center font-bold tracking-widest uppercase bg-background-dark border border-border-dark focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-white placeholder:text-text-subtle/50"
+          >
+        </div>
+
+        <!-- Name Input -->
+        <div class="mb-6">
+          <label class="block text-sm font-medium text-text-subtle mb-2">이름</label>
+          <input
+            type="text"
+            id="participantName"
+            placeholder="이름을 입력하세요"
+            maxlength="20"
+            class="w-full h-14 px-4 rounded-xl text-lg bg-background-dark border border-border-dark focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-white placeholder:text-text-subtle/50"
+          >
+        </div>
+
+        <!-- Error Message -->
+        <div id="errorMsg" class="hidden mb-4 p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm text-center"></div>
+
+        <!-- Next Button -->
+        <button
+          id="btnNext"
+          class="w-full h-14 rounded-xl bg-primary hover:bg-primary-hover transition-colors text-background-dark font-bold text-lg flex items-center justify-center gap-2"
         >
+          <span>다음</span>
+          <span class="material-symbols-outlined">arrow_forward</span>
+        </button>
       </div>
 
-      <!-- Name Input -->
-      <div class="mb-6">
-        <label class="block text-sm font-medium text-text-subtle mb-2">이름</label>
-        <input
-          type="text"
-          id="participantName"
-          placeholder="이름을 입력하세요"
-          maxlength="20"
-          class="w-full h-14 px-4 rounded-xl text-lg bg-background-dark border border-border-dark focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-white placeholder:text-text-subtle/50"
-        >
+      <!-- Step 2: Confirm -->
+      <div id="confirmStep" class="hidden">
+        <div class="text-center mb-6">
+          <p class="text-sm text-text-subtle mb-2">입력하신 이름이 맞나요?</p>
+          <div class="bg-background-dark rounded-xl p-6 mb-4">
+            <p id="confirmName" class="text-2xl font-bold text-primary"></p>
+          </div>
+        </div>
+
+        <!-- Error Message for Confirm -->
+        <div id="confirmErrorMsg" class="hidden mb-4 p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm text-center"></div>
+
+        <div class="flex gap-3">
+          <button
+            id="btnBack"
+            class="flex-1 h-14 rounded-xl bg-surface-dark border border-border-dark hover:bg-border-dark transition-colors text-white font-bold text-lg flex items-center justify-center gap-2"
+          >
+            <span class="material-symbols-outlined">arrow_back</span>
+            <span>수정</span>
+          </button>
+          <button
+            id="btnJoin"
+            class="flex-1 h-14 rounded-xl bg-primary hover:bg-primary-hover transition-colors text-background-dark font-bold text-lg flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <span id="btnJoinText">참가하기</span>
+            <span id="btnJoinSpinner" class="loading-spinner hidden"></span>
+          </button>
+        </div>
       </div>
-
-      <!-- Error Message -->
-      <div id="errorMsg" class="hidden mb-4 p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm text-center"></div>
-
-      <!-- Submit Button -->
-      <button
-        id="btnJoin"
-        class="w-full h-14 rounded-xl bg-primary hover:bg-primary-hover transition-colors text-background-dark font-bold text-lg flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        <span id="btnJoinText">참가하기</span>
-        <span id="btnJoinSpinner" class="loading-spinner hidden"></span>
-      </button>
     </div>
 
     <!-- Success State -->
