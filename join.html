@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang=ko><script type=module src=roulette.b612acbb.js></script><meta charset=utf-8><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name=viewport><title>참가 등록 - Marble Roulette</title><link rel=icon type=image/png sizes=32x32 href=favicon-32x32.b3414860.png><meta name=theme-color content=#101c22><link href=https://fonts.googleapis.com rel=preconnect><link crossorigin href=https://fonts.gstatic.com rel=preconnect><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;display=swap" rel=stylesheet><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400&amp;display=swap" rel=stylesheet><script src=https://cdn.tailwindcss.com></script><script>tailwind.config={theme:{extend:{colors:{primary:"#2badee","primary-hover":"#45b8f0","background-dark":"#101c22","surface-dark":"#192b33","border-dark":"#233c48","text-subtle":"#92b7c9"},fontFamily:{display:["Noto Sans KR","sans-serif"]}}}};</script><style>body{background:linear-gradient(135deg,#101c22 0%,#0a1419 100%)}.marble-icon{background:linear-gradient(135deg,#2badee 0%,#1a8fd1 100%);border-radius:50%;width:80px;height:80px;box-shadow:0 8px 32px #2badee4d,inset 0 -4px 8px #0003}.success-animation{animation:.5s successPop}@keyframes successPop{0%{opacity:0;transform:scale(.8)}50%{transform:scale(1.1)}to{opacity:1;transform:scale(1)}}.loading-spinner{border:3px solid #233c48;border-top-color:#2badee;border-radius:50%;width:24px;height:24px;animation:1s linear infinite spin}@keyframes spin{0%{transform:rotate(0)}to{transform:rotate(360deg)}}</style><body class="flex font-display items-center justify-center min-h-screen p-4 text-white">
-  <script type=module src=join.c0321325.js></script>
+  <script type=module src=join.c42c91eb.js></script>
 
   <div class="max-w-md w-full">
     
@@ -14,25 +14,52 @@
     
     <div id=joinForm class="bg-surface-dark border border-border-dark p-6 rounded-2xl shadow-xl">
       
-      <div id=roomCodeSection class=mb-6>
-        <label class="block font-medium mb-2 text-sm text-text-subtle">방 코드</label>
-        <input id=roomCode placeholder="6자리 코드 입력" maxlength=6 class="bg-background-dark border border-border-dark focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary font-bold h-14 placeholder:text-text-subtle/50 px-4 rounded-xl text-center text-white text-xl tracking-widest uppercase w-full">
+      <div id=inputStep>
+        
+        <div id=roomCodeSection class=mb-6>
+          <label class="block font-medium mb-2 text-sm text-text-subtle">방 코드</label>
+          <input id=roomCode placeholder="6자리 코드 입력" maxlength=6 class="bg-background-dark border border-border-dark focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary font-bold h-14 placeholder:text-text-subtle/50 px-4 rounded-xl text-center text-white text-xl tracking-widest uppercase w-full">
+        </div>
+
+        
+        <div class=mb-6>
+          <label class="block font-medium mb-2 text-sm text-text-subtle">이름</label>
+          <input id=participantName placeholder="이름을 입력하세요" maxlength=20 class="bg-background-dark border border-border-dark focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary h-14 placeholder:text-text-subtle/50 px-4 rounded-xl text-lg text-white w-full">
+        </div>
+
+        
+        <div id=errorMsg class="bg-red-500/10 border border-red-500/30 hidden mb-4 p-3 rounded-lg text-center text-red-400 text-sm"></div>
+
+        
+        <button id=btnNext class="bg-primary flex font-bold gap-2 h-14 hover:bg-primary-hover items-center justify-center rounded-xl text-background-dark text-lg transition-colors w-full">
+          <span>다음</span>
+          <span class=material-symbols-outlined>arrow_forward</span>
+        </button>
       </div>
 
       
-      <div class=mb-6>
-        <label class="block font-medium mb-2 text-sm text-text-subtle">이름</label>
-        <input id=participantName placeholder="이름을 입력하세요" maxlength=20 class="bg-background-dark border border-border-dark focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary h-14 placeholder:text-text-subtle/50 px-4 rounded-xl text-lg text-white w-full">
+      <div id=confirmStep class=hidden>
+        <div class="mb-6 text-center">
+          <p class="mb-2 text-sm text-text-subtle">입력하신 이름이 맞나요?</p>
+          <div class="bg-background-dark mb-4 p-6 rounded-xl">
+            <p id=confirmName class="font-bold text-2xl text-primary"></p>
+          </div>
+        </div>
+
+        
+        <div id=confirmErrorMsg class="bg-red-500/10 border border-red-500/30 hidden mb-4 p-3 rounded-lg text-center text-red-400 text-sm"></div>
+
+        <div class="flex gap-3">
+          <button id=btnBack class="bg-surface-dark border border-border-dark flex flex-1 font-bold gap-2 h-14 hover:bg-border-dark items-center justify-center rounded-xl text-lg text-white transition-colors">
+            <span class=material-symbols-outlined>arrow_back</span>
+            <span>수정</span>
+          </button>
+          <button id=btnJoin class="bg-primary disabled:cursor-not-allowed disabled:opacity-50 flex flex-1 font-bold gap-2 h-14 hover:bg-primary-hover items-center justify-center rounded-xl text-background-dark text-lg transition-colors">
+            <span id=btnJoinText>참가하기</span>
+            <span id=btnJoinSpinner class="hidden loading-spinner"></span>
+          </button>
+        </div>
       </div>
-
-      
-      <div id=errorMsg class="bg-red-500/10 border border-red-500/30 hidden mb-4 p-3 rounded-lg text-center text-red-400 text-sm"></div>
-
-      
-      <button id=btnJoin class="bg-primary disabled:cursor-not-allowed disabled:opacity-50 flex font-bold gap-2 h-14 hover:bg-primary-hover items-center justify-center rounded-xl text-background-dark text-lg transition-colors w-full">
-        <span id=btnJoinText>참가하기</span>
-        <span id=btnJoinSpinner class="hidden loading-spinner"></span>
-      </button>
     </div>
 
     
