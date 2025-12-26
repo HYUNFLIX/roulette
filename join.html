@@ -1,0 +1,57 @@
+<!DOCTYPE html><html lang=ko><script type=module src=roulette.b612acbb.js></script><meta charset=utf-8><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name=viewport><title>참가 등록 - Marble Roulette</title><link rel=icon type=image/png sizes=32x32 href=favicon-32x32.b3414860.png><meta name=theme-color content=#101c22><link href=https://fonts.googleapis.com rel=preconnect><link crossorigin href=https://fonts.gstatic.com rel=preconnect><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;display=swap" rel=stylesheet><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400&amp;display=swap" rel=stylesheet><script src=https://cdn.tailwindcss.com></script><script>tailwind.config={theme:{extend:{colors:{primary:"#2badee","primary-hover":"#45b8f0","background-dark":"#101c22","surface-dark":"#192b33","border-dark":"#233c48","text-subtle":"#92b7c9"},fontFamily:{display:["Noto Sans KR","sans-serif"]}}}};</script><style>body{background:linear-gradient(135deg,#101c22 0%,#0a1419 100%)}.marble-icon{background:linear-gradient(135deg,#2badee 0%,#1a8fd1 100%);border-radius:50%;width:80px;height:80px;box-shadow:0 8px 32px #2badee4d,inset 0 -4px 8px #0003}.success-animation{animation:.5s successPop}@keyframes successPop{0%{opacity:0;transform:scale(.8)}50%{transform:scale(1.1)}to{opacity:1;transform:scale(1)}}.loading-spinner{border:3px solid #233c48;border-top-color:#2badee;border-radius:50%;width:24px;height:24px;animation:1s linear infinite spin}@keyframes spin{0%{transform:rotate(0)}to{transform:rotate(360deg)}}</style><body class="flex font-display items-center justify-center min-h-screen p-4 text-white">
+  <script type=module src=join.c0321325.js></script>
+
+  <div class="max-w-md w-full">
+    
+    <div class="mb-8 text-center">
+      <div class="flex items-center justify-center marble-icon mb-4 mx-auto">
+        <span class="material-symbols-outlined text-4xl text-white">sports_esports</span>
+      </div>
+      <h1 class="font-bold mb-2 text-2xl">Marble Roulette</h1>
+      <p class=text-text-subtle>추첨에 참가하세요!</p>
+    </div>
+
+    
+    <div id=joinForm class="bg-surface-dark border border-border-dark p-6 rounded-2xl shadow-xl">
+      
+      <div id=roomCodeSection class=mb-6>
+        <label class="block font-medium mb-2 text-sm text-text-subtle">방 코드</label>
+        <input id=roomCode placeholder="6자리 코드 입력" maxlength=6 class="bg-background-dark border border-border-dark focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary font-bold h-14 placeholder:text-text-subtle/50 px-4 rounded-xl text-center text-white text-xl tracking-widest uppercase w-full">
+      </div>
+
+      
+      <div class=mb-6>
+        <label class="block font-medium mb-2 text-sm text-text-subtle">이름</label>
+        <input id=participantName placeholder="이름을 입력하세요" maxlength=20 class="bg-background-dark border border-border-dark focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary h-14 placeholder:text-text-subtle/50 px-4 rounded-xl text-lg text-white w-full">
+      </div>
+
+      
+      <div id=errorMsg class="bg-red-500/10 border border-red-500/30 hidden mb-4 p-3 rounded-lg text-center text-red-400 text-sm"></div>
+
+      
+      <button id=btnJoin class="bg-primary disabled:cursor-not-allowed disabled:opacity-50 flex font-bold gap-2 h-14 hover:bg-primary-hover items-center justify-center rounded-xl text-background-dark text-lg transition-colors w-full">
+        <span id=btnJoinText>참가하기</span>
+        <span id=btnJoinSpinner class="hidden loading-spinner"></span>
+      </button>
+    </div>
+
+    
+    <div id=successState class="bg-surface-dark border border-border-dark hidden p-8 rounded-2xl shadow-xl success-animation text-center">
+      <div class="bg-green-500/20 flex h-20 items-center justify-center mb-4 mx-auto rounded-full w-20">
+        <span class="material-symbols-outlined text-5xl text-green-400">check_circle</span>
+      </div>
+      <h2 class="font-bold mb-2 text-xl">등록 완료!</h2>
+      <p class="mb-4 text-text-subtle">추첨이 시작되면 화면을 확인해 주세요</p>
+      <div class="bg-background-dark p-4 rounded-xl">
+        <p class="mb-1 text-sm text-text-subtle">등록된 이름</p>
+        <p id=registeredName class="font-bold text-lg text-primary"></p>
+      </div>
+    </div>
+
+    
+    <div class="mt-6 text-center text-text-subtle/50 text-xs">
+      © 2025 HYUNFLIX. All Rights Reserved.
+    </div>
+  </div>
+
+
