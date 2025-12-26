@@ -370,7 +370,7 @@
       updateWinnerButtons();
     });
 
-    // Volume sliders
+    // Volume slider
     document.querySelector('#masterVolume').addEventListener('input', (e) => {
       const val = e.target.value;
       document.querySelector('#masterVolumeValue').textContent = `${val}%`;
@@ -378,6 +378,28 @@
         window.SoundManager.volume = val / 100;
       }
     });
+
+    // Speed slider
+    document.querySelector('#gameSpeed').addEventListener('input', (e) => {
+      const val = parseInt(e.target.value);
+      const speed = val / 100;
+      document.querySelector('#gameSpeedValue').textContent = `${speed.toFixed(1)}x`;
+      if (window.roulette) {
+        window.roulette.setSpeed(speed);
+      }
+      localStorage.setItem('mbr_speed', val.toString());
+    });
+
+    // Initialize speed from localStorage
+    const savedSpeed = localStorage.getItem('mbr_speed');
+    if (savedSpeed) {
+      const val = parseInt(savedSpeed);
+      document.querySelector('#gameSpeed').value = val;
+      document.querySelector('#gameSpeedValue').textContent = `${(val / 100).toFixed(1)}x`;
+      if (window.roulette) {
+        window.roulette.setSpeed(val / 100);
+      }
+    }
 
     // Initialize sound from localStorage
     const savedSound = localStorage.getItem('mbr_sound');
@@ -813,6 +835,13 @@ Charlie"></textarea>
             <input type="checkbox" id="toggle-record" class="toggle-checkbox absolute block w-4 h-4 rounded-full bg-white border-4 border-surface-dark appearance-none cursor-pointer translate-x-1 top-1 transition-all duration-300 ease-in-out">
             <label class="toggle-label block h-6 rounded-full bg-border-dark cursor-pointer" for="toggle-record"></label>
           </div>
+        </div>
+
+        <!-- Speed -->
+        <div class="flex items-center justify-between gap-3">
+          <span class="text-white text-sm shrink-0">Speed</span>
+          <input id="gameSpeed" type="range" min="50" max="300" value="100" class="flex-1 h-2 rounded-lg cursor-pointer">
+          <span id="gameSpeedValue" class="text-xs text-text-subtle w-10 text-right">1.0x</span>
         </div>
 
         <!-- Volume -->
