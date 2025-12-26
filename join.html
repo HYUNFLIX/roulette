@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+  <title>참가 등록 - Marble Roulette</title>
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+  <meta name="theme-color" content="#101c22">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#2badee",
+            "primary-hover": "#45b8f0",
+            "background-dark": "#101c22",
+            "surface-dark": "#192b33",
+            "border-dark": "#233c48",
+            "text-subtle": "#92b7c9"
+          },
+          fontFamily: {
+            "display": ["Noto Sans KR", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #101c22 0%, #0a1419 100%);
+    }
+    .marble-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2badee 0%, #1a8fd1 100%);
+      box-shadow: 0 8px 32px rgba(43, 173, 238, 0.3), inset 0 -4px 8px rgba(0,0,0,0.2);
+    }
+    .success-animation {
+      animation: successPop 0.5s ease;
+    }
+    @keyframes successPop {
+      0% { transform: scale(0.8); opacity: 0; }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .loading-spinner {
+      border: 3px solid #233c48;
+      border-top: 3px solid #2badee;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center font-display text-white p-4">
+  <script type="module" src="./src/join.ts"></script>
+
+  <div class="w-full max-w-md">
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <div class="marble-icon mx-auto mb-4 flex items-center justify-center">
+        <span class="material-symbols-outlined text-4xl text-white">sports_esports</span>
+      </div>
+      <h1 class="text-2xl font-bold mb-2">Marble Roulette</h1>
+      <p class="text-text-subtle">추첨에 참가하세요!</p>
+    </div>
+
+    <!-- Join Form -->
+    <div id="joinForm" class="bg-surface-dark border border-border-dark rounded-2xl p-6 shadow-xl">
+      <!-- Room Code -->
+      <div id="roomCodeSection" class="mb-6">
+        <label class="block text-sm font-medium text-text-subtle mb-2">방 코드</label>
+        <input
+          type="text"
+          id="roomCode"
+          placeholder="6자리 코드 입력"
+          maxlength="6"
+          class="w-full h-14 px-4 rounded-xl text-xl text-center font-bold tracking-widest uppercase bg-background-dark border border-border-dark focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-white placeholder:text-text-subtle/50"
+        >
+      </div>
+
+      <!-- Name Input -->
+      <div class="mb-6">
+        <label class="block text-sm font-medium text-text-subtle mb-2">이름</label>
+        <input
+          type="text"
+          id="participantName"
+          placeholder="이름을 입력하세요"
+          maxlength="20"
+          class="w-full h-14 px-4 rounded-xl text-lg bg-background-dark border border-border-dark focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-white placeholder:text-text-subtle/50"
+        >
+      </div>
+
+      <!-- Error Message -->
+      <div id="errorMsg" class="hidden mb-4 p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm text-center"></div>
+
+      <!-- Submit Button -->
+      <button
+        id="btnJoin"
+        class="w-full h-14 rounded-xl bg-primary hover:bg-primary-hover transition-colors text-background-dark font-bold text-lg flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        <span id="btnJoinText">참가하기</span>
+        <span id="btnJoinSpinner" class="loading-spinner hidden"></span>
+      </button>
+    </div>
+
+    <!-- Success State -->
+    <div id="successState" class="hidden bg-surface-dark border border-border-dark rounded-2xl p-8 shadow-xl text-center success-animation">
+      <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-green-500/20 flex items-center justify-center">
+        <span class="material-symbols-outlined text-5xl text-green-400">check_circle</span>
+      </div>
+      <h2 class="text-xl font-bold mb-2">등록 완료!</h2>
+      <p class="text-text-subtle mb-4">추첨이 시작되면 화면을 확인해 주세요</p>
+      <div class="bg-background-dark rounded-xl p-4">
+        <p class="text-sm text-text-subtle mb-1">등록된 이름</p>
+        <p id="registeredName" class="text-lg font-bold text-primary"></p>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="mt-6 text-center text-xs text-text-subtle/50">
+      © 2025 HYUNFLIX. All Rights Reserved.
+    </div>
+  </div>
+</body>
+</html>
