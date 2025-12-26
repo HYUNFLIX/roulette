@@ -44,6 +44,8 @@
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <!-- QR Code Library -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
   <script>
     tailwind.config = {
       darkMode: "class",
@@ -564,6 +566,120 @@
       document.body.appendChild(toast);
       setTimeout(() => document.body.removeChild(toast), 1200);
     }
+
+    // Room Management
+    let currentRoomCode = null;
+    let liveParticipants = [];
+
+    const manualInputMode = document.querySelector('#manualInputMode');
+    const roomMode = document.querySelector('#roomMode');
+    const roomCodeDisplay = document.querySelector('#roomCodeDisplay');
+    const qrCodeContainer = document.querySelector('#qrCodeContainer');
+    const liveParticipantList = document.querySelector('#liveParticipantList');
+    const liveParticipantCount = document.querySelector('#liveParticipantCount');
+
+    // Create Room
+    document.querySelector('#btnCreateRoom').addEventListener('click', async () => {
+      if (!window.roomService) {
+        simpleToast('Firebase 연결 중...');
+        return;
+      }
+
+      try {
+        const roomCode = await window.roomService.createRoom();
+        currentRoomCode = roomCode;
+
+        // Show room mode
+        manualInputMode.classList.add('hidden');
+        roomMode.classList.remove('hidden');
+        roomCodeDisplay.textContent = roomCode;
+
+        // Generate QR Code
+        const joinUrl = `${window.location.origin}${window.location.pathname.replace('index.html', '')}join.html?room=${roomCode}`;
+        qrCodeContainer.innerHTML = '';
+
+        if (window.QRCode) {
+          const canvas = document.createElement('canvas');
+          QRCode.toCanvas(canvas, joinUrl, {
+            width: 160,
+            margin: 2,
+            color: { dark: '#2badee', light: '#101c22' }
+          });
+          qrCodeContainer.appendChild(canvas);
+        }
+
+        // Listen for participants
+        window.roomService.onParticipantsChange(roomCode, (participants) => {
+          liveParticipants = participants;
+          updateLiveParticipantList();
+        });
+
+        simpleToast('방이 생성되었습니다!');
+      } catch (error) {
+        console.error('Room creation error:', error);
+        simpleToast('방 생성에 실패했습니다.');
+      }
+    });
+
+    // Update live participant list
+    function updateLiveParticipantList() {
+      liveParticipantCount.textContent = `${liveParticipants.length}명`;
+
+      if (liveParticipants.length === 0) {
+        liveParticipantList.innerHTML = '<p class="text-xs text-text-subtle text-center py-4">참가자를 기다리는 중...</p>';
+        return;
+      }
+
+      let html = '';
+      liveParticipants.forEach((p, i) => {
+        html += `<div class="flex items-center gap-2 py-1 px-2 rounded hover:bg-border-dark/50">
+          <span class="w-5 h-5 rounded-full bg-primary/20 text-primary text-xs flex items-center justify-center">${i + 1}</span>
+          <span class="flex-1 text-sm text-white truncate">${p.name}</span>
+          <button onclick="removeParticipant('${p.id}')" class="text-text-subtle hover:text-red-400 transition-colors">
+            <span class="material-symbols-outlined text-sm">close</span>
+          </button>
+        </div>`;
+      });
+      liveParticipantList.innerHTML = html;
+    }
+
+    // Remove participant
+    window.removeParticipant = async (participantId) => {
+      if (currentRoomCode && window.roomService) {
+        await window.roomService.removeParticipant(currentRoomCode, participantId);
+      }
+    };
+
+    // Apply participants to game
+    document.querySelector('#btnApplyParticipants').addEventListener('click', () => {
+      if (liveParticipants.length === 0) {
+        simpleToast('참가자가 없습니다.');
+        return;
+      }
+
+      const names = liveParticipants.map(p => p.name);
+      document.querySelector('#in_names').value = names.join('\n');
+      getReady();
+      simpleToast(`${names.length}명의 참가자가 적용되었습니다!`);
+    });
+
+    // Close room
+    document.querySelector('#btnCloseRoom').addEventListener('click', async () => {
+      if (currentRoomCode && window.roomService) {
+        window.roomService.stopListening();
+        await window.roomService.deleteRoom(currentRoomCode);
+      }
+
+      currentRoomCode = null;
+      liveParticipants = [];
+
+      // Show manual input mode
+      roomMode.classList.add('hidden');
+      manualInputMode.classList.remove('hidden');
+      qrCodeContainer.innerHTML = '';
+
+      simpleToast('방이 닫혔습니다.');
+    });
   }
 </script>
 
@@ -601,17 +717,56 @@
 
       <!-- Participants Input -->
       <div class="space-y-2">
-        <label class="block text-white text-base font-medium">
-          Participants
-          <span class="text-xs font-normal text-text-subtle ml-1">(One per line)</span>
-        </label>
-        <textarea id="in_names" class="flex w-full resize-none rounded-lg text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-border-dark bg-surface-dark focus:border-primary min-h-[140px] placeholder:text-text-subtle p-4 text-sm leading-relaxed custom-scrollbar" placeholder="Enter names...
+        <div class="flex items-center justify-between">
+          <label class="block text-white text-base font-medium">Participants</label>
+          <button id="btnCreateRoom" class="flex items-center gap-1 text-xs text-primary hover:text-primary-hover transition-colors">
+            <span class="material-symbols-outlined text-sm">qr_code_2</span>
+            <span>방 만들기</span>
+          </button>
+        </div>
+
+        <!-- Manual Input Mode -->
+        <div id="manualInputMode">
+          <textarea id="in_names" class="flex w-full resize-none rounded-lg text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-border-dark bg-surface-dark focus:border-primary min-h-[140px] placeholder:text-text-subtle p-4 text-sm leading-relaxed custom-scrollbar" placeholder="Enter names...
 Alice
 Bob
 Charlie"></textarea>
-        <div class="flex justify-between items-center text-xs text-text-subtle">
-          <span>Total: <span id="participantCount">0</span></span>
-          <button id="btnClearAll" class="hover:text-primary transition-colors">Clear All</button>
+          <div class="flex justify-between items-center text-xs text-text-subtle mt-2">
+            <span>Total: <span id="participantCount">0</span></span>
+            <button id="btnClearAll" class="hover:text-primary transition-colors">Clear All</button>
+          </div>
+        </div>
+
+        <!-- Room Mode -->
+        <div id="roomMode" class="hidden space-y-3">
+          <!-- Room Info -->
+          <div class="bg-background-dark rounded-xl p-4 text-center">
+            <p class="text-xs text-text-subtle mb-2">방 코드</p>
+            <p id="roomCodeDisplay" class="text-2xl font-bold tracking-widest text-primary mb-3">------</p>
+            <div id="qrCodeContainer" class="flex justify-center mb-3"></div>
+            <p class="text-xs text-text-subtle">QR코드를 스캔하여 참가</p>
+          </div>
+
+          <!-- Live Participants -->
+          <div class="bg-surface-dark rounded-xl border border-border-dark">
+            <div class="flex items-center justify-between px-3 py-2 border-b border-border-dark">
+              <span class="text-sm font-medium text-white">참가자</span>
+              <span id="liveParticipantCount" class="text-xs text-text-subtle">0명</span>
+            </div>
+            <div id="liveParticipantList" class="max-h-32 overflow-y-auto custom-scrollbar p-2">
+              <p class="text-xs text-text-subtle text-center py-4">참가자를 기다리는 중...</p>
+            </div>
+          </div>
+
+          <!-- Room Actions -->
+          <div class="flex gap-2">
+            <button id="btnApplyParticipants" class="flex-1 py-2 px-3 rounded-lg text-sm font-medium bg-primary text-background-dark hover:bg-primary-hover transition-colors">
+              적용하기
+            </button>
+            <button id="btnCloseRoom" class="py-2 px-3 rounded-lg text-sm font-medium bg-surface-dark border border-border-dark text-white hover:bg-border-dark transition-colors">
+              방 닫기
+            </button>
+          </div>
         </div>
       </div>
 
