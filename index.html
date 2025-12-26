@@ -90,9 +90,33 @@
       border-radius: 2px;
     }
 
-    /* Toggle Switch */
-    .toggle-checkbox:checked { right: 0; border-color: #2badee; }
-    .toggle-checkbox:checked + .toggle-label { background-color: #2badee; }
+    /* Toggle Switch - Improved visibility */
+    .toggle-checkbox {
+      right: 20px;
+    }
+    .toggle-checkbox:checked {
+      right: 0;
+      border-color: #2badee;
+      background-color: #2badee;
+    }
+    .toggle-checkbox:checked::after {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 10px;
+      color: #101c22;
+      font-weight: bold;
+    }
+    .toggle-label {
+      background-color: #1a2830;
+      border: 1px solid #2a3f4a;
+    }
+    .toggle-checkbox:checked + .toggle-label {
+      background-color: #2badee;
+      border-color: #2badee;
+    }
 
     /* Sidebar collapse */
     #settings-sidebar.collapsed { width: 0; padding: 0; overflow: hidden; opacity: 0; }
