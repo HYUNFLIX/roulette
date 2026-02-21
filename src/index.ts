@@ -5,6 +5,7 @@ import { registerServiceWorker } from './registerServiceWorker';
 import { SoundManager } from './audio/SoundManager';
 import { victoryAnimation } from './animation/VictoryAnimation';
 import { roomService } from './services/firebase';
+import QRCode from 'qrcode';
 
 
 registerServiceWorker();
@@ -21,3 +22,5 @@ const roulette = new Roulette();
 (window as any).VictoryAnimation = victoryAnimation;
 // eslint-disable-next-line
 (window as any).roomService = roomService;
+// eslint-disable-next-line
+(window as any).QRCode = QRCode;
