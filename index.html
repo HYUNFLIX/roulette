@@ -641,8 +641,16 @@
             width: 160,
             margin: 2,
             color: { dark: '#2badee', light: '#101c22' }
+          }, function(error) {
+            if (error) {
+              console.error('QR Code generation failed:', error);
+              qrCodeContainer.innerHTML = '<p class="text-xs text-red-400">QR 생성 실패</p>';
+              return;
+            }
+            qrCodeContainer.appendChild(canvas);
           });
-          qrCodeContainer.appendChild(canvas);
+        } else {
+          qrCodeContainer.innerHTML = '<p class="text-xs text-text-subtle">QR 라이브러리 로딩 중...</p>';
         }
 
         // Listen for participants
