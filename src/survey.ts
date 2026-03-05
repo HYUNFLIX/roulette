@@ -9,103 +9,119 @@ import {
 } from './services/survey';
 
 // ── Survey Configuration ─────────────────────────────────────────────────────
-// TODO: Replace with your actual survey content when ready.
-// You can also load this from Firebase via surveyService.getSurveyConfig(id).
+// AI 기반 솔루션 기획 기본 과정 (3/26) 신청서
+// To update questions: edit PLACEHOLDER_CONFIG below,
+// or push via surveyService.saveSurveyConfig(config).
 
 const SURVEY_ID = 'hyundai-survey-2025';
 
-// ── Placeholder questions (replace with actual content when ready) ────────────
-// To customize: edit the questions array below, or upload a config to Firebase
-// via surveyService.saveSurveyConfig(config) and it will load automatically.
-
 const PLACEHOLDER_CONFIG: SurveyConfig = {
   id: SURVEY_ID,
-  title: '현대자동차 교육 사전 설문',
+  title: 'AI 기반 솔루션 기획 기본 과정(3/26) 신청서',
   description:
-    '본 설문은 교육 프로그램의 효과적인 운영을 위해 사전 정보를 수집합니다.\n' +
-    '응답 내용은 교육 준비에만 활용되며, 개인 정보는 철저히 보호됩니다.\n' +
-    '소요 시간: 약 3분',
+    '본 내용은 HRDer 러닝세션 연계과정인 AI 기반 솔루션 기획 과정 신청서 입니다.\n' +
+    '더욱 의미있는 과정이 될 수 있도록 현업에서 본인의 고민을 담아 작성 부탁드립니다.\n\n' +
+    '과정일정 : 3/26(목) 오후 1시30분~5시30분\n' +
+    '방식 : 실시간 온라인',
   questions: [
+    // ── 기본 정보 ──────────────────────────────────────────────────────────────
     {
-      id: 'dept',
-      type: 'select',
+      id: 'name',
+      type: 'text',
       required: true,
-      text: '귀하의 소속 부서(사업부)를 선택해주세요.',
-      options: [
-        { value: 'rd', label: '연구개발' },
-        { value: 'production', label: '생산·품질' },
-        { value: 'sales', label: '영업·마케팅' },
-        { value: 'hr', label: '인사·조직문화' },
-        { value: 'finance', label: '재무·경영지원' },
-        { value: 'it', label: 'IT·디지털혁신' },
-        { value: 'strategy', label: '전략기획' },
-        { value: 'other', label: '기타' },
-      ],
+      text: '성함을 작성해주세요',
+      placeholder: '답변을 적어주세요',
     },
     {
-      id: 'career_years',
+      id: 'company',
+      type: 'text',
+      required: true,
+      text: '소속 회사를 입력해주세요.',
+      description: '예) 현대자동차, 기아, 현대모비스 등 풀네임으로 입력해주세요.',
+      placeholder: '예) 현대자동차',
+    },
+    {
+      id: 'team',
+      type: 'text',
+      required: true,
+      text: '소속 팀명을 입력해주세요.',
+      description: '예) HRD전략팀',
+      placeholder: '예) HRD전략팀',
+    },
+    {
+      id: 'position',
+      type: 'text',
+      required: true,
+      text: '직급/직책을 입력해주세요.',
+      placeholder: '예) 책임매니저, 파트장 등',
+    },
+    {
+      id: 'email',
+      type: 'text',
+      required: true,
+      text: '회사 이메일을 입력해주세요.',
+      description: '과정 안내 발송용으로만 사용됩니다.',
+      placeholder: 'example@hyundai.com',
+    },
+
+    // ── 과정 지원 동기 (PBL) ───────────────────────────────────────────────────
+    {
+      id: 'problem',
+      type: 'textarea',
+      required: true,
+      text: '본인이 이번 프로젝트를 통해서 해결하고 싶거나 향상시키고 싶은 문제를 작성해주세요.',
+      description:
+        '본 과정은 본인의 현업 문제에 적용할 수 있는 아이디어를 기획하고 실제 구현해보는 ' +
+        'PBL(Problem Based Learning) 형태의 교육입니다. ' +
+        '본 과정을 더 의미있게 진행하기 위해 본인의 평소 고민을 담아 최대한 자세히 작성해주세요.',
+      placeholder: '답변을 적어주세요',
+    },
+    {
+      id: 'output',
+      type: 'textarea',
+      required: true,
+      text: 'AI 바이브코딩 과정을 통해 만들고 싶은 서비스의 아웃풋(구체적 이미지)를 작성해주세요.',
+      placeholder: '답변을 적어주세요',
+    },
+    {
+      id: 'value',
+      type: 'textarea',
+      required: true,
+      text: '이를 통해 해결하고 싶은 문제나 Value가 무엇인지 작성해주세요.',
+      placeholder: '답변을 적어주세요',
+    },
+    {
+      id: 'scenario',
+      type: 'textarea',
+      required: true,
+      text: '구현하고 싶은 서비스 시나리오나 기능에 대해 작성해주세요',
+      placeholder: '답변을 적어주세요',
+    },
+
+    // ── 심화 과정 참석 여부 ────────────────────────────────────────────────────
+    {
+      id: 'advanced_course',
       type: 'radio',
       required: true,
-      text: '현대자동차그룹 근속 연수를 선택해주세요.',
+      text: '이후 실제 프로토타입 구현을 위한 심화 과정(4/13~14, 16h, 오프라인)까지 참석하기 원하시나요?',
       options: [
-        { value: '0-1', label: '1년 미만' },
-        { value: '1-3', label: '1 ~ 3년' },
-        { value: '4-7', label: '4 ~ 7년' },
-        { value: '8-15', label: '8 ~ 15년' },
-        { value: '16+', label: '16년 이상' },
+        { value: 'yes', label: '참석하기 원함' },
+        { value: 'no',  label: '참석하기 원하지 않음' },
       ],
     },
+
+    // ── 개인정보 동의 ──────────────────────────────────────────────────────────
     {
-      id: 'prior_knowledge',
-      type: 'rating',
-      required: true,
-      text: '이번 교육 주제에 대한 현재 본인의 이해도는 어느 정도입니까?',
-      description: '1점: 전혀 모름 → 5점: 전문가 수준으로 잘 알고 있음',
-      min: 1,
-      max: 5,
-    },
-    {
-      id: 'objectives',
+      id: 'privacy_consent',
       type: 'checkbox',
       required: true,
-      text: '이번 교육을 통해 얻고 싶은 것을 모두 선택해주세요. (복수 선택 가능)',
+      text: '개인정보 동의',
+      description:
+        '수집 항목: 성명, 소속, 이메일\n목적: 교육 과정 운영 및 안내\n보유 기간: 교육 종료 후 1년\n' +
+        '※ 동의를 거부할 수 있으나, 거부 시 신청이 불가합니다.',
       options: [
-        { value: 'knowledge', label: '새로운 지식·최신 트렌드 습득' },
-        { value: 'skills', label: '실무 적용 가능한 스킬 향상' },
-        { value: 'network', label: '타 부서 동료와의 네트워킹' },
-        { value: 'career', label: '경력 개발 방향 탐색' },
-        { value: 'problem', label: '현업 문제 해결 아이디어 획득' },
-        { value: 'certification', label: '자격·이수 인증' },
+        { value: 'agree', label: '개인정보 수집 및 이용에 동의합니다.' },
       ],
-    },
-    {
-      id: 'learning_style',
-      type: 'radio',
-      required: false,
-      text: '가장 선호하는 학습 방식은 무엇입니까?',
-      options: [
-        { value: 'lecture', label: '강의형 (강사 주도 설명 중심)' },
-        { value: 'workshop', label: '워크숍형 (소그룹 실습·토의)' },
-        { value: 'case', label: '케이스 스터디형 (실제 사례 분석)' },
-        { value: 'discussion', label: '토론·발표형 (참가자 주도)' },
-        { value: 'online', label: '자기주도형 온라인 학습' },
-      ],
-    },
-    {
-      id: 'satisfaction_expectation',
-      type: 'rating',
-      required: false,
-      text: '이번 교육에 대한 기대 수준은 어느 정도입니까?',
-      description: '1점: 기대하지 않음 → 5점: 매우 기대됨',
-      min: 1,
-      max: 5,
-    },
-    {
-      id: 'concerns',
-      type: 'textarea',
-      required: false,
-      text: '교육에 대해 기대하는 점이나 사전에 다뤄주었으면 하는 내용이 있다면 자유롭게 적어주세요.',
-      placeholder: '예) 특정 기술·도구에 대한 심화 설명, 실제 업무 적용 사례, 궁금한 점 등',
     },
   ],
 };
@@ -358,7 +374,7 @@ async function init(): Promise<void> {
 
     const submitBtn = el<HTMLButtonElement>('#submit-btn');
     submitBtn.disabled = true;
-    submitBtn.textContent = '제출 중...';
+    submitBtn.textContent = '신청 중...';
     errorBannerEl.hidden = true;
 
     const result = await surveyService.submitResponse(SURVEY_ID, answers);
@@ -371,7 +387,7 @@ async function init(): Promise<void> {
       errorBannerEl.textContent = `오류가 발생했습니다: ${result.error}`;
       errorBannerEl.hidden = false;
       submitBtn.disabled = false;
-      submitBtn.textContent = '제출하기';
+      submitBtn.textContent = '신청하기';
     }
   });
 }
