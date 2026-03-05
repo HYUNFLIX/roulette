@@ -14,18 +14,98 @@ import {
 
 const SURVEY_ID = 'hyundai-survey-2025';
 
+// ── Placeholder questions (replace with actual content when ready) ────────────
+// To customize: edit the questions array below, or upload a config to Firebase
+// via surveyService.saveSurveyConfig(config) and it will load automatically.
+
 const PLACEHOLDER_CONFIG: SurveyConfig = {
   id: SURVEY_ID,
-  title: '현대자동차 사전 설문',
-  description: '본 설문은 행사 준비를 위한 사전 정보 수집 목적으로 진행됩니다.\n응답 내용은 행사 운영에만 활용됩니다.',
+  title: '현대자동차 교육 사전 설문',
+  description:
+    '본 설문은 교육 프로그램의 효과적인 운영을 위해 사전 정보를 수집합니다.\n' +
+    '응답 내용은 교육 준비에만 활용되며, 개인 정보는 철저히 보호됩니다.\n' +
+    '소요 시간: 약 3분',
   questions: [
-    // Questions will be populated when content is provided.
     {
-      id: 'placeholder',
-      type: 'text',
+      id: 'dept',
+      type: 'select',
+      required: true,
+      text: '귀하의 소속 부서(사업부)를 선택해주세요.',
+      options: [
+        { value: 'rd', label: '연구개발' },
+        { value: 'production', label: '생산·품질' },
+        { value: 'sales', label: '영업·마케팅' },
+        { value: 'hr', label: '인사·조직문화' },
+        { value: 'finance', label: '재무·경영지원' },
+        { value: 'it', label: 'IT·디지털혁신' },
+        { value: 'strategy', label: '전략기획' },
+        { value: 'other', label: '기타' },
+      ],
+    },
+    {
+      id: 'career_years',
+      type: 'radio',
+      required: true,
+      text: '현대자동차그룹 근속 연수를 선택해주세요.',
+      options: [
+        { value: '0-1', label: '1년 미만' },
+        { value: '1-3', label: '1 ~ 3년' },
+        { value: '4-7', label: '4 ~ 7년' },
+        { value: '8-15', label: '8 ~ 15년' },
+        { value: '16+', label: '16년 이상' },
+      ],
+    },
+    {
+      id: 'prior_knowledge',
+      type: 'rating',
+      required: true,
+      text: '이번 교육 주제에 대한 현재 본인의 이해도는 어느 정도입니까?',
+      description: '1점: 전혀 모름 → 5점: 전문가 수준으로 잘 알고 있음',
+      min: 1,
+      max: 5,
+    },
+    {
+      id: 'objectives',
+      type: 'checkbox',
+      required: true,
+      text: '이번 교육을 통해 얻고 싶은 것을 모두 선택해주세요. (복수 선택 가능)',
+      options: [
+        { value: 'knowledge', label: '새로운 지식·최신 트렌드 습득' },
+        { value: 'skills', label: '실무 적용 가능한 스킬 향상' },
+        { value: 'network', label: '타 부서 동료와의 네트워킹' },
+        { value: 'career', label: '경력 개발 방향 탐색' },
+        { value: 'problem', label: '현업 문제 해결 아이디어 획득' },
+        { value: 'certification', label: '자격·이수 인증' },
+      ],
+    },
+    {
+      id: 'learning_style',
+      type: 'radio',
       required: false,
-      text: '설문 내용이 곧 추가될 예정입니다.',
-      placeholder: '준비 중입니다...',
+      text: '가장 선호하는 학습 방식은 무엇입니까?',
+      options: [
+        { value: 'lecture', label: '강의형 (강사 주도 설명 중심)' },
+        { value: 'workshop', label: '워크숍형 (소그룹 실습·토의)' },
+        { value: 'case', label: '케이스 스터디형 (실제 사례 분석)' },
+        { value: 'discussion', label: '토론·발표형 (참가자 주도)' },
+        { value: 'online', label: '자기주도형 온라인 학습' },
+      ],
+    },
+    {
+      id: 'satisfaction_expectation',
+      type: 'rating',
+      required: false,
+      text: '이번 교육에 대한 기대 수준은 어느 정도입니까?',
+      description: '1점: 기대하지 않음 → 5점: 매우 기대됨',
+      min: 1,
+      max: 5,
+    },
+    {
+      id: 'concerns',
+      type: 'textarea',
+      required: false,
+      text: '교육에 대해 기대하는 점이나 사전에 다뤄주었으면 하는 내용이 있다면 자유롭게 적어주세요.',
+      placeholder: '예) 특정 기술·도구에 대한 심화 설명, 실제 업무 적용 사례, 궁금한 점 등',
     },
   ],
 };
