@@ -1,0 +1,182 @@
+<!DOCTYPE html><html lang=ko><script type=module src=roulette.4fc77178.js></script><script type=module src=roulette.fc98459d.js></script><meta charset=UTF-8><meta name=viewport content="width=device-width, initial-scale=1.0"><title>설문 관리자 | 현대자동차</title><link rel=icon href=favicon.48c7f4ea.ico><style>*,:before,:after{box-sizing:border-box;margin:0;padding:0}:root{--blue:#003087;--blue-mid:#0050b3;--blue-light:#e8efff;--bg:#f0f2f5;--surface:#fff;--border:#d1d5db;--text:#111827;--muted:#6b7280;--success:#16a34a;--error:#dc2626;--warning:#d97706;--radius:8px;--sidebar-w:220px;--header-h:56px}body{background:var(--bg);color:var(--text);font-family:Pretendard,Apple SD Gothic Neo,Noto Sans KR,-apple-system,sans-serif}.login-screen{background:linear-gradient(135deg,#001a4d 0%,#003087 60%,#0050b3 100%);justify-content:center;align-items:center;min-height:100vh;display:flex}.login-card{background:var(--surface);text-align:center;border-radius:16px;width:100%;max-width:380px;padding:48px 40px;box-shadow:0 20px 60px #0000004d}.login-logo{margin-bottom:24px}.login-logo svg{width:64px;height:44px}.login-card h1{color:var(--blue);margin-bottom:8px;font-size:1.3rem;font-weight:700}.login-card p{color:var(--muted);margin-bottom:28px;font-size:.9rem}.login-input{border:1.5px solid var(--border);border-radius:var(--radius);text-align:center;letter-spacing:.2em;outline:none;width:100%;margin-bottom:12px;padding:12px 16px;font-family:inherit;font-size:1rem;transition:border-color .15s}.login-input:focus{border-color:var(--blue)}.btn-primary{background:var(--blue);color:#fff;border-radius:var(--radius);cursor:pointer;border:none;width:100%;padding:12px;font-size:1rem;font-weight:600;transition:opacity .2s}.btn-primary:hover{opacity:.88}.login-error{color:var(--error);margin-top:10px;font-size:.85rem}#admin-app{flex-direction:column;min-height:100vh;display:flex}.admin-header{height:var(--header-h);background:var(--blue);color:#fff;z-index:100;justify-content:space-between;align-items:center;padding:0 20px;display:flex;position:sticky;top:0;box-shadow:0 2px 8px #0003}.header-left{align-items:center;gap:14px;display:flex}.menu-toggle{color:#fff;cursor:pointer;background:0 0;border:none;padding:4px;font-size:1.2rem;display:none}.app-title{white-space:nowrap;font-size:1rem;font-weight:700}.header-right{flex-wrap:wrap;align-items:center;gap:12px;display:flex}.header-badge{white-space:nowrap;background:#ffffff26;border-radius:20px;padding:4px 12px;font-size:.82rem}.header-badge strong{margin-left:4px;font-size:1rem}.btn-ghost{color:#fff;border-radius:var(--radius);cursor:pointer;background:#ffffff1f;border:1px solid #ffffff4d;padding:6px 14px;font-size:.85rem;transition:background .15s}.btn-ghost:hover{background:#ffffff38}.admin-body{flex:1;display:flex;overflow:hidden}.admin-sidebar{width:var(--sidebar-w);min-height:calc(100vh - var(--header-h));background:#001a4d;flex-direction:column;flex-shrink:0;padding:16px 0;display:flex}.nav-list{flex-direction:column;gap:2px;padding:0 8px;list-style:none;display:flex}.nav-item{color:#ffffffb3;border-radius:var(--radius);cursor:pointer;text-align:left;background:0 0;border:none;align-items:center;gap:10px;width:100%;padding:10px 14px;font-family:inherit;font-size:.92rem;transition:background .15s,color .15s;display:flex}.nav-item:hover{color:#fff;background:#ffffff14}.nav-item.active{color:#fff;background:#ffffff26;font-weight:600}.nav-icon{font-size:1rem}.sidebar-divider{border-color:#ffffff1a;margin:10px 16px}.admin-main{flex-direction:column;flex:1;gap:0;padding:28px 24px;display:flex;overflow-y:auto}.tab-content{flex-direction:column;gap:20px;display:flex}.card{background:var(--surface);border-radius:var(--radius);padding:24px;box-shadow:0 1px 8px #00000012}.card-title{color:var(--blue);align-items:center;gap:8px;margin-bottom:16px;font-size:1rem;font-weight:700;display:flex}.stats-grid{grid-template-columns:repeat(4,1fr);gap:16px;display:grid}.stat-card{background:var(--surface);border-radius:var(--radius);border-left:4px solid var(--blue);flex-direction:column;gap:6px;padding:20px;display:flex;box-shadow:0 1px 8px #00000012}.stat-card.green{border-left-color:var(--success)}.stat-card.orange{border-left-color:var(--warning)}.stat-card.gray{border-left-color:var(--muted)}.stat-label{color:var(--muted);font-size:.82rem;font-weight:500}.stat-value{color:var(--text);font-size:2rem;font-weight:800;line-height:1}.stat-sub{color:var(--muted);font-size:.78rem}.overview-row{grid-template-columns:1fr 300px;gap:20px;display:grid}.chart-wrapper{height:240px;position:relative}.qr-panel{flex-direction:column;align-items:center;gap:12px;display:flex}.qr-canvas-wrapper{border:2px solid var(--blue-light);background:#fff;border-radius:8px;padding:12px}.survey-url-box{background:var(--bg);border-radius:var(--radius);color:var(--muted);word-break:break-all;text-align:center;width:100%;padding:10px 14px;font-size:.78rem}.qr-actions{gap:8px;width:100%;display:flex}.btn-sm{border-radius:var(--radius);cursor:pointer;border:none;flex:1;padding:8px 10px;font-size:.83rem;font-weight:600;transition:opacity .15s}.btn-sm:hover{opacity:.85}.btn-blue{background:var(--blue);color:#fff}.btn-outline{color:var(--blue);border:1.5px solid var(--blue);background:#fff}.analytics-grid{flex-direction:column;gap:16px;display:flex}.analytics-card{background:var(--surface);border-radius:var(--radius);padding:24px;overflow:hidden;box-shadow:0 1px 8px #00000012}.analytics-card-header{flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px;display:flex}.q-meta{flex-wrap:wrap;align-items:center;gap:6px;display:flex}.q-badge{background:var(--blue);color:#fff;border-radius:12px;padding:2px 8px;font-size:.75rem;font-weight:700}.q-type-badge{background:var(--blue-light);color:var(--blue);border-radius:12px;padding:2px 8px;font-size:.72rem;font-weight:600}.q-required-badge{color:var(--error);background:#fef2f2;border-radius:12px;padding:2px 8px;font-size:.72rem;font-weight:600}.q-response-rate{color:var(--muted);white-space:nowrap;font-size:.82rem}.analytics-q-title{margin-bottom:16px;font-size:1rem;font-weight:600;line-height:1.4}.analytics-chart-area{min-height:60px}.analytics-insight{background:var(--blue-light);border-radius:var(--radius);color:var(--blue);margin-top:12px;padding:10px 14px;font-size:.88rem;line-height:1.5}.analytics-insight:empty{display:none}.rating-avg{color:var(--muted);margin-bottom:12px;font-size:1.1rem}.rating-avg strong{color:var(--blue);font-size:1.6rem}.text-responses{flex-direction:column;gap:8px;max-height:300px;display:flex;overflow-y:auto}.text-response-item{background:var(--bg);border-radius:var(--radius);align-items:flex-start;gap:12px;padding:10px 14px;display:flex}.text-response-num{background:var(--blue);color:#fff;border-radius:50%;flex-shrink:0;justify-content:center;align-items:center;min-width:24px;height:24px;font-size:.75rem;font-weight:700;display:flex}.text-response-content{font-size:.9rem;line-height:1.5}.responses-toolbar{flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;display:flex}.search-input{border:1.5px solid var(--border);border-radius:var(--radius);outline:none;min-width:220px;padding:9px 14px;font-family:inherit;font-size:.9rem;transition:border-color .15s}.search-input:focus{border-color:var(--blue)}.response-count{color:var(--muted);font-size:.88rem}.table-wrapper{border-radius:var(--radius);overflow-x:auto}.responses-table{border-collapse:collapse;white-space:nowrap;width:100%;font-size:.88rem}.responses-table th{background:var(--blue);color:#fff;text-align:left;padding:10px 14px;font-weight:600;position:sticky;top:0}.responses-table td{border-bottom:1px solid var(--border);vertical-align:top;padding:9px 14px}.responses-table tr:last-child td{border-bottom:none}.responses-table tr:hover td{background:var(--blue-light)}.nowrap{white-space:nowrap}.pagination{flex-wrap:wrap;gap:6px;margin-top:12px;display:flex}.page-btn{border:1.5px solid var(--border);border-radius:var(--radius);cursor:pointer;background:#fff;min-width:36px;height:36px;padding:0 10px;font-size:.88rem;transition:all .15s}.page-btn:hover{border-color:var(--blue);color:var(--blue)}.page-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}.export-grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;display:grid}.export-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);flex-direction:column;gap:12px;padding:24px;transition:border-color .15s;display:flex}.export-card:hover{border-color:var(--blue)}.export-icon{font-size:2rem}.export-title{font-size:1rem;font-weight:700}.export-desc{color:var(--muted);font-size:.85rem;line-height:1.5}.btn-export{border-radius:var(--radius);cursor:pointer;border:none;padding:10px 20px;font-size:.92rem;font-weight:600;transition:opacity .15s}.btn-export:hover{opacity:.85}.btn-export.csv{background:var(--success);color:#fff}.btn-export.json{background:var(--warning);color:#fff}.btn-export.copy{background:var(--blue);color:#fff}.no-data{color:var(--muted);padding:20px 0;font-size:.9rem}.live-dot{background:#22c55e;border-radius:50%;width:8px;height:8px;animation:1.5s ease-in-out infinite blink;display:inline-block}@keyframes blink{0%,to{opacity:1}50%{opacity:.3}}@media (width<=900px){.stats-grid{grid-template-columns:repeat(2,1fr)}.overview-row{grid-template-columns:1fr}}@media (width<=700px){:root{--sidebar-w:0px}.menu-toggle{display:flex}.admin-sidebar{top:var(--header-h);z-index:200;width:240px;min-height:calc(100vh - var(--header-h));transition:left .25s;position:fixed;left:-240px}.admin-sidebar.open{left:0;box-shadow:4px 0 20px #0000004d}.stats-grid{grid-template-columns:repeat(2,1fr)}.admin-main{padding:16px}.app-title{font-size:.88rem}}@media (width<=480px){.stats-grid{grid-template-columns:1fr 1fr}}</style><body>
+
+
+<div id=login-screen class=login-screen>
+  <div class=login-card>
+    <div class=login-logo>
+      <svg xmlns:xmlns=http://www.w3.org/2000/svg fill=none viewBox="0 0 200 100"><path fill=#003087 d="M100 0C44.8 0 0 22.4 0 50s44.8 50 100 50 100-22.4 100-50S155.2 0 100 0m-4.2 72.6L59.4 27.4h16.2l24 32.8 24-32.8h16.2l-35.6 45.2Z"/></svg>
+    </div>
+    <h1>관리자 로그인</h1>
+    <p>설문 관리자 PIN을 입력하세요</p>
+    <form id=login-form>
+      <input type=password id=pin-input class=login-input placeholder="● ● ● ● ● ●" autocomplete=current-password>
+      <button class=btn-primary>로그인</button>
+      <p id=login-error class=login-error hidden>PIN이 올바르지 않습니다.</p>
+    </form>
+  </div>
+</div>
+
+
+<div id=admin-app hidden>
+
+  
+  <header class=admin-header>
+    <div class=header-left>
+      <button class=menu-toggle id=menu-toggle aria-label=메뉴>☰</button>
+      <span class=app-title>현대자동차 교육 사전설문 · 관리자</span>
+    </div>
+    <div class=header-right>
+      <span class=live-dot title="실시간 연동 중"></span>
+      <span class=header-badge>총 응답 <strong id=header-total>0</strong></span>
+      <span class=header-badge>오늘 <strong id=header-today>0</strong></span>
+      <span class=header-badge id=header-last-badge style=display:none>최근 <strong id=header-last>—</strong></span>
+      <button class=btn-ghost id=logout-btn>로그아웃</button>
+    </div>
+  </header>
+
+  <div class=admin-body>
+
+    
+    <nav class=admin-sidebar id=sidebar>
+      <ul class=nav-list>
+        <li>
+          <button class="active nav-item" data-tab=overview>
+            <span class=nav-icon>📊</span> 개요
+          </button>
+        </li>
+        <li>
+          <button class=nav-item data-tab=analytics>
+            <span class=nav-icon>📈</span> 문항 분석
+          </button>
+        </li>
+        <li>
+          <button class=nav-item data-tab=responses>
+            <span class=nav-icon>📋</span> 응답 목록
+          </button>
+        </li>
+        <hr class=sidebar-divider>
+        <li>
+          <button class=nav-item data-tab=export>
+            <span class=nav-icon>💾</span> 내보내기
+          </button>
+        </li>
+      </ul>
+    </nav>
+
+    
+    <main class=admin-main>
+
+      
+      <section id=tab-overview class=tab-content>
+
+        
+        <div class=stats-grid>
+          <div class=stat-card>
+            <div class=stat-label>총 응답 수</div>
+            <div class=stat-value id=stat-total>0</div>
+            <div class=stat-sub>누적</div>
+          </div>
+          <div class="green stat-card">
+            <div class=stat-label>오늘 응답</div>
+            <div class=stat-value id=stat-today>0</div>
+            <div class=stat-sub id=stat-today-date>—</div>
+          </div>
+          <div class="orange stat-card">
+            <div class=stat-label>완료율</div>
+            <div class=stat-value id=stat-completion>—</div>
+            <div class=stat-sub>필수 항목 기준</div>
+          </div>
+          <div class="gray stat-card">
+            <div class=stat-label>최근 응답</div>
+            <div class=stat-value style=padding-top:6px;font-size:1.1rem id=stat-last>—</div>
+            <div class=stat-sub>경과 시간</div>
+          </div>
+        </div>
+
+        
+        <div class=overview-row>
+          <div class=card>
+            <div class=card-title>📅 응답 추이 (최근 14일)</div>
+            <div class=chart-wrapper>
+              <canvas id=timeline-chart></canvas>
+            </div>
+          </div>
+
+          <div class=card>
+            <div class=card-title>📱 설문 QR 코드</div>
+            <div class=qr-panel>
+              <div class=qr-canvas-wrapper>
+                <canvas id=qr-canvas></canvas>
+              </div>
+              <div class=survey-url-box id=survey-url-display>—</div>
+              <div class=qr-actions>
+                <button class="btn-blue btn-sm" id=download-qr>⬇ QR 저장</button>
+                <button class="btn-outline btn-sm" id=copy-url>🔗 URL 복사</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      
+      <section id=tab-analytics class=tab-content hidden>
+        <div class=analytics-grid id=analytics-container>
+          <p class=no-data>데이터를 불러오는 중...</p>
+        </div>
+      </section>
+
+      
+      <section id=tab-responses class=tab-content hidden>
+        <div class=card style=flex-direction:column;gap:16px;display:flex>
+          <div class=responses-toolbar>
+            <div style=align-items:center;gap:12px;display:flex>
+              <input id=response-search class=search-input placeholder="🔍 응답 내용 검색...">
+              <span class=response-count id=response-count>0개 응답</span>
+            </div>
+          </div>
+          <div id=responses-table-container>
+            <p class=no-data>아직 응답이 없습니다.</p>
+          </div>
+          <div class=pagination id=pagination></div>
+        </div>
+      </section>
+
+      
+      <section id=tab-export class=tab-content hidden>
+        <div class=card>
+          <div class=card-title>💾 데이터 내보내기</div>
+          <div class=export-grid>
+
+            <div class=export-card>
+              <div class=export-icon>📊</div>
+              <div class=export-title>CSV 내보내기</div>
+              <div class=export-desc>엑셀(Excel)에서 바로 열 수 있는 CSV 파일로 전체 응답을 다운로드합니다. BOM이 포함되어 한글이 깨지지 않습니다.</div>
+              <button class="btn-export csv" id=export-csv>CSV 다운로드</button>
+            </div>
+
+            <div class=export-card>
+              <div class=export-icon>🗂</div>
+              <div class=export-title>JSON 내보내기</div>
+              <div class=export-desc>원본 데이터 구조 그대로 JSON 파일로 다운로드합니다. 개발자나 추가 데이터 분석 시 활용하세요.</div>
+              <button class="btn-export json" id=export-json>JSON 다운로드</button>
+            </div>
+
+            <div class=export-card>
+              <div class=export-icon>📋</div>
+              <div class=export-title>요약 클립보드 복사</div>
+              <div class=export-desc>각 질문의 응답 통계를 텍스트 요약으로 클립보드에 복사합니다. 보고서 작성 시 빠르게 활용하세요.</div>
+              <button class="btn-export copy" id=export-summary>요약 복사</button>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<script type=module src=survey-admin.057c8711.js></script>
+
+
