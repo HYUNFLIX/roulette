@@ -23,8 +23,8 @@
   },
   "scripts": {
     "lint": "eslint --fix src/**/*.ts",
-    "dev": "parcel index.html join.html --host 0.0.0.0 --port 1235",
-    "build": "parcel build index.html join.html --public-url ./ && node scripts/build-sw.js"
+    "dev": "parcel index.html join.html survey.html --host 0.0.0.0 --port 1235",
+    "build": "parcel build index.html join.html survey.html --public-url ./ && node scripts/build-sw.js"
   },
   "dependencies": {
     "box2d-wasm": "^7.0.0",
